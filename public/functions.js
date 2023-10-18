@@ -1,76 +1,52 @@
-function deleteMessage(messageId) {
+function welcome_user() {
+    request_username()
+}
+
+function sendPost() {
+    const title = document.getElementById("title_input").value
+    const description = document.getElementById("description_input").value
+    
+    if(title == ""){
+        alert("title required")
+        return
+    }
+
+    if(description == ""){
+        alert("description required")
+        return
+    }
+
+    message = {"title": title, "description": description}
+    console.log(message)
+    
     const request = new XMLHttpRequest();
+    console.log(request)
     request.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             console.log(this.response);
         }
     }
-    request.open("DELETE", "/chat-message/" + messageId);
-    request.send();
+    request.open("POST", "/post-message");
+    request.setRequestHeader("Content-Type","application/json")
+    request.send(JSON.stringify(message));
+
+    document.getElementById("title_input").value = ""
+    document.getElementById("description_input").value = ""
 }
 
-function chatMessageHTML(messageJSON) {
-    const username = messageJSON.username;
-    const message = messageJSON.message;
-    const messageId = messageJSON.id;
-    let messageHTML = "<br><button onclick='deleteMessage(" + messageId + ")'>X</button> ";
-    messageHTML += "<span id='message_" + messageId + "'><b>" + username + "</b>: " + message + "</span>";
-    return messageHTML;
-}
 
-function clearChat() {
-    const chatMessages = document.getElementById("chat-messages");
-    chatMessages.innerHTML = "";
-}
-
-function addMessageToChat(messageJSON) {
-    const chatMessages = document.getElementById("chat-messages");
-    chatMessages.innerHTML += chatMessageHTML(messageJSON);
-    chatMessages.scrollIntoView(false);
-    chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
-}
-
-function sendChat() {
-    const chatTextBox = document.getElementById("chat-text-box");
-    const message = chatTextBox.value;
-    chatTextBox.value = "";
+function request_username(){
     const request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             console.log(this.response);
+            payload = JSON.parse(this.response)
+            console.log(payload.username)
+            document.getElementById("paragraph").innerHTML = "<br/>Hello " + payload.username
+            return 
         }
     }
-    const messageJSON = {"message": message};
-    request.open("POST", "/chat-message");
-    request.send(JSON.stringify(messageJSON));
-    chatTextBox.focus();
-}
-
-function updateChat() {
-    const request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            clearChat();
-            const messages = JSON.parse(this.response);
-            for (const message of messages) {
-                addMessageToChat(message);
-            }
-        }
-    }
-    request.open("GET", "/chat-history");
+    request.open("GET", "/username");
     request.send();
 }
 
-function welcome() {
-    document.addEventListener("keypress", function (event) {
-        if (event.code === "Enter") {
-            sendChat();
-        }
-    });
-
-    document.getElementById("paragraph").innerHTML += "<br/>This text was added by JavaScript 😀";
-    document.getElementById("chat-text-box").focus();
-
-    updateChat();
-    setInterval(updateChat, 2000);
-}

@@ -32,7 +32,7 @@ img.post {
     height: 78%
 }
 
-.chat{
+.post{
     /*height:100%;*/
     width: 70%;
     background-color: #146C94;
@@ -40,7 +40,7 @@ img.post {
     /*overflow: scroll;*/
 }
 
-#chat-messages{
+#post-messages{
     height: 90%;
     /*width: 70%;*/
     /*background-color: aqua;*/
@@ -48,7 +48,7 @@ img.post {
     overflow: scroll;
 }
 
-.chat-form{
+.post-form{
     /*width: 70%;*/
     /*background-color: aqua;*/
     /*padding: 20px;*/
