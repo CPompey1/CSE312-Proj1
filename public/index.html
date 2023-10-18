@@ -22,17 +22,17 @@
 
 
 <div class="contents">
-    <div class="chat">
-        <div id="chat-messages">
+    <div class="make_post">
+        <div id="make_posts">
         </div>
 
-        <div class="chat-form">
+        <div class="post-form">
             <hr>
             <label>
-                Chat:
-                <input id="chat-text-box" type="text">
+                Make_Post:
+                <input id="post-text-box" type="text">
             </label>
-            <button id="chat-button" onclick="sendChat()">Send</button>
+            <button id="post-button" onclick="sendPost()">Send</button>
         </div>
 
     </div>
@@ -59,6 +59,19 @@
             <br/>
             <label>Password:&nbsp;
                 <input id="login-form-pass" type="password" name="password_login">
+            </label>
+            <input type="submit" value="Post">
+        </form>
+
+        
+        Post_Form:
+        <form action="/make_post" method="post" enctype="application/x-www-form-urlencoded">
+            <label>Post_Title:
+                <input id="post-form-title" type="text" name="post_title"/>
+            </label>
+            <br/>
+            <label>Post_Description:
+                <input id="post-form-description" type="text" name="post_description">
             </label>
             <input type="submit" value="Post">
         </form>
