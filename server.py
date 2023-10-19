@@ -1,5 +1,5 @@
 from markupsafe import escape
-import os
+import os,json
 from flask import Flask,request,make_response, render_template,send_from_directory, jsonify
 import sys
 from util.database import  Account,Token, Posts
@@ -39,6 +39,10 @@ def handlePost():
         description = request.get_json().get('description')
         print("title: %s\ndescription: %s" %(title,description), file=sys.stderr)
         #do database stuff
+        authToken = request.cookies.get('auth_token')
+        username = getTokenUsername(TOKEN,authToken)
+        if username == None: username = 'Guest'
+        POSTS.createPosts(username,title,description)
         response = make_response("post recieved", 200)
         return response
     
@@ -55,6 +59,19 @@ def handleUsername():
     resp = make_response(payload,200)
     return resp
 
+@app.route('/post-history',methods=['GET'])
+def postHistory():
+    posts = POSTS.getAllPost()
+    messageHistory = []
+    for ele in posts: 
+        messageHistory.append({'_id':ele['_id'],
+                               'username':ele['username'],
+                               'title':ele['username'],
+                               'description':ele['description']})
+    resp = make_response(jsonify(messageHistory))
+    resp.mimetype = 'application/json'
+    resp.headers['X-Content-Type-Options'] = 'nosniff'
+    return resp
 
 @app.route("/<path:path>")
 def getPage(path):

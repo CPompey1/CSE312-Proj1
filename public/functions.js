@@ -1,5 +1,7 @@
 function welcome_user() {
-    request_username()
+    request_username();
+    updatePosts();
+    setInterval(updatePosts, 2000);
 }
 
 function sendPost() {
@@ -50,3 +52,29 @@ function request_username(){
     request.send();
 }
 
+function updatePosts() {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            clearPosts();
+            const messages = JSON.parse(this.response);
+            for (const message of messages) {
+                addPostToChat(message);
+            }
+        }
+    }
+    request.open("GET", "/post-history");
+    request.send();
+}
+
+function addPostToChat(messageJSON) {
+    const chatMessages = document.getElementById("post-messages");
+    chatMessages.innerHTML += chatMessageHTML(messageJSON);
+    chatMessages.scrollIntoView(false);
+    chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
+}
+
+function clearPosts() {
+    const chatMessages = document.getElementById("post-messages");
+    chatMessages.innerHTML = "";
+}

@@ -2,7 +2,7 @@ from pymongo import MongoClient
 
 class Client:
     def __init__(self):
-        self.client = MongoClient("mongo")
+        self.client = MongoClient("localhost")
         self.db = self.client["project2"]
     
     def createCollection(self,collectionName:str):
