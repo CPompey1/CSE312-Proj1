@@ -2,7 +2,7 @@ import bcrypt
 from util.database import Account, Token
 from util.response import htmlResponse
 from util.authToken import createAuthToken
-from globals import HTML_DIRECTORY
+from util.globals import HTML_DIRECTORY
 
 
 

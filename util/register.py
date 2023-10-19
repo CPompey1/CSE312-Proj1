@@ -3,7 +3,7 @@ from util.database import Account
 from flask import make_response
 from util.response import htmlResponse
 import html
-from globals import HTML_DIRECTORY
+from util.globals import HTML_DIRECTORY
 
 def register(account: Account ,username:str, password:str):    
     if account.getAccount(username) is not None:
