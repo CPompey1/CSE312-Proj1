@@ -2,7 +2,7 @@ from pymongo import MongoClient
 
 class Client:
     def __init__(self):
-        self.client = MongoClient("mongo")
+        self.client = MongoClient("localhost")
         self.db = self.client["project2"]
     
     def createCollection(self,collectionName:str):
@@ -74,6 +74,7 @@ class Token(Client):
 class Posts(Client):
     def __init__(self, collectionName: str):
         super().__init__()
+        self.counter_id = "postsId"
         self.posts = self.createCollection(collectionName)
         self.postsCounter = self.createCollection(collectionName+"Conter")
 
@@ -92,7 +93,7 @@ class Posts(Client):
                                     "isDeleted": False,
                                     })
             return True
-        except:
+        except :
             return False
 
     def getPost(self, id: int):
