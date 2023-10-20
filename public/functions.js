@@ -69,9 +69,19 @@ function updatePosts() {
 
 function addPostToChat(messageJSON) {
     const chatMessages = document.getElementById("post-messages");
-    chatMessages.innerHTML += chatMessageHTML(messageJSON);
+    chatMessages.innerHTML += chatPostHTML(messageJSON);
     chatMessages.scrollIntoView(false);
     chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
+}
+
+function chatPostHTML(messageJSON) {
+    const username = messageJSON.username;
+    const title = messageJSON.title
+    const description = messageJSON.description;
+    const messageId = messageJSON._id;
+    let messageHTML = "<br><button onclick='deleteMessage(\"" + messageId + "\")'>X</button> ";
+    messageHTML += "<span id='message_" + messageId + "'><b>" + username + "</b> " + "<div>" + title + "</div>" + description + "</span>";
+    return messageHTML;
 }
 
 function clearPosts() {

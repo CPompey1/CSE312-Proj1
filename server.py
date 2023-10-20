@@ -66,7 +66,7 @@ def postHistory():
     for ele in posts: 
         messageHistory.append({'_id':ele['_id'],
                                'username':ele['username'],
-                               'title':ele['username'],
+                               'title':ele['title'],
                                'description':ele['description']})
     resp = make_response(jsonify(messageHistory))
     resp.mimetype = 'application/json'

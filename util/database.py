@@ -74,6 +74,7 @@ class Token(Client):
 class Posts(Client):
     def __init__(self, collectionName: str):
         super().__init__()
+        self.counter_id = "postsId"
         self.posts = self.createCollection(collectionName)
         self.postsCounter = self.createCollection(collectionName+"Conter")
 
@@ -92,7 +93,7 @@ class Posts(Client):
                                     "isDeleted": False,
                                     })
             return True
-        except Exception as e:
+        except :
             return False
 
     def getPost(self, id: int):
