@@ -92,7 +92,7 @@ class Posts(Client):
                                     "isDeleted": False,
                                     })
             return True
-        except:
+        except Exception as e:
             return False
 
     def getPost(self, id: int):

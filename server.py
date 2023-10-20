@@ -42,7 +42,7 @@ def handlePost():
         authToken = request.cookies.get('auth_token')
         username = getTokenUsername(TOKEN,authToken)
         if username == None: username = 'Guest'
-        POSTS.createPosts(username,title,description)
+        res = POSTS.createPosts(username,title,description)
         response = make_response("post recieved", 200)
         return response
     
@@ -89,5 +89,5 @@ def getPage(path):
 
 if __name__ == "__main__":
     
-    app.run('0.0.0.0',8080,debug=True)
+    app.run('0.0.0.0',8090,debug=True)
     
