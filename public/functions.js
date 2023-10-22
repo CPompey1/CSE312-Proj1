@@ -78,8 +78,9 @@ function chatPostHTML(messageJSON) {
     const username = messageJSON.username;
     const title = messageJSON.title
     const description = messageJSON.description;
-    const messageId = messageJSON._id;
-    let messageHTML = "<br><button onclick='deleteMessage(\"" + messageId + "\")'>X</button> ";
+    const messageId = messageJSON.id;
+    let messageHTML = "<br><button onclick='likeMessage(\"" + messageId + "\")'>" +
+        "<img src=\"public/image/white_heart.jpg\" width='25' height='auto' id='heart' class=\"my_image\"/></button> ";
     messageHTML += "<span id='message_" + messageId + "'><b>" + username + "</b> " + "<div>" + title + "</div>" + description + "</span>";
     return messageHTML;
 }
@@ -87,4 +88,17 @@ function chatPostHTML(messageJSON) {
 function clearPosts() {
     const chatMessages = document.getElementById("post-messages");
     chatMessages.innerHTML = "";
+}
+
+function likeMessage(messageId){
+    const request = new XMLHttpRequest();
+    console.log("It's entering thr function");                                           // print was never seen, request is sent tho
+    if(document.getElementById('heart').src=== "image/white_heart.jpg"){        // heart image never gets changed
+        document.getElementById('heart').src = "image/red_heart.jpg";
+    }else{
+        document.getElementById('heart').src= "image/white_heart.jpg";
+    }
+    request.open("POST", "/like");
+    request.setRequestHeader("Content-Type","application/json")
+    request.send(JSON.stringify(messageId));
 }

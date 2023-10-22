@@ -2,7 +2,7 @@ from pymongo import MongoClient
 
 class Client:
     def __init__(self):
-        self.client = MongoClient("localhost")
+        self.client = MongoClient("mongo")
         self.db = self.client["project2"]
     
     def createCollection(self,collectionName:str):
@@ -90,6 +90,7 @@ class Posts(Client):
                                     "title": title,
                                     "description": description,
                                     "likes": 0,
+                                    "liked_by": [],
                                     "isDeleted": False,
                                     })
             return True
@@ -103,7 +104,7 @@ class Posts(Client):
         return self.posts.find({})
     
     def updatePost(self, id: int, key:str, newValue):
-        document = self.getPost(self,id)
+        document = self.getPost(id)
         if(key == "likes"):
             return super().updateDocument(self.posts,document,"likes", newValue)
         elif(key == "isDeleted"):
@@ -112,4 +113,18 @@ class Posts(Client):
     def deletePost(self, id: int):
             document = self.getPost(id)
             return super().deleteDocument(self.posts,document)
-                
+
+    def likePost(self, id: int, username: str, already_liked: bool):
+        document = self.getPost(id)
+        num_likes = document["likes"]
+        liked_by = document["liked_by"]
+
+        if already_liked:
+            num_likes -= 1          #if it's already liked by user, <like button> will dislike
+            liked_by = liked_by.remove(username)
+        else:
+            num_likes += 1
+            liked_by = liked_by.append(username)
+        print("Number of likes: " + str(num_likes))
+        super().updateDocument(self.posts, document, "liked_by", liked_by)
+        return super().updateDocument(self.posts, document, "likes", num_likes)

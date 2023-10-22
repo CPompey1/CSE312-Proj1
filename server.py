@@ -8,6 +8,7 @@ from util.register import register
 from util.response import htmlResponse
 from util.login import login
 from util.authToken import getTokenUsername
+from util.like import like
 
 
 
@@ -43,7 +44,7 @@ def handlePost():
         username = getTokenUsername(TOKEN,authToken)
         if username == None: username = 'Guest'
         res = POSTS.createPosts(username,title,description)
-        response = make_response("post recieved", 200)
+        response = make_response("post received", 200)
         return response
     
 @app.route('/username', methods=['GET'])
@@ -73,6 +74,21 @@ def postHistory():
     resp.headers['X-Content-Type-Options'] = 'nosniff'
     return resp
 
+@app.route('/like', methods=['POST'])
+def handleLike():
+    if request.method == 'POST':
+        authToken = request.cookies.get('auth_token')
+        username = getTokenUsername(TOKEN, authToken)
+        message_id = request.get_json()         # what exactly is message_id getting?
+        #message_id = message_id[:-1]
+        #message_id = message_id[1:]            # maybe message_id is \message_id\  (see functions.js-82)
+        print("message Id: " + str(message_id))     #print is never seen, function on line 88 is called tho
+        if username is None:
+            return
+        res = like(username, message_id, POSTS)
+        response = make_response("post liked", 200)
+        return response
+
 @app.route("/<path:path>")
 def getPage(path):
     print(path)
@@ -89,5 +105,5 @@ def getPage(path):
 
 if __name__ == "__main__":
     
-    app.run('0.0.0.0',8090,debug=True)
+    app.run('0.0.0.0',8080,debug=True)      #8090
     
