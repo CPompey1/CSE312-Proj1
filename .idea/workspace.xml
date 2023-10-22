@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66561911-7197-4e62-b63b-180f2bb35d5b" name="Changes" comment="adds users to db when they register and navigates to a success message page">
-      <change afterPath="$PROJECT_DIR$/public/image/red_heart.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/white_heart.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/like.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/CSE312-Proj1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CSE312-Proj1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/functions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/database.py" afterDir="false" />
-    </list>
+    <list default="true" id="66561911-7197-4e62-b63b-180f2bb35d5b" name="Changes" comment="adds users to db when they register and navigates to a success message page" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -149,8 +139,17 @@
       <workItem from="1697859863804" duration="10950000" />
       <workItem from="1697934145329" duration="5917000" />
       <workItem from="1697948799145" duration="2172000" />
-      <workItem from="1697952055197" duration="8098000" />
+      <workItem from="1697952055197" duration="8420000" />
     </task>
+    <task id="LOCAL-00001" summary="adds users to db when they register and navigates to a success message page">
+      <option name="closed" value="true" />
+      <created>1697960615942</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1697960615942</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,7 +157,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="//adds users to db when they register and navigates to a success message page" />
-    <option name="LAST_COMMIT_MESSAGE" value="//adds users to db when they register and navigates to a success message page" />
+    <MESSAGE value="adds users to db when they register and navigates to a success message page" />
+    <option name="LAST_COMMIT_MESSAGE" value="adds users to db when they register and navigates to a success message page" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CSE312_Proj1$Flask__server_py_.coverage" NAME="Flask (server.py) Coverage Results" MODIFIED="1697868748311" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
