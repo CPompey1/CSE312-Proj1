@@ -4,6 +4,10 @@ from flask import make_response
 
 
 def didCurrentUserLike(post: Posts,token: Token, id: int, auth_token:str):
+    if auth_token == None:
+        return False
+    
+    
     document = token.getToken(hashAuthToken(auth_token))
     if document is None:
         return False

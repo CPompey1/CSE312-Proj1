@@ -41,8 +41,11 @@ def handlePost():
         print("title: %s\ndescription: %s" %(title,description), file=sys.stderr)
         #do database stuff
         authToken = request.cookies.get('auth_token')
+        if authToken is None:
+            return ("must login in before making post", 403)
         username = getTokenUsername(TOKEN,authToken)
-        if username == None: username = 'Guest'
+        if username == None:
+            return ("must login in before making post", 403)
         res = POSTS.createPosts(username,title,description)
         response = make_response("post received", 200)
         return response
@@ -55,7 +58,7 @@ def handleUsername():
     if verifyTokenResult is not None:
         responseBody = {"username": verifyTokenResult}
     else:
-        responseBody = {'username': 'Guest'}
+        responseBody = {'username': ' '}
     payload = jsonify(responseBody)
     resp = make_response(payload,200)
     return resp
@@ -64,15 +67,18 @@ def handleUsername():
 def postHistory():
     posts = POSTS.getAllPost()
     messageHistory = []
+    auth_token = request.cookies.get('auth_token')
+    
     for ele in posts: 
 
+    
 
         messageHistory.append({'_id':ele['_id'],
                                'username':ele['username'],
                                'title':ele['title'],
                                'description':ele['description'],
                                'likes':ele['likes'],
-                                'didCurrentUserLike': didCurrentUserLike(POSTS,TOKEN,ele['_id'],request.cookies.get('auth_token'))
+                                'didCurrentUserLike': didCurrentUserLike(POSTS,TOKEN,ele['_id'],auth_token)
                                })
     resp = make_response(jsonify(messageHistory))
     resp.mimetype = 'application/json'
@@ -84,7 +90,8 @@ def handleLike():
     if request.method == 'POST':
         auth_token = request.cookies.get('auth_token')
         post_id = request.get_json().get('post_id')
-
+        if auth_token is None:
+            return ("must login in before liking post", 403)
         #print(post_id,file=sys.stderr)
         return likeResp(POSTS,TOKEN,post_id,auth_token) 
 

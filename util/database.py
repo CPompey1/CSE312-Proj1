@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 import sys
+import html
 
 class Client:
     def __init__(self):
@@ -87,9 +88,9 @@ class Posts(Client):
         try:
             self.posts.insert_one({
                                     "_id": self.__get_count(),
-                                    "username": username,
-                                    "title": title,
-                                    "description": description,
+                                    "username": html.escape(username),
+                                    "title": html.escape(title),
+                                    "description": html.escape(description),
                                     "likes": 0,
                                     "liked_by": [],
                                     "isDeleted": False,
@@ -116,10 +117,6 @@ class Posts(Client):
             return super().deleteDocument(self.posts,document)
 
     def likePost(self, id: int,username: str):
-        document2 = self.posts.find({})
-        for i in document2:
-            print(i["_id"],file=sys.stderr)
-
         document = self.getPost(int(id))
 
         if(document is not None):
