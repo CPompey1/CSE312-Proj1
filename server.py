@@ -8,6 +8,7 @@ from util.register import register
 from util.response import htmlResponse
 from util.login import login
 from util.authToken import getTokenUsername
+from util.like import likeResp, didCurrentUserLike
 
 
 
@@ -43,7 +44,7 @@ def handlePost():
         username = getTokenUsername(TOKEN,authToken)
         if username == None: username = 'Guest'
         res = POSTS.createPosts(username,title,description)
-        response = make_response("post recieved", 200)
+        response = make_response("post received", 200)
         return response
     
 @app.route('/username', methods=['GET'])
@@ -64,14 +65,28 @@ def postHistory():
     posts = POSTS.getAllPost()
     messageHistory = []
     for ele in posts: 
+
+
         messageHistory.append({'_id':ele['_id'],
                                'username':ele['username'],
                                'title':ele['title'],
-                               'description':ele['description']})
+                               'description':ele['description'],
+                               'likes':ele['likes'],
+                                'didCurrentUserLike': didCurrentUserLike(POSTS,TOKEN,ele['_id'],request.cookies.get('auth_token'))
+                               })
     resp = make_response(jsonify(messageHistory))
     resp.mimetype = 'application/json'
     resp.headers['X-Content-Type-Options'] = 'nosniff'
     return resp
+
+@app.route('/like', methods=['POST'])
+def handleLike():
+    if request.method == 'POST':
+        auth_token = request.cookies.get('auth_token')
+        post_id = request.get_json().get('post_id')
+
+        #print(post_id,file=sys.stderr)
+        return likeResp(POSTS,TOKEN,post_id,auth_token) 
 
 @app.route("/<path:path>")
 def getPage(path):
@@ -89,5 +104,5 @@ def getPage(path):
 
 if __name__ == "__main__":
     
-    app.run('0.0.0.0',8090,debug=True)
+    app.run('0.0.0.0',8080,debug=True)      #8090
     

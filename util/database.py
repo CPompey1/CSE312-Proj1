@@ -1,8 +1,9 @@
 from pymongo import MongoClient
+import sys
 
 class Client:
     def __init__(self):
-        self.client = MongoClient("localhost")
+        self.client = MongoClient("mongo")
         self.db = self.client["project2"]
     
     def createCollection(self,collectionName:str):
@@ -90,6 +91,7 @@ class Posts(Client):
                                     "title": title,
                                     "description": description,
                                     "likes": 0,
+                                    "liked_by": [],
                                     "isDeleted": False,
                                     })
             return True
@@ -103,7 +105,7 @@ class Posts(Client):
         return self.posts.find({})
     
     def updatePost(self, id: int, key:str, newValue):
-        document = self.getPost(self,id)
+        document = self.getPost(id)
         if(key == "likes"):
             return super().updateDocument(self.posts,document,"likes", newValue)
         elif(key == "isDeleted"):
@@ -112,4 +114,32 @@ class Posts(Client):
     def deletePost(self, id: int):
             document = self.getPost(id)
             return super().deleteDocument(self.posts,document)
-                
+
+    def likePost(self, id: int,username: str):
+        document2 = self.posts.find({})
+        for i in document2:
+            print(i["_id"],file=sys.stderr)
+
+        document = self.getPost(int(id))
+
+        if(document is not None):
+            likedByList = document['liked_by']
+            likes = document['likes']
+            
+            if(username in document["liked_by"]):
+                print("unliking post",file=sys.stderr)
+                likedByList.remove(username)
+                likes = likes - 1
+                self.posts.find_one_and_update({'_id':document['_id']},{'$set': {'liked_by': likedByList}})
+                self.posts.find_one_and_update({'_id':document['_id']},{'$set': {'likes': likes}})
+                return
+            else:
+                print("liking post",file=sys.stderr)
+                likedByList.append(username)
+                likes = likes + 1
+                self.posts.find_one_and_update({'_id':document['_id']},{'$set': {'liked_by': likedByList}})
+                self.posts.find_one_and_update({'_id':document['_id']},{'$set': {'likes': likes}})
+                return
+        else:
+            print("error",file=sys.stderr)
+            return

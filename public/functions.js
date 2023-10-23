@@ -36,7 +36,6 @@ function sendPost() {
     document.getElementById("description_input").value = ""
 }
 
-
 function request_username(){
     const request = new XMLHttpRequest();
     request.onreadystatechange = function () {
@@ -78,13 +77,46 @@ function chatPostHTML(messageJSON) {
     const username = messageJSON.username;
     const title = messageJSON.title
     const description = messageJSON.description;
+    const likes = messageJSON.likes;
     const messageId = messageJSON._id;
-    let messageHTML = "<br><button onclick='deleteMessage(\"" + messageId + "\")'>X</button> ";
-    messageHTML += "<span id='message_" + messageId + "'><b>" + username + "</b> " + "<div>" + title + "</div>" + description + "</span>";
+    const currentUserLiked = messageJSON.didCurrentUserLike
+    var button_text = " "
+    if(currentUserLiked == true){
+        button_text = "Unlike"
+    }
+
+    if(currentUserLiked == false){
+        button_text = "Like"
+    }
+
+    let messageHTML = "<div class='post' id='message_" + messageId + "'>" +
+    "<div class='post-header'>" +
+        "<b class='username'>" + username + "</b>" +
+    "</div>" +
+    "<div class='post-content'>" +
+        "<div class='post-title'>" + title + ": " + description + "</div>" +
+    "</div>" +
+    "<div class='post-actions'>" +
+        "<button class='like-button' id ='like_button_" + messageId.toString() + "'onclick=\"likeMessage('" + messageId + "')\">"+button_text+"</button>" +
+        "<span class='like-count'>" + likes + "</span>" +
+    "</div>" +
+"</div>";
+
+
     return messageHTML;
 }
 
 function clearPosts() {
     const chatMessages = document.getElementById("post-messages");
     chatMessages.innerHTML = "";
+}
+
+function likeMessage(messageId){
+    const request = new XMLHttpRequest();
+
+    request.open("POST", "/like");
+    request.setRequestHeader("Content-Type","application/json")
+    const message = {"post_id": messageId}
+    console.log(message)
+    request.send(JSON.stringify(message));
 }

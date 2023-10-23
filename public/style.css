@@ -1,4 +1,3 @@
-
 body {
     background-color: #000000;
     color: white;
@@ -13,11 +12,11 @@ img.post {
     width: 120px;
 }
 
-.title{
+.title {
     height: 5%;
 }
 
-.header{
+.header {
     display: flex;
     /*justify-content: space-around;*/
     background-color: #F6F1F1;
@@ -26,13 +25,13 @@ img.post {
     align-items: center;
 }
 
-.contents{
+.contents {
     display: flex;
     justify-content: space-around;
-    height: 78%
+    height: 78%;
 }
 
-.post{
+.post {
     /*height:100%;*/
     width: 70%;
     background-color: #146C94;
@@ -40,7 +39,7 @@ img.post {
     /*overflow: scroll;*/
 }
 
-#post-messages{
+#post-messages {
     height: 90%;
     /*width: 70%;*/
     /*background-color: aqua;*/
@@ -48,7 +47,7 @@ img.post {
     overflow: scroll;
 }
 
-.post-form{
+.post-form {
     /*width: 70%;*/
     /*background-color: aqua;*/
     /*padding: 20px;*/
@@ -56,12 +55,16 @@ img.post {
     height: 30px;
 }
 
-.user-list{
+.user-list {
     width: 30%;
     background-color: #19A7CE;
     padding: 20px;
 }
 
-.header > div{
+.header > div {
     padding: 20px;
+}
+
+.like-button {
+    margin-right: 10px; /* Add padding on the right side of the like button */
 }
