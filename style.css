@@ -1,0 +1,93 @@
+body {
+    background-color: #d9a475; 
+    color: white;
+    font-family: "Times New Roman", serif;
+}
+
+.my_image {
+    width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+img.post {
+    width: 120px;
+}
+
+.title {
+    height: 5%;
+    background-color: #a34828; 
+}
+
+.header {
+    display: flex;
+    background-color: #8c3d21; 
+    color: #ff6600;
+    height: 17%;
+    align-items: center;
+}
+
+.contents {
+    display: flex;
+    justify-content: space-around;
+    height: 100%;
+}
+
+.barn-image {
+    display: block;
+    justify-content: space-around;
+    height: 78%;
+}
+
+.post {
+    width: 70%;
+    background-color: #7b3c22; 
+    padding: 20px;
+}
+
+#post-messages {
+    height: 90%;
+    overflow: scroll;
+}
+
+.post-form {
+    height: 30px;
+}
+
+.user-list {
+    width: 30%;
+    background-color: #a34828; 
+    padding: 20px;
+}
+
+.header > div {
+    padding: 20px;
+}
+
+.like-button {
+    margin-right: 10px;
+}
+
+.category-buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.category-buttons p {
+    font-weight: bold;
+    color: #fafafa; 
+}
+
+.category-button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #a34828; 
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.category-button:hover {
+    background-color: #8c3d21; 
+}

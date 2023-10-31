@@ -1,0 +1,67 @@
+<html>
+<head>
+    <title>Packet Sniffers Auction House</title>
+    <link rel="stylesheet" type="text/css" href="public/style.css"/>
+    <link rel="icon" type="image/x-icon" href="/image/favicon.ico">
+</head>
+
+<body onload="welcome_user();">
+
+<div class="title">
+    <h2>Auction House</h2>
+</div>
+
+<div class="contents">
+    <div class="post">
+        <div id="post-auctions">
+        </div>
+        <div class="post-form">
+            <hr>
+            <div class="category-buttons">
+                <p> Please Select from the following Categories to Narrow Your Search</p>
+                <button class="category-button" >Car Parts</button>
+                <button class="category-button" >Clothing</button>
+                <button class="category-button" >Electronics</button>
+                <button class="category-button" >Toys</button>
+                <button class="category-button" >Sports</button>
+                <button class="category-button" >Jewerly</button>
+                <button class="category-button" >Collectibles</button>
+                <button class="category-button" >Garden</button>
+                <button class="category-button" >Business/Industrial</button>
+                <button class="category-button" >Other</button>
+                <button class="category-button" >Most Popular</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="user-list">
+        Register:
+        <form action="/register" method="post" enctype="application/x-www-form-urlencoded">
+            <label>Username:
+                <input id="reg-form-username" type="text" name="username_reg"/>
+            </label>
+            <br/>
+            <label>Password:&nbsp;
+                <input id="reg-form-pass" type="password" name="password_reg">
+            </label>
+            <input type="submit" value="Post">
+        </form>
+
+        Login:
+        <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
+            <label>Username:
+                <input id="login-form-username" type="text" name="username_login"/>
+            </label>
+            <br/>
+            <label>Password:&nbsp;
+                <input id="login-form-pass" type="password" name="password_login">
+            </label>
+            <input type="submit" value="Post">
+        </form>
+    </div>
+</div>
+
+<script src="public/functions.js"></script>
+<script src="public/category.js"></script>
+</body>
+</html>
