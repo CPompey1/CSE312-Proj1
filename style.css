@@ -91,3 +91,42 @@ img.post {
 .category-button:hover {
     background-color: #8c3d21; 
 }
+
+
+#sidebar {
+  width: 0;
+  position: fixed;
+  top: 100px;
+  bottom: 350px;
+  right: 20px;
+  background-color: white;
+  transition: 0.5s;
+  color: black;
+  border-radius: 10px;
+}
+
+#sidebar p {
+  padding: 8px 8px 8px 32px;
+  font-size: 18px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+#sidebar p:hover {
+  color: #f1f1f1;
+}
+
+#mainContent {
+  transition: margin-left 0.5s;
+  padding: 16px;
+}
+
+#toggleButton {
+  font-size: 20px;
+  cursor: pointer;
+  position: fixed;
+  right: 20px;
+  top: 50px;
+  z-index: 1;
+}
