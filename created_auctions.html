@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <title>Packet Sniffers Auction House</title>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+    </head>
+
+    <body onload="welcome_user();">
+
+    <div id="sidebar">
+        <p onclick="redirect()">Post an Auction</p>
+        <p onclick="redirectHome()">Shop</p>
+        <p onclick="redirect()">Auctions Won</p>
+        <p onclick="redirect()">My Listings</p>
+
+    </div>
+
+    <div class="title">
+        <h2>Auction House</h2>
+    </div>
+
+    <div class="contents1">
+        <div class="post">
+            <div class="post-form">
+                <hr>
+                <div class="category-buttons">
+                    <button class="category-button" >Car Parts</button>
+                    <button class="category-button" >Clothing</button>
+                    <button class="category-button" >Electronics</button>
+                    <button class="category-button" >Toys</button>
+                    <button class="category-button" >Sports</button>
+                    <button class="category-button" >Jewerly</button>
+                    <button class="category-button" >Collectibles</button>
+                    <button class="category-button" >Garden</button>
+                    <button class="category-button" >Business/Industrial</button>
+                    <button class="category-button" >Other</button>
+                    <button class="category-button" >Most Popular</button>
+                </div>
+            </div>
+
+            <div id="created-auctions">
+                <div>
+                    
+                </div>
+            </div>
+            
+            <div id="won-auctions">
+                
+            </div>
+        </div>
+        
+    </div>
+
+
+    <script src="public/functions.js"></script>
+    <script src="public/category.js"></script>
+
+</html>

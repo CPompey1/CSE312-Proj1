@@ -130,3 +130,11 @@ img.post {
   top: 50px;
   z-index: 1;
 }
+
+.auctionContents{
+    height: 90%;
+    /*width: 70%;*/
+    /*background-color: aqua;*/
+    /*padding: 20px;*/
+    overflow: scroll;
+}
