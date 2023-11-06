@@ -58,6 +58,13 @@
     </select>
             <input type="submit" value="Post">
         </form>
+        <form action="/autcionpic" id="image-form" method="post" enctype="multipart/form-data">
+            <br/>
+            <label for="form-file">Upload pictures: </label>
+            <input id="form-file" type="file" name="upload">
+            <br/>
+            <input type="submit" value="Submit">
+        </form>
         <form action="/wonauction" method="post" enctype="application/x-www-form-urlencoded">
             <br/>
             <label>Item Description
