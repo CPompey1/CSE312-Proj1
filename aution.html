@@ -1,0 +1,89 @@
+<html>
+<head>
+    <title>Auction</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+
+<body onload="welcome();">
+
+<div class="title">
+    <h2>CSE312 App</h2>
+</div>
+
+<div class="header">
+    <div>
+        <img src="image/auctionpic.jpeg" alt="It's an auction" class="my_image"/></div>
+    <div>
+        <p id="paragraph">
+            Welcome to the Auction House. You're one stop for Auctioning your favorite items 🙂
+        </p>
+    </div>
+</div>
+
+
+<div class="contents">
+    <div class="chat">
+        <div id="chat-messages">
+        </div>
+
+        <div class="Auction-form">
+            <hr>
+            <label>
+                Chat:
+                <input id="chat-text-box" type="text">
+            </label>
+            <button id="chat-button" onclick="sendChat()">Send</button>
+        </div>
+
+    </div>
+    <div class="user-list">
+
+
+        Register:
+        <form action="/createauction" method="post" enctype="application/x-www-form-urlencoded">
+            <label>Username:
+                <input id="reg-form-username" type="text" name="username_reg"/>
+            </label>
+            <br/>
+            <label>Password:&nbsp;
+                <input id="reg-form-pass" type="password" name="password_reg">
+            </label>
+            <label>Item:
+                <input id="reg-form-item" type="text" name="item_reg"/>
+            </label>
+            <label for="Categories">Choose a category:</label> 
+    <select name="Categories" id="Categories"> 
+        <option value="Car parts">Car Parts</option> 
+        <option value="Clothing">Clothing</option> 
+        <option value="Electronics">Electronics</option> 
+        <option value="Toys">Toys</option> 
+        <option value="Sports">Sports</option> 
+        <option value="Jewelry">Jewelry</option> 
+        <option value="Collectibles">Collectibles</option> 
+        <option value="Garden">Garden</option> 
+        <option value="Business and Industrial">Business and Industrial</option> 
+        <option value="Other">Other</option> 
+    </select>
+            <input type="submit" value="Post">
+        </form>
+
+        Login:
+        <form action="/wonauction" method="post" enctype="application/x-www-form-urlencoded">
+            <label>Username:
+                <input id="login-form-username" type="text" name="username_login"/>
+            </label>
+            <br/>
+            <label>Password:&nbsp;
+                <input id="login-form-pass" type="password" name="password_login">
+            </label>
+            <input type="submit" value="Post">
+        </form>
+
+
+    </div>
+</div>
+
+
+<script src="functions.js"></script>
+</body>
+</html>
