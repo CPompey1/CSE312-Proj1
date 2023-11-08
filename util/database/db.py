@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 
 CLIENT = 'mongo'
+#CLIENT = 'mongodb://localhost:27017'
 DATABASE = 'auctionDb'
 
 class AuctionDb:
@@ -8,9 +9,16 @@ class AuctionDb:
         self.client = MongoClient(CLIENT)
         self.db = self.client[DATABASE]
         self.collection = self.db[collectionName]
+        self.counter_id = collectionName+"CounterId"
+        self.counter = self.db[collectionName+"Counter"]
 
+    def get_count(self):
+        counter = self.counter.find_one_and_update({'_id': self.counter_id},{'$inc': {'count': 1}},upsert=True,return_document=True)
+        return counter['count']
+    
     def insert_record(self,record):
         try:
+            print(record)
             self.collection.insert_one(record)
         except:
             print("error inserting record")
