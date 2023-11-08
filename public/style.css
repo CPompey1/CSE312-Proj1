@@ -1,5 +1,5 @@
 body {
-    background-color: #d9a475; 
+    background-color: #d9a475;
     color: white;
     font-family: "Times New Roman", serif;
 }
@@ -17,12 +17,12 @@ img.post {
 
 .title {
     height: 5%;
-    background-color: #a34828; 
+    background-color: #a34828;
 }
 
 .header {
     display: flex;
-    background-color: #8c3d21; 
+    background-color: #8c3d21;
     color: #ff6600;
     height: 17%;
     align-items: center;
@@ -36,8 +36,9 @@ img.post {
 
 .contents1 {
     background: #8c3d21;
+    display: flex;
     justify-content: space-around;
-    height: 130%;
+    height: 100%;
 
 }
 
@@ -49,7 +50,7 @@ img.post {
 
 .post {
     width: 70%;
-    background-color: #7b3c22; 
+    background-color: #7b3c22;
     padding: 20px;
 }
 
@@ -64,7 +65,7 @@ img.post {
 
 .user-list {
     width: 30%;
-    background-color: #a34828; 
+    background-color: #a34828;
     padding: 20px;
 }
 
@@ -83,20 +84,20 @@ img.post {
 
 .category-buttons p {
     font-weight: bold;
-    color: #fafafa; 
+    color: #fafafa;
 }
 
 .category-button {
     padding: 10px 20px;
     margin: 5px;
-    background-color: #a34828; 
+    background-color: #a34828;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 .category-button:hover {
-    background-color: #8c3d21; 
+    background-color: #8c3d21;
 }
 
 
@@ -142,7 +143,6 @@ img.post {
 .auction-container {
     clear:both;
     width: 100%;
-    padding-top: 20%;
     overflow: auto;
     white-space: nowrap;
 }
