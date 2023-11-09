@@ -13,6 +13,20 @@ class AuctionDb:
         self.db = self.client[DATABASE]
         self.collection = self.db[collectionName]
 
+    def find_index(self):
+        result = self.collection.find_one({'_id': 0})
+
+        if result:
+            curr_id = result.get('current_index')
+            self.collection.update_one({'_id': 0}, {'$set': {'current_index': (curr_id + 1)}})
+        else:
+            curr_id = 1
+            self.collection.insert_one({
+                '_id': 0,
+                'current_index': 2
+            })
+        return curr_id
+
     def insert_record(self, record):
         try:
             self.collection.insert_one(record)
@@ -49,6 +63,7 @@ class AuctionDb:
         return collection.find_one({key: value})
 
 
+
 class Auction(AuctionDb):
     def __init__(self):
         super().__init__('auctions')
@@ -58,20 +73,41 @@ class Auction(AuctionDb):
         self.collection.update_one({'_id': auction_id}, {'$set': {'auction_token': token}})
         return token
 
-    def add_item_image(self, auction_token, image_bytes):
-        image_name = auction_token + ".jpg"
+    def add_item_image(self, auction_id):
+        # , image_bytes
+        image_name = str(auction_id) + ".jpg"
         # image_name = self.generate_auction_id() + ".jpg"
-        file_path = "public/image/auction_images" + image_name
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        # file_path = "public/image/auction_images" + image_name
+        # os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        #
+        # with open(file_path, 'wb') as file:
+        #     file.write(image_bytes)
 
-        with open(file_path, 'wb') as file:
-            file.write(image_bytes)
-
-        self.collection.update_one({'auction_token': auction_token}, {'$set': {'image_name': image_name}})
+        self.collection.update_one({'_id': auction_id}, {'$set': {'image_name': image_name}})
         return
 
     def get_all_auctions(self):
-        return self.posts.find({})
+        return self.collection.find({"_id": {"$ne": 0}})
+
+    def update_highest_bid(self, auction_id, bid):
+        return self.collection.update_one({"_id": auction_id}, {"$set": {"highest_bid": bid}})
+
+    def add_new_auction(self, name, category):
+        item_id = self.find_index()
+        auction = {
+            '_id': item_id,
+            'item_name': name,
+            'category': category,
+        }
+        self.insert_record(auction)
+        return
+
+    def get_auction_category(self, category):
+        return self.collection.find({'category': category})
+
+    def delete_all(self):
+        return self.collection.delete_many({})
+
 
 class Account(AuctionDb):
     def __init__(self):

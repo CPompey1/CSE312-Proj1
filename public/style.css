@@ -157,3 +157,10 @@ img.post {
 .auction-image {
     max-width: 100%;
 }
+
+.my_image {
+    width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}

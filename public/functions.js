@@ -40,8 +40,9 @@ function chatAuctionHTML(auctionJSON) {
     const category = auctionJSON.category;
     const highestBid = auctionJSON.highest_bid;
     const imageName = auctionJSON.image_name;
-    const auctionToken = messageJSON._id;
-    let auctionHTML = "<div class='auction' id='auction_" + auctionToken + "'>" +
+    const auction_id = String(auctionJSON._id);
+    let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
+    "<div><img src='public/image/auction_images/" + imageName + "' alt='item image' class='my_image'/></div>" +
     "<div class='post-header'>" +
         "<b class='item-name'>" + itemName + "</b>" +
     "</div>" +
@@ -51,10 +52,9 @@ function chatAuctionHTML(auctionJSON) {
         "<b <div class='post-cur-bid'>Highest Bid: " + highestBid + "</div> </b>" +
     "</div>" +
     "<div class='post-actions'>" +
-        "<button class='place-bid' id ='place_bid_" + auctionId.toString() + "'>Place Bid</button>" +
+        "<button class='place-bid' id ='place_bid_" + auction_id + "'>Place Bid</button>" +
         "</div>" +
     "</div>";
-
 
     return auctionHTML;
 }
@@ -62,8 +62,8 @@ function chatAuctionHTML(auctionJSON) {
 function addAuctiontoPage(auctionJSON) {
     const chatMessages = document.getElementById("post-auctions");
     chatMessages.innerHTML += chatAuctionHTML(auctionJSON);
-    chatMessages.scrollIntoView(false);
-    chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
+    // chatMessages.scrollIntoView(false);
+    // chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
 }
 
 function clearAuctions() {
