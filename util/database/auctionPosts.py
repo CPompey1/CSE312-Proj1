@@ -37,6 +37,12 @@ class AuctionPosts:
         self.collection.update_record({'_id':auctionId},{"active": False})
         return
     
+    def getAllAuctionsAsList(self):
+        cursor = self.collection.find_all_records({})
+        ele = []
+        for ele in cursor:
+            out.append(ele)
+        return out
     def updateBids(self, auctionId: int, username:str, userBid: float):
        auctionBids = self.getAuctionByValue("_id",auctionId)
        if(auctionBids is not None):

@@ -4,5 +4,5 @@ ws.onmessage = function (evt) {
     alert(received_msg);
 };
 ws.onopen = function () {
-    ws.send("hello flask");
+    ws.send("Init");
 };
