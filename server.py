@@ -35,6 +35,15 @@ def getAllAuctions(sock):
         data = auctions.getAllAuctionsAsList()
         sock.send(data)
     
+@socket.route('/getAllAuctions/<path:path>')
+def getAllAuctionsCat(sock,path):
+    auctions = AuctionPosts()
+    startSig =  sock.receive()
+    while True:
+        sleep(1)
+        data = auctions.getAuctionsByCategoryAsList(path)
+        sock.send(data)
+    
     
 
 if __name__ == "__main__":

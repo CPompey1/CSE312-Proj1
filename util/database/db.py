@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
-CLIENT = 'mongo'
-#CLIENT = 'mongodb://localhost:27017'
+# CLIENT = 'mongo'
+CLIENT = 'localhost'
 DATABASE = 'auctionDb'
 
 class AuctionDb:
