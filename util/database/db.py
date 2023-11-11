@@ -16,13 +16,10 @@ class AuctionDb:
         self.counter_id = collectionName+"CounterId"
         self.counter = self.db[collectionName+"Counter"]
 
-<<<<<<< HEAD
     def get_count(self):
         counter = self.counter.find_one_and_update({'_id': self.counter_id},{'$inc': {'count': 1}},upsert=True,return_document=True)
         return counter['count']
     
-    def insert_record(self,record):
-=======
     def find_index(self):
         result = self.collection.find_one({'_id': 0})
 
@@ -38,7 +35,6 @@ class AuctionDb:
         return curr_id
 
     def insert_record(self, record):
->>>>>>> frontend-homepage
         try:
             print(record)
             self.collection.insert_one(record)

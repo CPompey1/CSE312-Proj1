@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>Packet Sniffers Auction House</title>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="public/style.css"/>
     <link rel="icon" type="image/x-icon" href="/image/favicon.ico">
 </head>
 
@@ -20,32 +20,32 @@
 
 <div class="title">
     <h2>Auction House</h2>
+    <h3>Home Page</h3>
 </div>
 
 <div class="contents">
     <div class="post">
+        <div id="post-auctions">
+        </div>
         <div class="post-form">
             <hr>
             <div class="category-buttons">
                 <p> Please Select from the following Categories to Narrow Your Search</p>
-                <button class="category-button" onclick="updateThisAuctions('cars')">Car Parts</button>
-                <button class="category-button" onclick="updateThisAuctions('clothes')">Clothing</button>
-                <button class="category-button" onclick="updateThisAuctions('electronics')">Electronics</button>
-                <button class="category-button" onclick="updateThisAuctions('toys')">Toys</button>
-                <button class="category-button" onclick="updateThisAuctions('sports')">Sports</button>
-                <button class="category-button" onclick="updateThisAuctions('jewelry')">Jewerly</button>
-                <button class="category-button" onclick="updateThisAuctions('collectables')">Collectibles</button>
-                <button class="category-button" onclick="updateThisAuctions('garden')">Garden</button>
-                <button class="category-button" onclick="updateThisAuctions('business')">Business/Industrial</button>
-                <button class="category-button" onclick="updateThisAuctions('other')">Other</button>
-                <button class="category-button" onclick="updateThisAuctions('most_pop')">Most Popular</button>
+                <button class="category-button" onclick="location.href ='index.html'" >Home Page</button>
+                <button class="category-button" onclick="location.href ='car_parts.html'" >Car Parts</button>
+                <button class="category-button" onclick="location.href ='clothing.html'">Clothing</button>
+                <button class="category-button" onclick="location.href ='electronics.html'">Electronics</button>
+                <button class="category-button" onclick="location.href ='toys.html'">Toys</button>
+                <button class="category-button" onclick="location.href ='sports.html'">Sports</button>
+                <button class="category-button" onclick="location.href ='jewerly.html'">Jewerly</button>
+                <button class="category-button" onclick="location.href ='collectibles.html'">Collectibles</button>
+                <button class="category-button" onclick="location.href ='garden.html'">Garden</button>
+                <button class="category-button" onclick="location.href ='business_industrial.html'">Business/Industrial</button>
+                <button class="category-button" onclick="location.href ='other.html'">Other</button>
+                <button class="category-button" onclick="location.href ='most_popular.html'">Most Popular</button>
             </div>
-            <div id="post-auctions">
-
-        </div>
         </div>
     </div>
-
 
     <div class="user-list">
         Register:
@@ -69,14 +69,6 @@
             <label>Password:&nbsp;
                 <input id="login-form-pass" type="password" name="password_login">
             </label>
-            <input type="submit" value="Post">
-        </form>
-
-        <form action="/post_auction_image" id="image-form" method="post" enctype="multipart/form-data">
-            <br/>
-            <label for="form-file">Upload Photo of Item: </label>
-            <input id="form-file" type="file" name="upload">
-            <br/>
             <input type="submit" value="Post">
         </form>
     </div>

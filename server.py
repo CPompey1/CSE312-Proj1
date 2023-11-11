@@ -39,7 +39,7 @@ def index():
     # AUCTION.add_item_image(6)
 
     print("in-dex")
-    resp = make_response(send_from_directory('public', 'index.html'))
+    resp = make_response(send_from_directory('public/html', 'index.html'))
     # add headers
     resp.headers['X-Content-Type-Options'] = 'nosniff'
 
@@ -103,7 +103,7 @@ def handleLogin():
 def getPage(path):
     root = '.'
     if not path.__contains__("public"):
-        root = 'public'
+        root = 'public/html'
     resp = make_response(send_from_directory(root, path))
     resp.headers['X-Content-Type-Options'] = 'nosniff'
     return resp
