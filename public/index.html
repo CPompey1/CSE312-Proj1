@@ -24,26 +24,28 @@
 
 <div class="contents">
     <div class="post">
-        <div id="post-auctions">
-        </div>
         <div class="post-form">
             <hr>
             <div class="category-buttons">
                 <p> Please Select from the following Categories to Narrow Your Search</p>
-                <button class="category-button" >Car Parts</button>
-                <button class="category-button" >Clothing</button>
-                <button class="category-button" >Electronics</button>
-                <button class="category-button" >Toys</button>
-                <button class="category-button" >Sports</button>
-                <button class="category-button" >Jewerly</button>
-                <button class="category-button" >Collectibles</button>
-                <button class="category-button" >Garden</button>
-                <button class="category-button" >Business/Industrial</button>
-                <button class="category-button" >Other</button>
-                <button class="category-button" >Most Popular</button>
+                <button class="category-button" onclick="updateThisAuctions('cars')">Car Parts</button>
+                <button class="category-button" onclick="updateThisAuctions('clothes')">Clothing</button>
+                <button class="category-button" onclick="updateThisAuctions('electronics')">Electronics</button>
+                <button class="category-button" onclick="updateThisAuctions('toys')">Toys</button>
+                <button class="category-button" onclick="updateThisAuctions('sports')">Sports</button>
+                <button class="category-button" onclick="updateThisAuctions('jewelry')">Jewerly</button>
+                <button class="category-button" onclick="updateThisAuctions('collectables')">Collectibles</button>
+                <button class="category-button" onclick="updateThisAuctions('garden')">Garden</button>
+                <button class="category-button" onclick="updateThisAuctions('business')">Business/Industrial</button>
+                <button class="category-button" onclick="updateThisAuctions('other')">Other</button>
+                <button class="category-button" onclick="updateThisAuctions('most_pop')">Most Popular</button>
             </div>
+            <div id="post-auctions">
+
+        </div>
         </div>
     </div>
+
 
     <div class="user-list">
         Register:
@@ -67,6 +69,14 @@
             <label>Password:&nbsp;
                 <input id="login-form-pass" type="password" name="password_login">
             </label>
+            <input type="submit" value="Post">
+        </form>
+
+        <form action="/post_auction_image" id="image-form" method="post" enctype="multipart/form-data">
+            <br/>
+            <label for="form-file">Upload Photo of Item: </label>
+            <input id="form-file" type="file" name="upload">
+            <br/>
             <input type="submit" value="Post">
         </form>
     </div>
