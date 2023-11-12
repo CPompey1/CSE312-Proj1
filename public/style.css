@@ -52,10 +52,11 @@ img.post {
     width: 70%;
     background-color: #7b3c22;
     padding: 20px;
+    overflow: scroll;
 }
 
 #post-messages {
-    height: 90%;
+    /*height: 90%;*/
     overflow: scroll;
 }
 

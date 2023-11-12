@@ -84,10 +84,15 @@ function toggleSidebar() {
     }
   }
 
-  function redirect() {
-    window.location.href = 'http://localhost:8080/new_page';
+  function redirectClosedAuctions() {
+    window.location.href = 'http://localhost:8080/closed_auctions';
   }
-
+  function redirectAuctionsWon() {
+    window.location.href = 'http://localhost:8080/auctions_won';
+  }
+  function redirectCreateAuction() {
+    window.location.href = 'http://localhost:8080/create_auction';
+  }
   function redirectHome() {
     window.location.href = 'http://localhost:8080/';
   }
