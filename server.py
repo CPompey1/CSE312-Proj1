@@ -8,6 +8,7 @@ from util.globals import ACCOUNT, TOKEN, AUCTION
 from util.login import login
 from util.register import register
 from util.authToken import *
+from util.database.users import AuctionUsers
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -99,14 +100,15 @@ def handleLogin():
     password = request.form.get('password_login')
     return login(ACCOUNT, TOKEN, username, password)
 
-@app.route('/authenticate',methods=['POST'])
+@app.route('/authenticate',methods=['GET'])
 def authenticate():
     tokenDb = Token()
+    accounts = AuctionUsers()
     token = request.cookies.get('auth_token')    
     hashedToken = hashAuthToken(token)
     user = tokenDb.find_one_record({'tokenHash':hashedToken})
-    print('')
-    pass
+    return make_response(jsonify({'user':user['_id'],'token':token}))
+
 @app.route("/<path:path>")
 def getPage(path):
     print(path)
@@ -127,7 +129,7 @@ def getAllAuctions(sock):
         sock.send(data)
     
 @socket.route('/getAllAuctions/<path:path>')
-def getAllAuctionsCat(sock,path):
+def getAllAuctionsChat(sock,path):
     auctions = AuctionPosts()
     startSig =  sock.receive()
     while True:

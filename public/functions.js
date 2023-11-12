@@ -88,21 +88,30 @@ function toggleSidebar() {
     window.location.href = 'http://localhost:8080/new_page';
   }
 
-  function redirectHome() {
+    function redirectHome() {
     window.location.href = 'http://localhost:8080/';
-  }
+    }
 
-  function authenticate(){
+  function authenticate(){  
     const request = new XMLHttpRequest();
-    request.open('GET', 'http://localhost:8080/authenticate');
+    console.log('Entering authenicate')
+    request.open('GET', '/authenticate');
     request.onload = () => {
     if (request.status === 200) {
         const data = JSON.parse(request.responseText);
-        
         console.log(data);
     } else {
         console.error('Request failed.  Returned status of ' + request.status);
     }
     };
     request.send();
-}
+    
+    }
+
+    function displayAllAuctions(category){
+
+    }
+
+    function displayAllUserAuctions(userJSON{
+
+    })

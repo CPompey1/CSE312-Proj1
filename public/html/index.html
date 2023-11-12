@@ -8,8 +8,9 @@
     <!-- <script type="text/javascript" src="websocketFunctions.js"></script> -->
 </head>
 
-<body onload="welcome_user();"></body>
-<body onload="authenticate();"></body>
+<body onload="welcome_user();
+              authenticate();"></body>
+<!-- <body onload="authenticate();"></body> -->
 <button id="toggleButton" onclick="toggleSidebar();">
     <img src="public/image/dropdown_button.png" alt="Toggle Sidebar">
 </button>
@@ -17,7 +18,7 @@
     <p onclick="redirect()">Post an Auction</p>
     <p onclick="redirectHome()">Shop</p>
     <p onclick="redirect()">Auctions Won</p>
-    <p onclick="redirect()">My Listings</p>
+    <p onclick="location.href = 'created_auctions.html' ">My Listings</p>
 
 </div>
 

@@ -1,6 +1,7 @@
 import secrets
 from util.database.db import Token
 import hashlib
+from util.globals import*
 
 def hashAuthToken(token: str):
     tokenHash = hashlib.sha256(token.encode())
@@ -11,7 +12,7 @@ def createAuthToken(token:Token, username:str):
     authToken = secrets.token_urlsafe(32)
     authTokenHash = hashAuthToken(authToken)
     token.createToken(username,authTokenHash)
-    return authToken
+    return authToken,authTokenHash
 
 def getTokenUsername(token:Token, tokenInput:str):
     if(tokenInput is None):

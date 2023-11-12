@@ -4,7 +4,7 @@ import bcrypt
 
 from util.authToken import createAuthToken
 from util.database.db import Account, Token
-from util.globals import HTML_DIRECTORY
+from util.globals import *
 from util.response import htmlResponse
 
 
@@ -18,7 +18,9 @@ def login(account: Account, token: Token, username: str, password: str):
     print("checking password")
     if check_password:
         resp = htmlResponse(HTML_DIRECTORY, 'login.html', 200)
-        token = createAuthToken(token, username)
+        token,hashedToken = createAuthToken(token, username)
+        USERS.updateUserToken(username=userDocument['_id'],newToken=hashedToken)
+        
         resp.set_cookie('auth_token', token, httponly=True, max_age=3600)
         return resp
     else:
