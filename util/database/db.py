@@ -3,14 +3,14 @@ import secrets
 
 from pymongo import MongoClient
 
-# CLIENT = 'mongo'
-CLIENT = 'localhost'
+CLIENT = 'mongo'
+#CLIENT = 'localhost'
 DATABASE = 'auctionDb'
 
 
 class AuctionDb:
     def __init__(self, collectionName):
-        self.client = MongoClient("mongodb://localhost:27017")
+        self.client = MongoClient(CLIENT)
         self.db = self.client[DATABASE]
         self.collection = self.db[collectionName]
         self.counter_id = collectionName+"CounterId"

@@ -1,9 +1,9 @@
-from util.database.db import Account, Token, Auction
+from util.database.auctionPosts import AuctionPosts
+from util.database.users import AuctionUsers
 
 #Mongo DB Collections
-AUCTION = Auction()
-ACCOUNT = Account()
-TOKEN = Token()
+AUCTION = AuctionPosts()
+USERS = AuctionUsers()
 
 #Directory Paths
 HTML_DIRECTORY = "public/html"
