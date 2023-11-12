@@ -8,6 +8,9 @@ function welcome_user() {
 
 }
 
+function refresh_auctions(){
+
+}
 function updateAuctions(category) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function () {
@@ -100,18 +103,12 @@ function toggleSidebar() {
     if (request.status === 200) {
         const data = JSON.parse(request.responseText);
         console.log(data);
+        return data;
     } else {
         console.error('Request failed.  Returned status of ' + request.status);
     }
     };
     request.send();
     
+    
     }
-
-    function displayAllAuctions(category){
-
-    }
-
-    function displayAllUserAuctions(userJSON{
-
-    })
