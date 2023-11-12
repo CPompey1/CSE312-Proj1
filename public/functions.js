@@ -36,12 +36,11 @@ function updateThisAuctions(category) {
 }
 
 function chatAuctionHTML(auctionJSON) {
-
-    const itemName = auctionJSON.itemName;
-    const descrption = auctionJSON.description;
-    const highestBid = auctionJSON.highestBid[0] + ': $' + String(auctionJSON.highestBid[1]);
-    const imageName = auctionJSON.imageUrl;
-    const auction_id = String(auctionJSON.auctionId);
+    const itemName = auctionJSON.item_name
+    const category = auctionJSON.category;
+    const highestBid = auctionJSON.highest_bid;
+    const imageName = auctionJSON.image_name;
+    const auction_id = String(auctionJSON._id);
     let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
     "<div><img src='public/image/auction_images/" + imageName + "' alt='item image' class='my_image'/></div>" +
     "<div class='post-header'>" +
@@ -49,7 +48,7 @@ function chatAuctionHTML(auctionJSON) {
     "</div>" +
 //need image
     "<div class='post-content'>" +
-        "<b <div class='post-category'>Description: " + descrption + "</div> </b>" +
+        "<b <div class='post-category'>Category: " + category + "</div> </b>" +
         "<b <div class='post-cur-bid'>Highest Bid: " + highestBid + "</div> </b>" +
     "</div>" +
     "<div class='post-actions'>" +
