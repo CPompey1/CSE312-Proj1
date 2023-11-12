@@ -7,6 +7,7 @@ from time import sleep
 from util.globals import ACCOUNT, TOKEN, AUCTION
 from util.login import login
 from util.register import register
+from util.authToken import *
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -98,6 +99,14 @@ def handleLogin():
     password = request.form.get('password_login')
     return login(ACCOUNT, TOKEN, username, password)
 
+@app.route('/authenticate',methods=['POST'])
+def authenticate():
+    tokenDb = Token()
+    token = request.cookies.get('auth_token')    
+    hashedToken = hashAuthToken(token)
+    user = tokenDb.find_one_record({'tokenHash':hashedToken})
+    print('')
+    pass
 @app.route("/<path:path>")
 def getPage(path):
     print(path)
@@ -126,7 +135,7 @@ def getAllAuctionsCat(sock,path):
         data = auctions.getAuctionsByCategoryAsList(path)
         sock.send(data)
     
-    
+
 
 if __name__ == "__main__":
     

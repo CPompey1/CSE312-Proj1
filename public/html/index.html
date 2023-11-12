@@ -2,12 +2,14 @@
 <head>
     <title>Packet Sniffers Auction House</title>
     <link rel="stylesheet" type="text/css" href="public/style.css"/>
-    <link rel="icon" type="image/x-icon" href="/image/favicon.ico">
-    <script type="text/javascript" src="websocketFunctions.js"></script>
+    <link rel="icon" type="image/x-icon" href="/image/favicon.ico"/>
+    <script src="public/functions.js"></script>
+    <script type="text/javascript" src="functions.js"></script>
+    <!-- <script type="text/javascript" src="websocketFunctions.js"></script> -->
 </head>
 
-<body onload="welcome_user();">
-
+<body onload="welcome_user();"></body>
+<body onload="authenticate();"></body>
 <button id="toggleButton" onclick="toggleSidebar();">
     <img src="public/image/dropdown_button.png" alt="Toggle Sidebar">
 </button>
