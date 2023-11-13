@@ -6,16 +6,19 @@ class AuctionUsers:
     def __init__(self):
         self.collection = AuctionDb(USERS)
 
-    def insertUsers(self,username: str, passwordHash: bytes, tokenHash:bytes):
+    def insertUsers(self, username: str, passwordHash: bytes):
         record = {
             '_id': username,
             'password': passwordHash,
-            'token': "",
+            'token': b"",
             'auctionsWon': [],
             'auctionPosts': []
         }
-        self.collection.insert_record(record)
-        return
+        try:
+            self.collection.insert_record(record)
+            return True
+        except:
+            return False
 
     def getAuctionByValue(self, field:str, value):
         record = {field: value}

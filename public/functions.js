@@ -44,7 +44,9 @@ function chatAuctionHTML(auctionJSON) {
     const auctionEnd = auctionJSON.auction_end;
     const auction_id = String(auctionJSON._id);
     const image_name = auction_id + ".jpg"
-    const timeLeft = auctionJSON.auction_end
+    const timeLeft = auctionJSON.auction_end;
+    const isOver = auctionJSON.isOver;
+    const winner = auctionJSON.winner;
 
 //     let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
 //     "<div><img src='public/image/auction_images/" + image_name + "' alt='item image' class='my_image'/></div>" +
@@ -78,7 +80,25 @@ function chatAuctionHTML(auctionJSON) {
             "</div>" +
         "</div>";
 
+    // let auctionHTMLOver = "<div class='auction' id='auction_" + auction_id + "'>" +
+    //     "<div><img src='public/image/auction_images/" + imageName + "' alt='item image' class='my_image'/></div>" +
+    //     "<div class='post-header'>" +
+    //     "<b class='item-name'>Item: " + itemName + "</b>" +
+    //     "</div>" +
+    //     "<div class='post-content'>" +
+    //     "<b><div class='post-category'>Description: " + description + "</div></b>" +
+    //     "</div>" +
+    //     "<div class='winner-info'>" +
+    //     "<b>Winner: " + winner[0] + "</b><br>" +
+    //     "<span>Winning Bid: " + winner[1] + "</span>" +
+    //     "</div>" +
+    //     "</div>";
 
+    // if (isOver === true) {
+    //     return auctionHTMLOver;
+    // } else {
+    //     return auctionHTML;
+    // }
     return auctionHTML;
 }
 

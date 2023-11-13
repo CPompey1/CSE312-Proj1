@@ -4,7 +4,7 @@ from markupsafe import escape
 import os,sys
 from flask import Flask,request,make_response, render_template,send_from_directory, send_from_directory, jsonify
 # from sock import Sock
-
+from util.auction import winningBid, highestBid
 from flask_sock import Sock
 from util.database.auctionPosts import AuctionPosts
 from time import sleep
@@ -16,7 +16,7 @@ from util.database.users import AuctionUsers
 from werkzeug.utils import secure_filename
 from threading import *
 import json
-from util.app.timeString import timeLeft
+from util.app.timeString import timeLeft, isAuctionOver
 from util.forms import auction_login,auction_register
 
 app = Flask(__name__)
@@ -47,6 +47,7 @@ def new_auction():
     if(authtoken is None):
         return make_response("Please Login", 403)
     user = getUserByAuthToken(authtoken)
+    print(user,sys.stderr)
     AuctionPosts().insertAuction(user['_id'],title,description,image_name,float(starting_price),auction_end,'none')
 
     if upload:
@@ -77,7 +78,7 @@ def allHistory():
                                'item_title': item['item_title'],
                                'item_description': item['item_description'],
                                'highest_bid': item['highest_bid'],
-                               'auction_end': timeLeft(item['auction_end'])
+                               'auction_end': timeLeft(item['auction_end']),
                                })
     print(auctionHistory)
     resp = make_response(jsonify(auctionHistory))

@@ -10,4 +10,10 @@ def timeLeft(endDate):
     timeLeft = "%dd %dh %dm %ds" %(daysLeft,hoursLeft,minutesLeft,secondsLeft)
     return timeLeft
 
-
+def isAuctionOver(endDate):
+    timeDelta = endDate - datetime.now()
+    daysLeft = timeDelta.days
+    if daysLeft < 0:
+        return True
+    else:
+        return False
