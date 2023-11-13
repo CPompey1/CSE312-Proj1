@@ -61,7 +61,7 @@ def allHistory():
     auctionHistory = []
     # auth_token = request.cookies.get('auth_token')
     for item in auctions:
-        print(item)
+        # print(item)
         auctionHistory.append({'_id': item['_id'],
                                'item_name': item['item_name'],
                                'category': item['category'],
@@ -77,12 +77,12 @@ def allHistory():
 @app.route("/post-history/<category>")
 def historyHandler(category):
     # AUCTION.delete_all()
-    print(category)
+    # print(category)
     auctions = AUCTION.get_auction_category(category)
     auctionHistory = []
     # auth_token = request.cookies.get('auth_token')
     for item in auctions:
-        print(item)
+        # print(item)
         auctionHistory.append({'_id': item['_id'],
                                'item_name': item['item_name'],
                                'category': item['category'],
@@ -104,7 +104,7 @@ def handleRegister():
 
 @app.route("/login", methods=['POST'])
 def handleLogin():
-    print("handle login")
+    # print("handle login")
     username = request.form.get('username_login')
     password = request.form.get('password_login')
     return login(ACCOUNT, TOKEN, username, password)
