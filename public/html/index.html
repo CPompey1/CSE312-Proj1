@@ -2,12 +2,15 @@
 <head>
     <title>Packet Sniffers Auction House</title>
     <link rel="stylesheet" type="text/css" href="public/style.css"/>
-    <link rel="icon" type="image/x-icon" href="/image/favicon.ico">
-    <!-- uncomment to test websockets -->
-    <!-- <script type="text/javascript" src="websocketFunctions.js"></script> -->
+    <link rel="icon" type="image/x-icon" href="/image/favicon.ico"/>
+    <script src="public/functions.js"></script>
+    <script type="text/javascript" src="functions.js"></script>
+    <script type="text/javascript" src="auctionsWs.js"></script>
 </head>
 
-<body onload="welcome_user();">
+<body onload="welcome_user();
+              authenticate();"></body>
+<!-- <body onload="authenticate();"></body> -->
 <button id="toggleButton" onclick="toggleSidebar();">
     <img src="public/image/dropdown_button.png" alt="Toggle Sidebar">
 </button>
@@ -56,6 +59,17 @@
             <input type="submit" value="Post">
         </form>
     </div>
+
+    <div id = 'created_auctions' class="auction-container"> 
+            
+    
+    </div>
+
+    <div id = 'won_auctions' class="auction-container">
+
+
+    </div>
+
 </div>
 
 <script src="public/functions.js"></script>

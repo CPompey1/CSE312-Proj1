@@ -11,38 +11,43 @@ from time import sleep
 from util.globals import ACCOUNT, TOKEN, AUCTION
 from util.login import login
 from util.register import register
+from util.authToken import *
+from util.database.users import AuctionUsers
 from werkzeug.utils import secure_filename
+from threading import *
+import json
+from util.app.timeString import timeLeft
 
 app = Flask(__name__)
 socket = Sock(app)
 
-def start_list():
-    if AUCTION.find_auction(6) == None:
-        AUCTION.add_new_auction("bentley","cars")
-        AUCTION.update_highest_bid(1, "100")
-        AUCTION.add_item_image(1)
-
-        AUCTION.add_new_auction("skirt","clothes")
-        AUCTION.update_highest_bid(2, "200")
-        AUCTION.add_item_image(2)
-
-        AUCTION.add_new_auction("tv","electronics")
-        AUCTION.update_highest_bid(3, "300")
-        AUCTION.add_item_image(3)
-
-        AUCTION.add_new_auction("lego","toys")
-        AUCTION.update_highest_bid(4, "400")
-        AUCTION.add_item_image(4)
-
-        AUCTION.add_new_auction("baseball","sports")
-        AUCTION.update_highest_bid(5, "130")
-        AUCTION.add_item_image(5)
-
-        AUCTION.add_new_auction("necklace","jewelry")
-        AUCTION.update_highest_bid(6, "120")
-        AUCTION.add_item_image(6)
-
 @app.route("/")
+
+# def start_list():
+#     if AUCTION.find_auction(6) == None:
+#         AUCTION.add_new_auction("bentley","cars")
+#         AUCTION.update_highest_bid(1, "100")
+#         AUCTION.add_item_image(1)
+
+#         AUCTION.add_new_auction("skirt","clothes")
+#         AUCTION.update_highest_bid(2, "200")
+#         AUCTION.add_item_image(2)
+
+#         AUCTION.add_new_auction("tv","electronics")
+#         AUCTION.update_highest_bid(3, "300")
+#         AUCTION.add_item_image(3)
+
+#         AUCTION.add_new_auction("lego","toys")
+#         AUCTION.update_highest_bid(4, "400")
+#         AUCTION.add_item_image(4)
+
+#         AUCTION.add_new_auction("baseball","sports")
+#         AUCTION.update_highest_bid(5, "130")
+#         AUCTION.add_item_image(5)
+
+#         AUCTION.add_new_auction("necklace","jewelry")
+#         AUCTION.update_highest_bid(6, "120")
+#         AUCTION.add_item_image(6)
 def index():
     resp = make_response(send_from_directory('public/html', 'index.html'))
     # add headers
@@ -113,6 +118,23 @@ def handleLogin():
     password = request.form.get('password_login')
     return login(ACCOUNT, TOKEN, username, password)
 
+@app.route('/authenticate',methods=['GET'])
+def authenticate():
+    tokenDb = Token()
+    accounts = AuctionUsers()
+    token = request.cookies.get('auth_token') 
+    if token != None:   
+        hashedToken = hashAuthToken(token)
+    else:    
+        hashedToken = None
+        token = ''
+    user = tokenDb.find_one_record({'tokenHash':hashedToken})
+    if user == None:
+        user = ''
+    else:
+        user = user['_id']
+    return make_response(jsonify({'user':user,'token':token}))
+
 @app.route("/<path:path>")
 def getPage(path):
     # print(path)
@@ -123,14 +145,65 @@ def getPage(path):
     resp.headers['X-Content-Type-Options'] = 'nosniff'
     return resp
 
+@socket.route('/userAuctions')
+def userAuctions(sock):
+    auctions = AuctionPosts()
+    startSig =  sock.receive()
+    while True:
+        sleep(1)
+        data = auctions.getUserAuctions('cris')
+        sock.send(json.dumps(data))
+
 @socket.route('/getAllAuctions')
 def getAllAuctions(sock):
     auctions = AuctionPosts()
     startSig = sock.receive()
     while True:
         sleep(1)
-        data = auctions.getAllAuctionsAsList()
-        sock.send(data)
+        data = auctions.getAllAuctions()
+        print(data,file=sys.stderr)
+        createdAuctions = []
+        wonAuctions = []
+        for i in data.get('Created Auctions'):
+           createdAuctions.append({
+               "_id": i['_id'],
+               "username": i['username'],
+               "title": i['title'],
+               "description": i['description'],
+               "imageUrl": i['imageUrl'],
+               "startingPrice": i['startingPrice'],
+               "category": i['category'],
+               #"highestBid": i['highestBid'],
+               "bids": i['bids'],
+               "active": i['active'],
+               "timeLeft": timeLeft(i['endTime'])
+           }) 
+        
+        for i in data.get('Won Auctions'):
+           wonAuctions.append({
+               "_id": i['_id'],
+               "username": i['username'],
+               "title": i['title'],
+               "description": i['description'],
+               "imageUrl": i['imageUrl'],
+               "startingPrice": i['startingPrice'],
+               "category": i['category'],
+               #"highestBid": i['highestBid'],
+               "bids": i['bids'],
+               "active": i['active'],
+               "timeLeft": timeLeft(i['endDate'])
+           }) 
+        payload = {"Created Auctions": createdAuctions,
+                   "Won Auctions": wonAuctions}
+        
+        sock.send(json.dumps(payload))
+
+
+# @socket.route('/userAuctions')
+# def userAuctions(sock):
+#     t = Thread(target=handleAllAuctionsSocket)
+#     startSig =  sock.receive()
+    
     
 @socket.route('/getAllAuctions/<path:path>')
 def getAllAuctionsCat(sock, path):
@@ -143,6 +216,6 @@ def getAllAuctionsCat(sock, path):
     
 
 if __name__ == "__main__":
-    # start_list()
+    
     app.run('0.0.0.0',8080)
     

@@ -1,4 +1,4 @@
-let welcomeUserInterval;
+// let welcomeUserInterval;
 
 function welcome_user() {
     updateAuctions("");
@@ -104,6 +104,24 @@ function toggleSidebar() {
     window.location.href = 'http://localhost:8080/profile';
   }
 
-  function redirectHome() {
+    function redirectHome() {
     window.location.href = 'http://localhost:8080/';
-  }
+    }
+
+  function authenticate(){  
+    const request = new XMLHttpRequest();
+    console.log('Entering authenicate')
+    request.open('GET', '/authenticate');
+    request.onload = () => {
+    if (request.status === 200) {
+        const data = JSON.parse(request.responseText);
+        console.log(data);
+        return data;
+    } else {
+        console.error('Request failed.  Returned status of ' + request.status);
+    }
+    };
+    request.send();
+    
+    
+    }
