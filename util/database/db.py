@@ -10,7 +10,7 @@ DATABASE = 'auctionDb'
 
 class AuctionDb:
     def __init__(self, collectionName):
-        self.client = MongoClient("mongodb://localhost:27017")
+        self.client = MongoClient('mongo')
         self.db = self.client[DATABASE]
         self.collection = self.db[collectionName]
         self.counter_id = collectionName+"CounterId"
@@ -36,10 +36,10 @@ class AuctionDb:
 
     def insert_record(self, record):
         try:
-            print(record)
+            # print(record)
             self.collection.insert_one(record)
         except:
-            print("error inserting record")
+            # print("error inserting record")
             return
         return
 
@@ -100,21 +100,27 @@ class Auction(AuctionDb):
     def update_highest_bid(self, auction_id, bid):
         return self.collection.update_one({"_id": auction_id}, {"$set": {"highest_bid": bid}})
 
-    def add_new_auction(self, name, category):
+    def add_new_auction(self, title, description, starting_price, auction_end):
         item_id = self.find_index()
         auction = {
             '_id': item_id,
-            'item_name': name,
-            'category': category,
+            'item_title': title,
+            'item_description': description,
+            'highest_bid': starting_price,
+            'auction_end': auction_end,
         }
         self.insert_record(auction)
-        return
+        return item_id
 
     def get_auction_category(self, category):
         return self.collection.find({'category': category})
 
-    def delete_all(self):
-        return self.collection.delete_many({})
+    def delete(self):
+        return self.collection.delete_one({'_id': 7})
+
+    def find_auction(self, index):
+        auction = self.collection.find_one({'_id': index})
+        return auction
 
 
 class Account(AuctionDb):

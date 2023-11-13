@@ -1,11 +1,20 @@
-let welcomeUserInterval;
+// let welcomeUserInterval;
+
+
 
 function welcome_user() {
     updateAuctions("");
     welcomeUserInterval = setInterval(function () {
         updateAuctions("");
     }, 2000);
+}
 
+function welcome_to_profile(){
+
+}
+
+function stopGetHistoryInterval() {
+    clearInterval(welcomeUserInterval);
 }
 
 function updateAuctions(category) {
@@ -14,6 +23,7 @@ function updateAuctions(category) {
         if (this.readyState === 4 && this.status === 200) {
             clearAuctions();
             const auctions = JSON.parse(this.response);
+            console.log(this.response)
             for (const auction of auctions) {
                 addAuctiontoPage(auction);
             }
@@ -27,48 +37,86 @@ function updateAuctions(category) {
     request.send();
 }
 
-function updateThisAuctions(category) {
-    clearInterval(welcomeUserInterval);
-    updateAuctions(category);
-    welcomeUserInterval = setInterval(function () {
-        updateAuctions(category);
-    }, 2000);
-}
-
 function chatAuctionHTML(auctionJSON) {
-    const itemName = auctionJSON.item_name
-    const category = auctionJSON.category;
-    const highestBid = auctionJSON.highest_bid;
-    const imageName = auctionJSON.image_name;
+    const itemTitle = auctionJSON.item_title
+    const itemDescription = auctionJSON.item_description;
+    const highestBid = "Highest Bid: $" + auctionJSON.highest_bid;
+    const auctionEnd = auctionJSON.auction_end;
     const auction_id = String(auctionJSON._id);
-    let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
-    "<div><img src='public/image/auction_images/" + imageName + "' alt='item image' class='my_image'/></div>" +
-    "<div class='post-header'>" +
-        "<b class='item-name'>" + itemName + "</b>" +
-    "</div>" +
-//need image
-    "<div class='post-content'>" +
-        "<b <div class='post-category'>Category: " + category + "</div> </b>" +
-        "<b <div class='post-cur-bid'>Highest Bid: " + highestBid + "</div> </b>" +
-    "</div>" +
-    "<div class='post-actions'>" +
-        "<button class='place-bid' id ='place_bid_" + auction_id + "'>Place Bid</button>" +
-        "</div>" +
-    "</div>";
+    const image_name = auction_id + ".jpg"
+    const timeLeft = auctionJSON.auction_end;
+    const isOver = auctionJSON.isOver;
+    const winner = auctionJSON.winner;
 
+//     let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
+//     "<div><img src='public/image/auction_images/" + image_name + "' alt='item image' class='my_image'/></div>" +
+//     "<div class='post-header'>" +
+//         "<b class='item-name'>" + itemTitle + "</b>" +
+//     "</div>" +
+// //need image
+//     "<div class='post-content'>" +
+//          "<div class='post-category'><b>Description: " + itemDescription + "</b></div>" +
+//         "<div class='post-cur-bid'><b>Highest Bid: " + highestBid + "</b></div>" +
+//          "<div class='post-end-time'><b>Auction End: " + auctionEnd + "</b></div>" +
+
+//     "</div>" +
+//     "<div class='post-actions'>" +
+//         "<button class='place-bid' id ='place_bid_" + auction_id + "'>Place Bid</button>" +
+//         "</div>" +
+//     "</div>";
+
+    let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
+        "<div><img src='public/image/auction_images/" + image_name + "' alt='item image' class='my_image'/></div>" +
+        "<div class='post-header'>" +
+        "<b class='item-name'>Item: " + itemTitle + "</b>" +
+        "</div>" +
+        "<div class='post-content'>" +
+        "<b><div class='post-category'>Description: " + itemDescription + "</div></b>" +
+        "<b><div class='post-cur-bid'> " + highestBid + "</div></b>" +
+        "</div>" +
+        "<div class='countdown' id='countdown_" + auction_id + "'>Time left: <span id='timer_" + auction_id + "'>" + timeLeft + "</span></div>" +
+        "<div class='post-actions'>" +
+            "<button class='place-bid' id ='place_bid_" + auction_id + "'>Place Bid</button>" +
+            "</div>" +
+        "</div>";
+
+    // let auctionHTMLOver = "<div class='auction' id='auction_" + auction_id + "'>" +
+    //     "<div><img src='public/image/auction_images/" + imageName + "' alt='item image' class='my_image'/></div>" +
+    //     "<div class='post-header'>" +
+    //     "<b class='item-name'>Item: " + itemName + "</b>" +
+    //     "</div>" +
+    //     "<div class='post-content'>" +
+    //     "<b><div class='post-category'>Description: " + description + "</div></b>" +
+    //     "</div>" +
+    //     "<div class='winner-info'>" +
+    //     "<b>Winner: " + winner[0] + "</b><br>" +
+    //     "<span>Winning Bid: " + winner[1] + "</span>" +
+    //     "</div>" +
+    //     "</div>";
+
+    // if (isOver === true) {
+    //     return auctionHTMLOver;
+    // } else {
+    //     return auctionHTML;
+    // }
     return auctionHTML;
 }
 
 function addAuctiontoPage(auctionJSON) {
     const chatMessages = document.getElementById("post-auctions");
     chatMessages.innerHTML += chatAuctionHTML(auctionJSON);
-    // chatMessages.scrollIntoView(false);
-    // chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
 }
 
 function clearAuctions() {
     const chatMessages = document.getElementById("post-auctions");
     chatMessages.innerHTML = "";
+}
+function redirectProfile() {
+stopGetHistoryInterval(); // Stop the interval before navigating
+window.location.href = 'http://localhost:8080/profile';
+}
+function redirectHome() {
+window.location.href = 'http://localhost:8080/';
 }
 
 function toggleSidebar() {
@@ -88,11 +136,30 @@ function toggleSidebar() {
     window.location.href = 'http://localhost:8080/closed_auctions';
   }
   function redirectAuctionsWon() {
-    window.location.href = 'http://localhost:8080/auctions_won';
-  }
-  function redirectCreateAuction() {
-    window.location.href = 'http://localhost:8080/create_auction';
-  }
-  function redirectHome() {
     window.location.href = 'http://localhost:8080/';
   }
+  function redirectCreateAuction() {
+    window.location.href = 'http://localhost:8080/profile';
+  }
+
+    function redirectHome() {
+    window.location.href = 'http://localhost:8080/';
+    }
+
+  function authenticate(){  
+    const request = new XMLHttpRequest();
+    console.log('Entering authenicate')
+    request.open('GET', '/authenticate');
+    request.onload = () => {
+    if (request.status === 200) {
+        const data = JSON.parse(request.responseText);
+        console.log(data);
+        return data;
+    } else {
+        console.error('Request failed.  Returned status of ' + request.status);
+    }
+    };
+    request.send();
+    
+    
+    }
