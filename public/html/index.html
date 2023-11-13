@@ -8,10 +8,14 @@
 </head>
 
 <body onload="welcome_user();">
-<button id="profileButton" onclick="redirectProfile();">
-        <img src="public/image/profile_button.png">
-    </button>
-
+<button id="toggleButton" onclick="toggleSidebar();">
+    <img src="public/image/dropdown_button.png" alt="Toggle Sidebar">
+</button>
+<div id="sidebar">
+    <p onclick="redirectCreateAuction()">Post an Auction</p>
+    <p onclick="redirectHome()">Shop</p>
+    <p onclick="redirectAuctionsWon()">My Auctions</p>
+</div>
 <div class="title">
     <h2>Auction House</h2>
     <h3>Home Page</h3>

@@ -80,3 +80,30 @@ window.location.href = 'http://localhost:8080/profile';
 function redirectHome() {
 window.location.href = 'http://localhost:8080/';
 }
+
+function toggleSidebar() {
+    var sidebar = document.getElementById('sidebar');
+    var mainContent = document.getElementById('mainContent');
+
+    if (sidebar.style.width === '250px') {
+      sidebar.style.width = '0';
+      mainContent.style.marginLeft = '0';
+    } else {
+      sidebar.style.width = '250px';
+      mainContent.style.marginLeft = '250px';
+    }
+  }
+
+  function redirectClosedAuctions() {
+    window.location.href = 'http://localhost:8080/closed_auctions';
+  }
+  function redirectAuctionsWon() {
+    window.location.href = 'http://localhost:8080/';
+  }
+  function redirectCreateAuction() {
+    window.location.href = 'http://localhost:8080/profile';
+  }
+
+  function redirectHome() {
+    window.location.href = 'http://localhost:8080/';
+  }

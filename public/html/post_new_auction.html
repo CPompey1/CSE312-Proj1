@@ -6,10 +6,14 @@
     </head>
 
     <body onload="welcome_to_profile();">
-    <button id="homeButton" onclick="redirectHome();">
-        <img src="public/image/home_button.png">
+    <button id="toggleButton" onclick="toggleSidebar();">
+    <img src="public/image/dropdown_button.png" alt="Toggle Sidebar">
     </button>
-
+    <div id="sidebar">
+        <p onclick="redirectCreateAuction()">Post an Auction</p>
+        <p onclick="redirectHome()">Shop</p>
+        <p onclick="redirectAuctionsWon()">My Auctions</p>
+    </div>
     <div class="title">
         <h2>Auction House</h2>
     </div>
