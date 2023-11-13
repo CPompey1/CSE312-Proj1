@@ -6,14 +6,16 @@
     </head>
 
     <body onload="welcome_user();">
-
+    <button id="homeButton" onclick="redirectHome();">
+        <img src="public/image/home_button.png">
+    </button>
 
     <div class="title">
         <h2>Auction House</h2>
     </div>
 
     <div class="contents1">
-        
+
         <div class="post-form">
             <hr>
             <div class="category-buttons">
@@ -31,7 +33,7 @@
             </div>
         </div>
 
-        <div class="auction-container">
+        <div id = 'created_auctions' class="auction-container">
             <div class="auction">
                 <img class="auction-image" src="auction_image1.jpg" alt="Auction Image 1">
                 <h2>Auction Item Name 1</h2>
@@ -40,7 +42,7 @@
                 <p>Time Left: 2 days 12 hours</p>
                 <button>Place Bid</button>
             </div>
-    
+
             <div class="auction">
                 <img class="auction-image" src="auction_image2.jpg" alt="Auction Image 2">
                 <h2>Auction Item Name 2</h2>
@@ -57,11 +59,11 @@
                 <p>Time Left: 3 days 8 hours</p>
                 <button>Place Bid</button>
             </div>
-            
-    
+
+
         </div>
 
-        <div class="auction-container">
+        <div id = 'created_auctions' class="auction-container">
             <div class="auction">
                 <img class="auction-image" src="auction_image1.jpg" alt="Auction Image 1">
                 <h2>Auction Item Name 1</h2>
@@ -70,7 +72,7 @@
                 <p>Time Left: 2 days 12 hours</p>
                 <button>Place Bid</button>
             </div>
-    
+
             <div class="auction">
                 <img class="auction-image" src="auction_image2.jpg" alt="Auction Image 2">
                 <h2>Auction Item Name 2</h2>
@@ -87,23 +89,22 @@
                 <p>Time Left: 3 days 8 hours</p>
                 <button>Place Bid</button>
             </div>
-            
-    
+
+
         </div>
-        
-        
-        
-        
+
+
+
+
     </div>
-    
 
-        
+
+
     </div>
 
 
     <script src="public/functions.js"></script>
     <script src="public/category.js"></script>
-    
+
     </body>
 </html>
-

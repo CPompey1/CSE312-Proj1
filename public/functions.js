@@ -27,14 +27,6 @@ function updateAuctions(category) {
     request.send();
 }
 
-function updateThisAuctions(category) {
-    clearInterval(welcomeUserInterval);
-    updateAuctions(category);
-    welcomeUserInterval = setInterval(function () {
-        updateAuctions(category);
-    }, 2000);
-}
-
 function chatAuctionHTML(auctionJSON) {
     const itemName = auctionJSON.item_name
     const category = auctionJSON.category;
@@ -62,37 +54,15 @@ function chatAuctionHTML(auctionJSON) {
 function addAuctiontoPage(auctionJSON) {
     const chatMessages = document.getElementById("post-auctions");
     chatMessages.innerHTML += chatAuctionHTML(auctionJSON);
-    // chatMessages.scrollIntoView(false);
-    // chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
 }
 
 function clearAuctions() {
     const chatMessages = document.getElementById("post-auctions");
     chatMessages.innerHTML = "";
 }
-
-function toggleSidebar() {
-    var sidebar = document.getElementById('sidebar');
-    var mainContent = document.getElementById('mainContent');
-
-    if (sidebar.style.width === '250px') {
-      sidebar.style.width = '0';
-      mainContent.style.marginLeft = '0';
-    } else {
-      sidebar.style.width = '250px';
-      mainContent.style.marginLeft = '250px';
-    }
-  }
-
-  function redirectClosedAuctions() {
-    window.location.href = 'http://localhost:8080/closed_auctions';
-  }
-  function redirectAuctionsWon() {
-    window.location.href = 'http://localhost:8080/auctions_won';
-  }
-  function redirectCreateAuction() {
-    window.location.href = 'http://localhost:8080/create_auction';
-  }
-  function redirectHome() {
-    window.location.href = 'http://localhost:8080/';
-  }
+function redirectProfile() {
+window.location.href = 'http://localhost:8080/profile';
+}
+function redirectHome() {
+window.location.href = 'http://localhost:8080/';
+}

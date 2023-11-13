@@ -47,31 +47,12 @@ def index():
 
     return resp
 
-@app.route("/create_auction")
-def create_auction_handler():
-    resp = make_response(send_from_directory('public/html', 'create_auction.html'))
-    # add headers
+@app.route("/profile")
+def handleProfile():
+    resp = make_response(send_from_directory('public/html', 'created_auctions.html'))
     resp.headers['X-Content-Type-Options'] = 'nosniff'
 
     return resp
-
-@app.route("/auctions_won")
-def auction_won_handler():
-    resp = make_response(send_from_directory('public/html', 'auctions_won.html'))
-    # add headers
-    resp.headers['X-Content-Type-Options'] = 'nosniff'
-
-    return resp
-
-@app.route("/closed_auctions")
-def closed_auctions_handler():
-    resp = make_response(send_from_directory('public/html', 'closed_auctions.html'))
-    # add headers
-    resp.headers['X-Content-Type-Options'] = 'nosniff'
-
-    return resp
-
-
 
 @app.route("/post-history")
 def allHistory():
