@@ -1,5 +1,27 @@
 // var ws = new WebSocket("ws://" + location.host + "/getAllAuctions");
 var userWs = new WebSocket("ws://" + location.host + "/userAuctions");
+var socket = new WebSocket('ws://' + window.location.host + '/ws');
+
+
+socket.onmessage = function (message) {
+    const data = JSON.parse(message.data);
+    if (data.messageType === 'timerUpdate') {
+        data.updatedTimes.forEach(element => {
+        updateTimer(element.auctionId, element.timeLeft);
+            });
+        }
+    };
+
+function updateTimer(auctionId, timeLeft) {
+    const timerElement = document.getElementById('timer_' + auctionId);
+    if (timerElement) {
+        timerElement.textContent = timeLeft;
+    }
+}
+
+
+
+
 
 userWs.onopen = function(){
     
@@ -29,9 +51,11 @@ userWs.onmessage = function (evt) {
     for (const auction of json_obj["Won Auctions"])
         html2Add += chat2AuctionHTML(auction);
         doc.innerHTML += html2Add;
-    
-    
+
 };
+
+
+
 
 function chat2AuctionHTML(auctionJSON) {
     const itemName = auctionJSON.title

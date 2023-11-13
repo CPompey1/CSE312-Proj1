@@ -1,5 +1,7 @@
 // let welcomeUserInterval;
 
+
+
 function welcome_user() {
     updateAuctions("");
     welcomeUserInterval = setInterval(function () {
@@ -38,27 +40,43 @@ function updateAuctions(category) {
 function chatAuctionHTML(auctionJSON) {
     const itemTitle = auctionJSON.item_title
     const itemDescription = auctionJSON.item_description;
-    const highestBid = auctionJSON.highest_bid;
+    const highestBid = "Highest Bid: $" + auctionJSON.highest_bid;
     const auctionEnd = auctionJSON.auction_end;
     const auction_id = String(auctionJSON._id);
     const image_name = auction_id + ".jpg"
+    const timeLeft = auctionJSON.auction_end
+
+//     let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
+//     "<div><img src='public/image/auction_images/" + image_name + "' alt='item image' class='my_image'/></div>" +
+//     "<div class='post-header'>" +
+//         "<b class='item-name'>" + itemTitle + "</b>" +
+//     "</div>" +
+// //need image
+//     "<div class='post-content'>" +
+//          "<div class='post-category'><b>Description: " + itemDescription + "</b></div>" +
+//         "<div class='post-cur-bid'><b>Highest Bid: " + highestBid + "</b></div>" +
+//          "<div class='post-end-time'><b>Auction End: " + auctionEnd + "</b></div>" +
+
+//     "</div>" +
+//     "<div class='post-actions'>" +
+//         "<button class='place-bid' id ='place_bid_" + auction_id + "'>Place Bid</button>" +
+//         "</div>" +
+//     "</div>";
 
     let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
-    "<div><img src='public/image/auction_images/" + image_name + "' alt='item image' class='my_image'/></div>" +
-    "<div class='post-header'>" +
-        "<b class='item-name'>" + itemTitle + "</b>" +
-    "</div>" +
-//need image
-    "<div class='post-content'>" +
-         "<div class='post-category'><b>Description: " + itemDescription + "</b></div>" +
-        "<div class='post-cur-bid'><b>Highest Bid: " + highestBid + "</b></div>" +
-         "<div class='post-end-time'><b>Auction End: " + auctionEnd + "</b></div>" +
-
-    "</div>" +
-    "<div class='post-actions'>" +
-        "<button class='place-bid' id ='place_bid_" + auction_id + "'>Place Bid</button>" +
+        "<div><img src='public/image/auction_images/" + image_name + "' alt='item image' class='my_image'/></div>" +
+        "<div class='post-header'>" +
+        "<b class='item-name'>Item: " + itemTitle + "</b>" +
         "</div>" +
-    "</div>";
+        "<div class='post-content'>" +
+        "<b><div class='post-category'>Description: " + itemDescription + "</div></b>" +
+        "<b><div class='post-cur-bid'> " + highestBid + "</div></b>" +
+        "</div>" +
+        "<div class='countdown' id='countdown_" + auction_id + "'>Time left: <span id='timer_" + auction_id + "'>" + timeLeft + "</span></div>" +
+        "<div class='post-actions'>" +
+            "<button class='place-bid' id ='place_bid_" + auction_id + "'>Place Bid</button>" +
+            "</div>" +
+        "</div>";
 
 
     return auctionHTML;

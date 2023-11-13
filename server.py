@@ -8,8 +8,8 @@ from flask import Flask,request,make_response, render_template,send_from_directo
 from flask_sock import Sock
 from util.database.auctionPosts import AuctionPosts
 from time import sleep
-from util.globals import ACCOUNT, TOKEN, AUCTION
-from util.login import login
+from util.globals import ACCOUNT, TOKEN, AUCTION, USERS
+from util.token import getUserByAuthToken
 from util.register import register
 from util.authToken import *
 from util.database.users import AuctionUsers
@@ -17,37 +17,13 @@ from werkzeug.utils import secure_filename
 from threading import *
 import json
 from util.app.timeString import timeLeft
+from util.forms import auction_login,auction_register
 
 app = Flask(__name__)
 socket = Sock(app)
 
 @app.route("/")
 
-# def start_list():
-#     if AUCTION.find_auction(6) == None:
-#         AUCTION.add_new_auction("bentley","cars")
-#         AUCTION.update_highest_bid(1, "100")
-#         AUCTION.add_item_image(1)
-
-#         AUCTION.add_new_auction("skirt","clothes")
-#         AUCTION.update_highest_bid(2, "200")
-#         AUCTION.add_item_image(2)
-
-#         AUCTION.add_new_auction("tv","electronics")
-#         AUCTION.update_highest_bid(3, "300")
-#         AUCTION.add_item_image(3)
-
-#         AUCTION.add_new_auction("lego","toys")
-#         AUCTION.update_highest_bid(4, "400")
-#         AUCTION.add_item_image(4)
-
-#         AUCTION.add_new_auction("baseball","sports")
-#         AUCTION.update_highest_bid(5, "130")
-#         AUCTION.add_item_image(5)
-
-#         AUCTION.add_new_auction("necklace","jewelry")
-#         AUCTION.update_highest_bid(6, "120")
-#         AUCTION.add_item_image(6)
 def index():
     resp = make_response(send_from_directory('public/html', 'index.html'))
     # add headers
@@ -67,6 +43,12 @@ def new_auction():
     auction_end_str = request.form.get('auction_end')
     auction_end = datetime.strptime(auction_end_str, '%Y-%m-%dT%H:%M')
     image_name = AUCTION.add_new_auction(title, description, starting_price, auction_end)
+    authtoken = request.cookies.get("auth_token")
+    if(authtoken is None):
+        return make_response("Please Login", 403)
+    user = getUserByAuthToken(authtoken)
+    AuctionPosts().insertAuction(user['_id'],title,description,image_name,float(starting_price),auction_end,'none')
+
     if upload:
         file_data = upload.read()
 
@@ -75,6 +57,7 @@ def new_auction():
 
         with open(file_path, 'wb') as file:
             file.write(file_data)
+            file.close()
     return resp
 
 @app.route("/profile")
@@ -94,33 +77,31 @@ def allHistory():
                                'item_title': item['item_title'],
                                'item_description': item['item_description'],
                                'highest_bid': item['highest_bid'],
-                               'auction_end': item['auction_end']
+                               'auction_end': timeLeft(item['auction_end'])
                                })
     print(auctionHistory)
     resp = make_response(jsonify(auctionHistory))
     resp.mimetype = 'application/json'
     resp.headers['X-Content-Type-Options'] = 'nosniff'
-    # print(resp.data)
     return resp
+
 
 @app.route("/register", methods=['POST'])
 def handleRegister():
     # print(request.form, file=sys.stderr)
     username = request.form.get('username_reg')
     password = request.form.get('password_reg')
-    return register(ACCOUNT, username, password)
+    return auction_register(username, password)
 
 
 @app.route("/login", methods=['POST'])
 def handleLogin():
-    # print("handle login")
     username = request.form.get('username_login')
     password = request.form.get('password_login')
-    return login(ACCOUNT, TOKEN, username, password)
+    return auction_login(username, password)
 
 @app.route('/authenticate',methods=['GET'])
 def authenticate():
-    tokenDb = Token()
     accounts = AuctionUsers()
     token = request.cookies.get('auth_token') 
     if token != None:   
@@ -128,7 +109,7 @@ def authenticate():
     else:    
         hashedToken = None
         token = ''
-    user = tokenDb.find_one_record({'tokenHash':hashedToken})
+    user = accounts.findUserByToken(hashedToken)
     if user == None:
         user = ''
     else:
@@ -204,15 +185,20 @@ def getAllAuctions(sock):
 #     t = Thread(target=handleAllAuctionsSocket)
 #     startSig =  sock.receive()
     
-    
-@socket.route('/getAllAuctions/<path:path>')
-def getAllAuctionsCat(sock, path):
-    auctions = AuctionPosts()
-    startSig =  sock.receive()
+
+@socket.route('/ws')
+def socket_reponse(ws):
     while True:
         sleep(1)
-        data = auctions.getAuctionsByCategoryAsList(path)
-        sock.send(data)
+        auctions = AuctionPosts().getAllAuctionsAsList()
+        updatedTimes = []
+        for auction in auctions:
+            updatedTimes.append({
+                "auctionId": auction["_id"],
+                "timeLeft": timeLeft(auction['endTime'])
+            })
+        ws.send(json.dumps(
+            {"messageType": 'timerUpdate', 'updatedTimes': updatedTimes}))
     
 
 if __name__ == "__main__":
