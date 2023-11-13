@@ -48,11 +48,34 @@ def index():
 
     return resp
 
+@app.route("/post_auction", methods=['POST'])
+def new_auction():
+    resp = make_response(send_from_directory('public/html', 'index.html'))
+    # add headers
+    resp.headers['X-Content-Type-Options'] = 'nosniff'
+    title = request.form.get('title')
+    description = request.form.get('description')
+    upload = request.files['upload']
+    starting_price = request.form.get('starting_price')
+    auction_end = request.form.get('auction_end')
+    image_name = AUCTION.add_new_auction(title, description, starting_price, auction_end)
+    file_path = "/root/auction_images/" + str(image_name)
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+    upload.save(file_path)
+
+    # Print or do something with the form data
+    print('Title:', title)
+    print('Description:', description)
+    print('Upload:', upload)  # This would be the filename or file data if enctype is multipart/form-data
+    print('Starting Price:', starting_price)
+    print('Auction End:', auction_end)
+    return resp
+
 @app.route("/profile")
 def handleProfile():
-    resp = make_response(send_from_directory('public/html', 'created_auctions.html'))
+    resp = make_response(send_from_directory('public/html', 'post_new_auction.html'))
     resp.headers['X-Content-Type-Options'] = 'nosniff'
-
     return resp
 
 @app.route("/post-history")
@@ -61,37 +84,18 @@ def allHistory():
     auctionHistory = []
     # auth_token = request.cookies.get('auth_token')
     for item in auctions:
-        # print(item)
+        print(item)
         auctionHistory.append({'_id': item['_id'],
-                               'item_name': item['item_name'],
-                               'category': item['category'],
+                               'item_title': item['item_title'],
+                               'item_description': item['item_description'],
                                'highest_bid': item['highest_bid'],
-                               'image_name': item['image_name']
+                               'auction_end': item['auction_end']
                                })
+    print(auctionHistory)
     resp = make_response(jsonify(auctionHistory))
     resp.mimetype = 'application/json'
     resp.headers['X-Content-Type-Options'] = 'nosniff'
-    print(resp.data)
-    return resp
-
-@app.route("/post-history/<category>")
-def historyHandler(category):
-    # AUCTION.delete_all()
-    # print(category)
-    auctions = AUCTION.get_auction_category(category)
-    auctionHistory = []
-    # auth_token = request.cookies.get('auth_token')
-    for item in auctions:
-        # print(item)
-        auctionHistory.append({'_id': item['_id'],
-                               'item_name': item['item_name'],
-                               'category': item['category'],
-                               'highest_bid': item['highest_bid'],
-                               'image_name': item['image_name']
-                               })
-    resp = make_response(jsonify(auctionHistory))
-    resp.mimetype = 'application/json'
-    resp.headers['X-Content-Type-Options'] = 'nosniff'
+    # print(resp.data)
     return resp
 
 @app.route("/register", methods=['POST'])
@@ -122,7 +126,7 @@ def getPage(path):
 @socket.route('/getAllAuctions')
 def getAllAuctions(sock):
     auctions = AuctionPosts()
-    startSig =  sock.receive()
+    startSig = sock.receive()
     while True:
         sleep(1)
         data = auctions.getAllAuctionsAsList()
@@ -139,6 +143,6 @@ def getAllAuctionsCat(sock, path):
     
 
 if __name__ == "__main__":
-    start_list()
+    # start_list()
     app.run('0.0.0.0',8080)
     
