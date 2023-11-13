@@ -10,10 +10,10 @@ from util.register import register
 from util.authToken import *
 from util.database.users import AuctionUsers
 from werkzeug.utils import secure_filename
-
+from threading import *
 app = Flask(__name__)
 socket = Sock(app)
-
+sockets = []
 @app.route("/")
 def index():
     # AUCTION.add_new_auction("bentley","cars")
@@ -104,10 +104,18 @@ def handleLogin():
 def authenticate():
     tokenDb = Token()
     accounts = AuctionUsers()
-    token = request.cookies.get('auth_token')    
-    hashedToken = hashAuthToken(token)
+    token = request.cookies.get('auth_token') 
+    if token != None:   
+        hashedToken = hashAuthToken(token)
+    else:    
+        hashedToken = None
+        token = ''
     user = tokenDb.find_one_record({'tokenHash':hashedToken})
-    return make_response(jsonify({'user':user['_id'],'token':token}))
+    if user == None:
+        user = ''
+    else:
+        user = user['_id']
+    return make_response(jsonify({'user':user,'token':token}))
 
 @app.route("/<path:path>")
 def getPage(path):
@@ -119,14 +127,29 @@ def getPage(path):
     resp.headers['X-Content-Type-Options'] = 'nosniff'
     return resp
 
-@socket.route('/getAllAuctions')
-def getAllAuctions(sock):
+@socket.route('/userAuctions')
+def userAuctions(sock):
     auctions = AuctionPosts()
     startSig =  sock.receive()
     while True:
         sleep(1)
         data = auctions.getAllAuctionsAsList()
+        sock.send(str(data))
+
+@socket.route('/getAllAuctions')
+def getAllAuctions(sock):
+    auctions = AuctionPosts()
+     
+    while True:
+        sleep(1)
+        data = auctions.getAllAuctionsAsList()
         sock.send(data)
+
+# @socket.route('/userAuctions')
+# def userAuctions(sock):
+#     t = Thread(target=handleAllAuctionsSocket)
+#     startSig =  sock.receive()
+    
     
 @socket.route('/getAllAuctions/<path:path>')
 def getAllAuctionsChat(sock,path):
@@ -136,8 +159,15 @@ def getAllAuctionsChat(sock,path):
         sleep(1)
         data = auctions.getAuctionsByCategoryAsList(path)
         sock.send(data)
-    
 
+def handleAllAuctionsSocket():
+    auctions = AuctionPosts()
+    newSock = Sock(app=app)
+    sockets.append(newSock)  
+    while True:
+        sleep(1)
+        data = auctions.getAllAuctionsAsList()
+        newSock.send(jsonify(data))
 
 if __name__ == "__main__":
     

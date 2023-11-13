@@ -31,8 +31,14 @@ class AuctionPosts:
         return self.collection.find_one_record(record)
     
     def getAuctionsByCategory(self, catergory:str):
-        return self.collection.find_all_records({"category": catergory})
+        cursor =  self.collection.find_all_records({"category": catergory})
+        out = []
+        for ele in cursor:
+            out.append(ele)
+        return out
     
+    def getAuctionsByUser(self, user:str):
+        return self.collection.find_all_records({"username": user})
     def endAuction(self,auctionId):
         self.collection.update_record({'_id':auctionId},{"active": False})
         return

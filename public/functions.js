@@ -8,9 +8,6 @@ function welcome_user() {
 
 }
 
-function refresh_auctions(){
-
-}
 function updateAuctions(category) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function () {
