@@ -39,16 +39,15 @@ function chat2AuctionHTML(auctionJSON) {
     const highestBid = auctionJSON.highest_bid;
     const imageName = auctionJSON.imageUrl;
     const auction_id = String(auctionJSON._id);
-    const hoursRemaing = auctionJSON.endTime;
+    const hoursRemaing = auctionJSON.timeLeft;
     const description = auctionJSON.description;
     const username = auctionJSON.username;
     let auctionHTML = 
     "<div class='auction' id='auction_" + auction_id + "'>" +
         "<img src='public/image/auction_images/" + imageName + "' alt='item image'>" +
         "<h2>" + itemName + "</h2>" +
-        "<p>Current Owner " + username + "</p>" +
         "<p>Highest Bid: " + highestBid + "</p>" +
-        // "<p>Time Remaining:" + hoursRemaing+ "</p>" +
+        "<p>Time Remaining:" + hoursRemaing+ "</p>" +
         "<p>" + description + "</p>" +
         "<form action='/place_bid' method='post' enctype='application/x-www-form-urlencoded'>" +
             "<label>Place Bid:" +
