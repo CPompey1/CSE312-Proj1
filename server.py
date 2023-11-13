@@ -75,7 +75,7 @@ def handleProfile():
     resp.headers['X-Content-Type-Options'] = 'nosniff'
     return resp
 
-@app.route("/post-history", methods=['POST'])
+@app.route("/post-history")
 def allHistory():
     auctions = AUCTION.get_all_auctions()
     auctionHistory = []
