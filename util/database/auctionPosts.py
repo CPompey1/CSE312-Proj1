@@ -1,5 +1,6 @@
 from util.database.db import AuctionDb
 import datetime
+import html
 
 AUCTIONS ='auctionPosts'
 
@@ -12,13 +13,13 @@ class AuctionPosts:
         
         record = {
                   "_id": self.collection.get_count(), 
-                  "username":username,
-                  "title": title,
-                  "description":description,
-                  "imageUrl":imageUrl,
-                  "startingPrice":startingPrice,
+                  "username":html.escape(username),
+                  "title": html.escape(title),
+                  "description":html.escape(description),
+                  "imageUrl": imageUrl ,
+                  "startingPrice":float(startingPrice),
                   "endTime":endTime,
-                  "category":category,
+                  "category": html.escape(category),
                   "highestBid":startingPrice,
                   "bids": [],
                   "active": True

@@ -1,4 +1,5 @@
 from util.database.db import AuctionDb
+import html
 
 USERS = 'users'
 
@@ -8,7 +9,7 @@ class AuctionUsers:
 
     def insertUsers(self, username: str, passwordHash: bytes):
         record = {
-            '_id': username,
+            '_id': html.escape(username),
             'password': passwordHash,
             'token': b"",
             'auctionsWon': [],

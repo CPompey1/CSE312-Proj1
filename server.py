@@ -44,9 +44,12 @@ def new_auction():
     auction_end = datetime.strptime(auction_end_str, '%Y-%m-%dT%H:%M')
     image_name = AUCTION.add_new_auction(title, description, starting_price, auction_end)
     authtoken = request.cookies.get("auth_token")
+    print(authtoken)
     if(authtoken is None):
         return make_response("Please Login", 403)
     user = getUserByAuthToken(authtoken)
+    if(user is None):
+        return make_response("Please Login", 403)
     print(user,sys.stderr)
     AuctionPosts().insertAuction(user['_id'],title,description,image_name,float(starting_price),auction_end,'none')
 
@@ -181,11 +184,7 @@ def getAllAuctions(sock):
         sock.send(json.dumps(payload))
 
 
-# @socket.route('/userAuctions')
-# def userAuctions(sock):
-#     t = Thread(target=handleAllAuctionsSocket)
-#     startSig =  sock.receive()
-    
+
 
 @socket.route('/ws')
 def socket_reponse(ws):
