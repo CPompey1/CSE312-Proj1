@@ -15,29 +15,30 @@ app = Flask(__name__)
 socket = Sock(app)
 
 def start_list():
-    AUCTION.add_new_auction("bentley","cars")
-    AUCTION.update_highest_bid(1, "100")
-    AUCTION.add_item_image(1)
+    if AUCTION.find_auction(6) == None:
+        AUCTION.add_new_auction("bentley","cars")
+        AUCTION.update_highest_bid(1, "100")
+        AUCTION.add_item_image(1)
 
-    AUCTION.add_new_auction("skirt","clothes")
-    AUCTION.update_highest_bid(2, "200")
-    AUCTION.add_item_image(2)
+        AUCTION.add_new_auction("skirt","clothes")
+        AUCTION.update_highest_bid(2, "200")
+        AUCTION.add_item_image(2)
 
-    AUCTION.add_new_auction("tv","electronics")
-    AUCTION.update_highest_bid(3, "300")
-    AUCTION.add_item_image(3)
+        AUCTION.add_new_auction("tv","electronics")
+        AUCTION.update_highest_bid(3, "300")
+        AUCTION.add_item_image(3)
 
-    AUCTION.add_new_auction("lego","toys")
-    AUCTION.update_highest_bid(4, "400")
-    AUCTION.add_item_image(4)
+        AUCTION.add_new_auction("lego","toys")
+        AUCTION.update_highest_bid(4, "400")
+        AUCTION.add_item_image(4)
 
-    AUCTION.add_new_auction("baseball","sports")
-    AUCTION.update_highest_bid(5, "130")
-    AUCTION.add_item_image(5)
+        AUCTION.add_new_auction("baseball","sports")
+        AUCTION.update_highest_bid(5, "130")
+        AUCTION.add_item_image(5)
 
-    AUCTION.add_new_auction("necklace","jewelry")
-    AUCTION.update_highest_bid(6, "120")
-    AUCTION.add_item_image(6)
+        AUCTION.add_new_auction("necklace","jewelry")
+        AUCTION.update_highest_bid(6, "120")
+        AUCTION.add_item_image(6)
 
 @app.route("/")
 def index():
@@ -70,6 +71,7 @@ def allHistory():
     resp = make_response(jsonify(auctionHistory))
     resp.mimetype = 'application/json'
     resp.headers['X-Content-Type-Options'] = 'nosniff'
+    print(resp.data)
     return resp
 
 @app.route("/post-history/<category>")
@@ -137,6 +139,6 @@ def getAllAuctionsCat(sock, path):
     
 
 if __name__ == "__main__":
-    # start_list()
+    start_list()
     app.run('0.0.0.0',8080)
     
