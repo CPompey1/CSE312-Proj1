@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from markupsafe import escape
 import os,sys
 from flask import Flask,request,make_response, render_template,send_from_directory, send_from_directory, jsonify
@@ -57,7 +59,8 @@ def new_auction():
     description = request.form.get('description')
     upload = request.files['upload']
     starting_price = request.form.get('starting_price')
-    auction_end = request.form.get('auction_end')
+    auction_end_str = request.form.get('auction_end')
+    auction_end = datetime.strptime(auction_end_str, '%Y-%m-%dT%H:%M')
     image_name = AUCTION.add_new_auction(title, description, starting_price, auction_end)
     if upload:
         file_data = upload.read()
