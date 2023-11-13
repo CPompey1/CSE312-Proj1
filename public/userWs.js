@@ -61,7 +61,7 @@ function chat2AuctionHTML(auctionJSON) {
     const itemName = auctionJSON.title
     const category = auctionJSON.category;
     const highestBid = auctionJSON.highest_bid;
-    const imageName = auctionJSON.imageUrl;
+    const imageName = auctionJSON.imageUrl
     const auction_id = String(auctionJSON._id);
     const hoursRemaing = auctionJSON.timeLeft;
     const description = auctionJSON.description;

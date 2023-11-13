@@ -22,7 +22,7 @@ def auction_login(username:str, password:str):
     if check == True:
         authToken = createAuthToken(username,)
         response = htmlResponse(HTML_DIRECTORY, 'login.html', 200)
-        response.set_cookie("auth_token",authToken,3600,path='/')
+        response.set_cookie("auth_token",authToken,3600,path='/',httponly=True)
         return response
     else:
         return htmlResponse(HTML_DIRECTORY,'wrong_password.html',200)
