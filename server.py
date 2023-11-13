@@ -11,10 +11,37 @@ from util.authToken import *
 from util.database.users import AuctionUsers
 from werkzeug.utils import secure_filename
 from threading import *
+import json
 app = Flask(__name__)
 socket = Sock(app)
 sockets = []
 @app.route("/")
+
+# def start_list():
+#     if AUCTION.find_auction(6) == None:
+#         AUCTION.add_new_auction("bentley","cars")
+#         AUCTION.update_highest_bid(1, "100")
+#         AUCTION.add_item_image(1)
+
+#         AUCTION.add_new_auction("skirt","clothes")
+#         AUCTION.update_highest_bid(2, "200")
+#         AUCTION.add_item_image(2)
+
+#         AUCTION.add_new_auction("tv","electronics")
+#         AUCTION.update_highest_bid(3, "300")
+#         AUCTION.add_item_image(3)
+
+#         AUCTION.add_new_auction("lego","toys")
+#         AUCTION.update_highest_bid(4, "400")
+#         AUCTION.add_item_image(4)
+
+#         AUCTION.add_new_auction("baseball","sports")
+#         AUCTION.update_highest_bid(5, "130")
+#         AUCTION.add_item_image(5)
+
+#         AUCTION.add_new_auction("necklace","jewelry")
+#         AUCTION.update_highest_bid(6, "120")
+#         AUCTION.add_item_image(6)
 def index():
     # AUCTION.add_new_auction("bentley","cars")
     # AUCTION.update_highest_bid(1, "100")
@@ -133,17 +160,18 @@ def userAuctions(sock):
     startSig =  sock.receive()
     while True:
         sleep(1)
-        data = auctions.getAllAuctionsAsList()
-        sock.send(str(data))
+        data = auctions.getUserAuctions('cris')
+        sock.send(json.dumps(data))
 
 @socket.route('/getAllAuctions')
 def getAllAuctions(sock):
     auctions = AuctionPosts()
-     
+    startSig =  sock.receive()
     while True:
         sleep(1)
-        data = auctions.getAllAuctionsAsList()
-        sock.send(data)
+        data = auctions.getAllAuctions()
+        sock.send(json.dumps(data))
+
 
 # @socket.route('/userAuctions')
 # def userAuctions(sock):
@@ -170,6 +198,6 @@ def handleAllAuctionsSocket():
         newSock.send(jsonify(data))
 
 if __name__ == "__main__":
-    
+    # start_list()
     app.run('0.0.0.0',8080)
     
