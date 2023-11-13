@@ -15,7 +15,7 @@
     </div>
 
      <div class="user-list">
-        <form id="new_auction" action="/post_auction" method="post" enctype="multipart/form-data">
+        <form id="new_auction" action="/post_auction" method="post" enctype="multipart/form-data" onsubmit="redirectHome()">
             <label>Title:
             <input type="text" id="auction_title" name="title">
         </label>

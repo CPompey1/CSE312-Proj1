@@ -43,7 +43,7 @@ function chatAuctionHTML(auctionJSON) {
     const auction_id = String(auctionJSON._id);
 
     let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
-    // "<div><img src='public/image/auction_images/" + auction_id + "' alt='item image' class='my_image'/></div>" +
+    "<div><img src='public/image/auction_images/" + auction_id + ".jpg' alt='item image' class='my_image'/></div>" +
     "<div class='post-header'>" +
         "<b class='item-name'>" + itemTitle + "</b>" +
     "</div>" +

@@ -60,10 +60,8 @@ def new_auction():
     auction_end = request.form.get('auction_end')
     image_name = AUCTION.add_new_auction(title, description, starting_price, auction_end)
     if upload:
-        # Read the byte data from the file
         file_data = upload.read()
 
-        # Save the file
         file_path = "/root/auction_images/" + str(image_name) + ".jpg"
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
