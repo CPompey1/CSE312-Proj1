@@ -10,7 +10,7 @@ DATABASE = 'auctionDb'
 
 class AuctionDb:
     def __init__(self, collectionName):
-        self.client = MongoClient("mongodb://localhost:27017")
+        self.client = MongoClient('mongo')
         self.db = self.client[DATABASE]
         self.collection = self.db[collectionName]
         self.counter_id = collectionName+"CounterId"
@@ -36,10 +36,10 @@ class AuctionDb:
 
     def insert_record(self, record):
         try:
-            print(record)
+            # print(record)
             self.collection.insert_one(record)
         except:
-            print("error inserting record")
+            # print("error inserting record")
             return
         return
 
@@ -113,8 +113,12 @@ class Auction(AuctionDb):
     def get_auction_category(self, category):
         return self.collection.find({'category': category})
 
-    def delete_all(self):
-        return self.collection.delete_many({})
+    def delete(self):
+        return self.collection.delete_one({'_id': 7})
+
+    def find_auction(self, index):
+        auction = self.collection.find_one({'_id': index})
+        return auction
 
 
 class Account(AuctionDb):
