@@ -1,0 +1,78 @@
+<html>
+<head>
+    <title>Packet Sniffers Auction House</title>
+    <link rel="stylesheet" type="text/css" href="public/style.css"/>
+    <link rel="icon" type="image/x-icon" href="/image/favicon.ico"/>
+    <script src="public/functions.js"></script>
+    <script type="text/javascript" src="functions.js"></script>
+    <script type="text/javascript" src="auctionsWs.js"></script>
+</head>
+
+<body onload="welcome_user();
+              authenticate();"></body>
+<!-- <body onload="authenticate();"></body> -->
+<button id="toggleButton" onclick="toggleSidebar();">
+    <img src="public/image/dropdown_button.png" alt="Toggle Sidebar">
+</button>
+<div id="sidebar">
+    <p onclick="redirectCreateAuction()">Post an Auction</p>
+    <p onclick="redirectHome()">Shop</p>
+    <p onclick="redirectAuctionsWon()">My Auctions</p>
+</div>
+<div class="title">
+    <h2>Auction House</h2>
+    <h3>Home Page</h3>
+</div>
+
+<div class="contents">
+        <div class="post">
+        <div class="post-form">
+            <hr>
+            <div id="post-auctions">
+
+        </div>
+        </div>
+    </div>
+
+    <div class="user-list">
+        Register:
+        <form action="/register" method="post" enctype="application/x-www-form-urlencoded">
+            <label>Username:
+                <input id="reg-form-username" type="text" name="username_reg"/>
+            </label>
+            <br/>
+            <label>Password:&nbsp;
+                <input id="reg-form-pass" type="password" name="password_reg">
+            </label>
+            <input type="submit" value="Post">
+        </form>
+
+        Login:
+        <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
+            <label>Username:
+                <input id="login-form-username" type="text" name="username_login"/>
+            </label>
+            <br/>
+            <label>Password:&nbsp;
+                <input id="login-form-pass" type="password" name="password_login">
+            </label>
+            <input type="submit" value="Post">
+        </form>
+    </div>
+
+    <div id = 'created_auctions' class="auction-container"> 
+            
+    
+    </div>
+
+    <div id = 'won_auctions' class="auction-container">
+
+
+    </div>
+
+</div>
+
+<script src="public/functions.js"></script>
+<script src="public/category.js"></script>
+</body>
+</html>

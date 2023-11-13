@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <title>Packet Sniffers Auction House</title>
+        <link rel="stylesheet" type="text/css" href="../style.css"/>
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+    </head>
+
+    <body onload="welcome_to_profile();">
+    <button id="toggleButton" onclick="toggleSidebar();">
+    <img src="public/image/dropdown_button.png" alt="Toggle Sidebar">
+    </button>
+    <div id="sidebar">
+        <p onclick="redirectCreateAuction()">Post an Auction</p>
+        <p onclick="redirectHome()">Shop</p>
+        <p onclick="redirectAuctionsWon()">My Auctions</p>
+    </div>
+    <div class="title">
+        <h2>Auction House</h2>
+    </div>
+
+     <div class="user-list">
+        <form id="new_auction" action="/post_auction" method="post" enctype="multipart/form-data" onsubmit="redirectHome()">
+            <label>Title:
+            <input type="text" id="auction_title" name="title">
+        </label>
+        <br>
+        <label>Description:
+            <input type="text" id="auction_description" name="description">
+        </label>
+        <br>
+        <label for="form-file">Image: </label>
+        <input id="form-file" type="file" name="upload">
+        <br/>
+        <label>Starting Price:
+            <input type="text" id="starting_price" name="starting_price">
+        </label>
+        <br>
+        <label>Auction End:
+        <input type="datetime-local" id="auction_end" name="auction_end">
+        </label>
+        <br>
+        <input type="submit" value="Post">
+        </form>
+
+    </div>
+</div>
+
+<script src="public/functions.js"></script>
+<script src="public/category.js"></script>
+</body>
+</html>
