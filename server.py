@@ -1,6 +1,10 @@
+from datetime import datetime
+
 from markupsafe import escape
 import os,sys
 from flask import Flask,request,make_response, render_template,send_from_directory, send_from_directory, jsonify
+# from sock import Sock
+
 from flask_sock import Sock
 from util.database.auctionPosts import AuctionPosts
 from time import sleep
@@ -16,7 +20,7 @@ from util.app.timeString import timeLeft
 
 app = Flask(__name__)
 socket = Sock(app)
-sockets = []
+
 @app.route("/")
 
 # def start_list():
@@ -45,35 +49,38 @@ sockets = []
 #         AUCTION.update_highest_bid(6, "120")
 #         AUCTION.add_item_image(6)
 def index():
-    # AUCTION.add_new_auction("bentley","cars")
-    # AUCTION.update_highest_bid(1, "100")
-    # AUCTION.add_item_image(1)
-    #
-    # AUCTION.add_new_auction("skirt","clothes")
-    # AUCTION.update_highest_bid(2, "200")
-    # AUCTION.add_item_image(2)
-    #
-    # AUCTION.add_new_auction("tv","electronics")
-    # AUCTION.update_highest_bid(3, "300")
-    # AUCTION.add_item_image(3)
-    #
-    # AUCTION.add_new_auction("lego","toys")
-    # AUCTION.update_highest_bid(4, "400")
-    # AUCTION.add_item_image(4)
-    #
-    # AUCTION.add_new_auction("baseball","sports")
-    # AUCTION.update_highest_bid(5, "130")
-    # AUCTION.add_item_image(5)
-    #
-    # AUCTION.add_new_auction("necklace","jewelry")
-    # AUCTION.update_highest_bid(6, "120")
-    # AUCTION.add_item_image(6)
-
-    print("in-dex")
     resp = make_response(send_from_directory('public/html', 'index.html'))
     # add headers
     resp.headers['X-Content-Type-Options'] = 'nosniff'
 
+    return resp
+
+@app.route("/post_auction", methods=['POST'])
+def new_auction():
+    resp = make_response(send_from_directory('public/html', 'post_successful.html'))
+    # add headers
+    resp.headers['X-Content-Type-Options'] = 'nosniff'
+    title = request.form.get('title')
+    description = request.form.get('description')
+    upload = request.files['upload']
+    starting_price = request.form.get('starting_price')
+    auction_end_str = request.form.get('auction_end')
+    auction_end = datetime.strptime(auction_end_str, '%Y-%m-%dT%H:%M')
+    image_name = AUCTION.add_new_auction(title, description, starting_price, auction_end)
+    if upload:
+        file_data = upload.read()
+
+        file_path = "/root/auction_images/" + str(image_name) + ".jpg"
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+        with open(file_path, 'wb') as file:
+            file.write(file_data)
+    return resp
+
+@app.route("/profile")
+def handleProfile():
+    resp = make_response(send_from_directory('public/html', 'post_new_auction.html'))
+    resp.headers['X-Content-Type-Options'] = 'nosniff'
     return resp
 
 @app.route("/post-history")
@@ -84,39 +91,21 @@ def allHistory():
     for item in auctions:
         print(item)
         auctionHistory.append({'_id': item['_id'],
-                               'item_name': item['item_name'],
-                               'category': item['category'],
+                               'item_title': item['item_title'],
+                               'item_description': item['item_description'],
                                'highest_bid': item['highest_bid'],
-                               'image_name': item['image_name']
+                               'auction_end': item['auction_end']
                                })
+    print(auctionHistory)
     resp = make_response(jsonify(auctionHistory))
     resp.mimetype = 'application/json'
     resp.headers['X-Content-Type-Options'] = 'nosniff'
-    return resp
-
-@app.route("/post-history/<category>")
-def historyHandler(category):
-    # AUCTION.delete_all()
-    print(category)
-    auctions = AUCTION.get_auction_category(category)
-    auctionHistory = []
-    # auth_token = request.cookies.get('auth_token')
-    for item in auctions:
-        print(item)
-        auctionHistory.append({'_id': item['_id'],
-                               'item_name': item['item_name'],
-                               'category': item['category'],
-                               'highest_bid': item['highest_bid'],
-                               'image_name': item['image_name']
-                               })
-    resp = make_response(jsonify(auctionHistory))
-    resp.mimetype = 'application/json'
-    resp.headers['X-Content-Type-Options'] = 'nosniff'
+    # print(resp.data)
     return resp
 
 @app.route("/register", methods=['POST'])
 def handleRegister():
-    print(request.form, file=sys.stderr)
+    # print(request.form, file=sys.stderr)
     username = request.form.get('username_reg')
     password = request.form.get('password_reg')
     return register(ACCOUNT, username, password)
@@ -124,7 +113,7 @@ def handleRegister():
 
 @app.route("/login", methods=['POST'])
 def handleLogin():
-    print("handle login")
+    # print("handle login")
     username = request.form.get('username_login')
     password = request.form.get('password_login')
     return login(ACCOUNT, TOKEN, username, password)
@@ -148,7 +137,7 @@ def authenticate():
 
 @app.route("/<path:path>")
 def getPage(path):
-    print(path)
+    # print(path)
     root = '.'
     if not path.__contains__("public"):
         root = 'public'
@@ -168,7 +157,7 @@ def userAuctions(sock):
 @socket.route('/getAllAuctions')
 def getAllAuctions(sock):
     auctions = AuctionPosts()
-    startSig =  sock.receive()
+    startSig = sock.receive()
     while True:
         sleep(1)
         data = auctions.getAllAuctions()
@@ -217,24 +206,16 @@ def getAllAuctions(sock):
     
     
 @socket.route('/getAllAuctions/<path:path>')
-def getAllAuctionsChat(sock,path):
+def getAllAuctionsCat(sock, path):
     auctions = AuctionPosts()
     startSig =  sock.receive()
     while True:
         sleep(1)
         data = auctions.getAuctionsByCategoryAsList(path)
         sock.send(data)
-
-def handleAllAuctionsSocket():
-    auctions = AuctionPosts()
-    newSock = Sock(app=app)
-    sockets.append(newSock)  
-    while True:
-        sleep(1)
-        data = auctions.getAllAuctionsAsList()
-        newSock.send(jsonify(data))
+    
 
 if __name__ == "__main__":
-    # start_list()
+    
     app.run('0.0.0.0',8080)
     

@@ -15,7 +15,7 @@ def login(account: Account, token: Token, username: str, password: str):
         return htmlResponse(HTML_DIRECTORY, 'account_not_found.html', 200)
 
     check_password = bcrypt.checkpw(password.encode(), userDocument['password'])
-    print("checking password")
+    # print("checking password")
     if check_password:
         resp = htmlResponse(HTML_DIRECTORY, 'login.html', 200)
         token,hashedToken = createAuthToken(token, username)

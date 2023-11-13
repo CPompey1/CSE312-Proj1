@@ -15,38 +15,22 @@
     <img src="public/image/dropdown_button.png" alt="Toggle Sidebar">
 </button>
 <div id="sidebar">
-    <p onclick="location.href = 'html/create_auction.html'">Post an Auction</p>
+    <p onclick="redirectCreateAuction()">Post an Auction</p>
     <p onclick="redirectHome()">Shop</p>
-    <p onclick="redirect()">Auctions Won</p>
-    <p onclick="location.href = 'html/userAuctions.html' ">My Listings</p>
+    <p onclick="redirectAuctionsWon()">My Auctions</p>
 </div>
-
 <div class="title">
     <h2>Auction House</h2>
     <h3>Home Page</h3>
 </div>
 
 <div class="contents">
-    <div class="post">
-        <div id="post-auctions">
-        </div>
+        <div class="post">
         <div class="post-form">
             <hr>
-            <div class="category-buttons">
-                <p> Please Select from the following Categories to Narrow Your Search</p>
-                <button class="category-button" onclick="location.href ='index.html'" >Home Page</button>
-                <button class="category-button" onclick="location.href ='car_parts.html'" >Car Parts</button>
-                <button class="category-button" onclick="location.href ='clothing.html'">Clothing</button>
-                <button class="category-button" onclick="location.href ='electronics.html'">Electronics</button>
-                <button class="category-button" onclick="location.href ='toys.html'">Toys</button>
-                <button class="category-button" onclick="location.href ='sports.html'">Sports</button>
-                <button class="category-button" onclick="location.href ='jewerly.html'">Jewerly</button>
-                <button class="category-button" onclick="location.href ='collectibles.html'">Collectibles</button>
-                <button class="category-button" onclick="location.href ='garden.html'">Garden</button>
-                <button class="category-button" onclick="location.href ='business_industrial.html'">Business/Industrial</button>
-                <button class="category-button" onclick="location.href ='other.html'">Other</button>
-                <button class="category-button" onclick="location.href ='most_popular.html'">Most Popular</button>
-            </div>
+            <div id="post-auctions">
+
+        </div>
         </div>
     </div>
 

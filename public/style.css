@@ -4,9 +4,9 @@ body {
     font-family: "Times New Roman", serif;
 }
 
-.my_image {
-    width: 200px;
-    height: auto;
+.image {
+    width: 48px;
+    height: 48px;
     display: block;
     margin: 0 auto;
 }
@@ -51,10 +51,11 @@ img.post {
     width: 70%;
     background-color: #7b3c22;
     padding: 20px;
+    overflow: scroll;
 }
 
 #post-messages {
-    height: 90%;
+    /*height: 90%;*/
     overflow: scroll;
 }
 
@@ -99,6 +100,30 @@ img.post {
     background-color: #8c3d21;
 }
 
+.auction-container {
+    clear:both;
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+}
+.auction {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+    width: 300px;
+    vertical-align: top;
+}
+.auction-image {
+    max-width: 100%;
+}
+
+.my_image {
+    width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
 
 #sidebar {
   width: 0;
