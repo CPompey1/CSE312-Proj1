@@ -45,11 +45,11 @@ class AuctionPosts:
         return
     
     def getAllAuctionsAsList(self):
-        cursor = self.collection.find_all_records({})
-        out = []
-        for ele in cursor:
-            out.append(ele)
-        return out
+        return self.collection.find_all_records({})
+        # out = []
+        # for ele in cursor:
+        #     out.append(ele)
+        # return out
     
     def getAuctionsByCategoryAsList(self, catergory:str):
         cursor = self.collection.find_all_records({"category": catergory})

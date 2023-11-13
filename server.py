@@ -12,6 +12,8 @@ from util.database.users import AuctionUsers
 from werkzeug.utils import secure_filename
 from threading import *
 import json
+from util.app.timeString import timeLeft
+
 app = Flask(__name__)
 socket = Sock(app)
 sockets = []
@@ -170,7 +172,42 @@ def getAllAuctions(sock):
     while True:
         sleep(1)
         data = auctions.getAllAuctions()
-        sock.send(json.dumps(data))
+        print(data,file=sys.stderr)
+        createdAuctions = []
+        wonAuctions = []
+        for i in data.get('Created Auctions'):
+           createdAuctions.append({
+               "_id": i['_id'],
+               "username": i['username'],
+               "title": i['title'],
+               "description": i['description'],
+               "imageUrl": i['imageUrl'],
+               "startingPrice": i['startingPrice'],
+               "category": i['category'],
+               #"highestBid": i['highestBid'],
+               "bids": i['bids'],
+               "active": i['active'],
+               "timeLeft": timeLeft(i['endTime'])
+           }) 
+        
+        for i in data.get('Won Auctions'):
+           wonAuctions.append({
+               "_id": i['_id'],
+               "username": i['username'],
+               "title": i['title'],
+               "description": i['description'],
+               "imageUrl": i['imageUrl'],
+               "startingPrice": i['startingPrice'],
+               "category": i['category'],
+               #"highestBid": i['highestBid'],
+               "bids": i['bids'],
+               "active": i['active'],
+               "timeLeft": timeLeft(i['endDate'])
+           }) 
+        payload = {"Created Auctions": createdAuctions,
+                   "Won Auctions": wonAuctions}
+        
+        sock.send(json.dumps(payload))
 
 
 # @socket.route('/userAuctions')

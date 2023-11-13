@@ -10,7 +10,7 @@ DATABASE = 'auctionDb'
 
 class AuctionDb:
     def __init__(self, collectionName):
-        self.client = MongoClient("mongodb://localhost:27017")
+        self.client = MongoClient("mongo")
         self.db = self.client[DATABASE]
         self.collection = self.db[collectionName]
         self.counter_id = collectionName+"CounterId"
