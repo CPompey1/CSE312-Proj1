@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Form Example</title>
+    <style>
+        /* Style for the popup container initially hidden */
+        {#.popup-container {#}
+        {#    display: none;#}
+        {#    position: fixed;#}
+        {#    top: 50%;#}
+        {#    left: 50%;#}
+        {#    transform: translate(-50%, -50%);#}
+        {#    background-color: #f9f9f9;#}
+        {#    padding: 20px;#}
+        {#    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);#}
+        {#    z-index: 1;#}
+        {#}#}
+        {##}
+        {#/* Style for the overlay/background */#}
+        {#.overlay {#}
+        {#    display: none;#}
+        {#    position: fixed;#}
+        {#    top: 0;#}
+        {#    left: 0;#}
+        {#    width: 100%;#}
+        {#    height: 100%;#}
+        {#    background-color: rgba(0, 0, 0, 0.5);#}
+        {#    z-index: 0;#}
+        {#}#}
+    </style>
+</head>
+<body>
+
+    <button onclick="openPopup()">Open Popup</button>
+
+    <!-- Popup Form -->
+    <div id="popupContainer" class="popup-container">
+        <form id="myForm">
+            <!-- Your form content goes here -->
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+            <br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+            <br>
+            <input type="button" value="Submit" onclick="sendPostRequest()">
+            <input type="button" value="Close" onclick="closePopup()">
+        </form>
+    </div>
+
+    <!-- Overlay/Background -->
+    <div id="overlay" class="overlay" onclick="closePopup()"></div>
+
+    <script>
+        function openPopup() {
+            document.getElementById("popupContainer").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function closePopup() {
+            document.getElementById("popupContainer").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+
+        function sendPostRequest() {
+            // Get form data
+            var formData = new FormData(document.getElementById("myForm"));
+
+            // Perform your POST request here
+            fetch('your_server_endpoint', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the server
+                console.log(data);
+                // Optionally, close the popup after a successful request
+                closePopup();
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+</body>
+</html>

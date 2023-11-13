@@ -5,7 +5,7 @@
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
 
-    <body onload="welcome_user();">
+    <body onload="welcome_to_profile();">
     <button id="homeButton" onclick="redirectHome();">
         <img src="public/image/home_button.png">
     </button>
@@ -14,97 +14,45 @@
         <h2>Auction House</h2>
     </div>
 
-    <div class="contents1">
+    <div class="contents">
 
-        <div class="post-form">
-            <hr>
-            <div class="category-buttons">
-                <button class="category-button" >Car Parts</button>
-                <button class="category-button" >Clothing</button>
-                <button class="category-button" >Electronics</button>
-                <button class="category-button" >Toys</button>
-                <button class="category-button" >Sports</button>
-                <button class="category-button" >Jewerly</button>
-                <button class="category-button" >Collectibles</button>
-                <button class="category-button" >Garden</button>
-                <button class="category-button" >Business/Industrial</button>
-                <button class="category-button" >Other</button>
-                <button class="category-button" >Most Popular</button>
-            </div>
-        </div>
-
-        <div id = 'created_auctions' class="auction-container">
-            <div class="auction">
-                <img class="auction-image" src="auction_image1.jpg" alt="Auction Image 1">
-                <h2>Auction Item Name 1</h2>
-                <p>Category: Category Name 1</p>
-                <p>Highest Bid: $100</p>
-                <p>Time Left: 2 days 12 hours</p>
-                <button>Place Bid</button>
-            </div>
-
-            <div class="auction">
-                <img class="auction-image" src="auction_image2.jpg" alt="Auction Image 2">
-                <h2>Auction Item Name 2</h2>
-                <p>Category: Category Name 2</p>
-                <p>Highest Bid: $150</p>
-                <p>Time Left: 3 days 8 hours</p>
-                <button>Place Bid</button>
-            </div>
-            <div class="auction">
-                <img class="auction-image" src="auction_image2.jpg" alt="Auction Image 2">
-                <h2>Auction Item Name 2</h2>
-                <p>Category: Category Name 2</p>
-                <p>Highest Bid: $150</p>
-                <p>Time Left: 3 days 8 hours</p>
-                <button>Place Bid</button>
-            </div>
-
-
-        </div>
-
-        <div id = 'created_auctions' class="auction-container">
-            <div class="auction">
-                <img class="auction-image" src="auction_image1.jpg" alt="Auction Image 1">
-                <h2>Auction Item Name 1</h2>
-                <p>Category: Category Name 1</p>
-                <p>Highest Bid: $100</p>
-                <p>Time Left: 2 days 12 hours</p>
-                <button>Place Bid</button>
-            </div>
-
-            <div class="auction">
-                <img class="auction-image" src="auction_image2.jpg" alt="Auction Image 2">
-                <h2>Auction Item Name 2</h2>
-                <p>Category: Category Name 2</p>
-                <p>Highest Bid: $150</p>
-                <p>Time Left: 3 days 8 hours</p>
-                <button>Place Bid</button>
-            </div>
-            <div class="auction">
-                <img class="auction-image" src="auction_image2.jpg" alt="Auction Image 2">
-                <h2>Auction Item Name 2</h2>
-                <p>Category: Category Name 2</p>
-                <p>Highest Bid: $150</p>
-                <p>Time Left: 3 days 8 hours</p>
-                <button>Place Bid</button>
-            </div>
-
-
-        </div>
-
-
-
-
+    <div class="user-list">
+    <button onclick="openPopup()">Add New Auction</button>
+    <div id="popupContainer" class="popup-container" >
+        <form id="newAuctionForm" action="/post_auction" method="post" enctype="application/x-www-form-urlencoded">
+            <label>Title:
+            <input type="text" id="auction_title" name="title">
+            </label>
+            <br>
+            <label>Description:
+            <input type="text" id="auction_title" name="title">
+            </label>
+            <br>
+            <form action="/post_auction_image" id="image-form" method="post" enctype="multipart/form-data">
+            <br/>
+            <label for="form-file">Image: </label>
+            <input id="form-file" type="file" name="upload">
+            <br/>
+            </form>
+            <label>Starting Price:
+            <input type="text" id="auction_title" name="title">
+            </label>
+            <br>
+            <label>Auction End:
+            <input type="text" id="auction_title" name="title">
+            </label>
+            <br>
+            <input type="submit" value="Post">
+        </form>
     </div>
 
-
+    <!-- Overlay/Background -->
+    <div id="overlay" class="overlay" onclick="closePopup()"></div>
 
     </div>
+</div>
 
-
-    <script src="public/functions.js"></script>
-    <script src="public/category.js"></script>
-
-    </body>
+<script src="public/functions.js"></script>
+<script src="public/category.js"></script>
+</body>
 </html>

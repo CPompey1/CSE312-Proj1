@@ -5,7 +5,14 @@ function welcome_user() {
     welcomeUserInterval = setInterval(function () {
         updateAuctions("");
     }, 2000);
+}
 
+function welcome_to_profile(){
+
+}
+
+function stopGetHistoryInterval() {
+    clearInterval(welcomeUserInterval);
 }
 
 function updateAuctions(category) {
@@ -14,6 +21,7 @@ function updateAuctions(category) {
         if (this.readyState === 4 && this.status === 200) {
             clearAuctions();
             const auctions = JSON.parse(this.response);
+            console.log(this.response)
             for (const auction of auctions) {
                 addAuctiontoPage(auction);
             }
@@ -61,8 +69,38 @@ function clearAuctions() {
     chatMessages.innerHTML = "";
 }
 function redirectProfile() {
+stopGetHistoryInterval(); // Stop the interval before navigating
 window.location.href = 'http://localhost:8080/profile';
 }
 function redirectHome() {
 window.location.href = 'http://localhost:8080/';
+}
+
+function openPopup() {
+    document.getElementById("popupContainer").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+}
+
+function closePopup() {
+    document.getElementById("popupContainer").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+}
+
+function sendPostRequest() {
+    // Get form data
+    var formData = new FormData(document.getElementById("myForm"));
+
+    // Perform your POST request here
+    fetch('your_server_endpoint', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the response from the server
+        console.log(data);
+        // Optionally, close the popup after a successful request
+        closePopup();
+    })
+    .catch(error => console.error('Error:', error));
 }
