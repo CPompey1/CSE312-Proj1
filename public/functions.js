@@ -17,6 +17,10 @@ function stopGetHistoryInterval() {
     clearInterval(welcomeUserInterval);
 }
 
+function stopGetHistoryInterval() {
+    clearInterval(welcomeUserInterval);
+}
+
 function updateAuctions(category) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function () {
@@ -102,9 +106,37 @@ function chatAuctionHTML(auctionJSON) {
     return auctionHTML;
 }
 
+function showBidDropdown(auctionid) {
+    stopGetHistoryInterval()
+    const bidDropdown = document.getElementById('bidDropdown_' + auctionid);
+    bidDropdown.style.display = 'block';
+}
+
+
 function addAuctiontoPage(auctionJSON) {
     const chatMessages = document.getElementById("post-auctions");
     chatMessages.innerHTML += chatAuctionHTML(auctionJSON);
+}
+
+//call this method when the user presses place bid
+function createBidRequest(jsonauction){
+    const bidAmount = document.getElementById('bidAmount_'+jsonauction.auction_id);
+    console.log("BID AMOUNT: ", bidAmount)
+    const current_id = jsonauction.auction_id;
+    const current_high_bid = jsonauction.highest_bid;
+
+    const request_data ={
+        auction_id : current_id,
+        highest_bid : current_high_bid,
+        bid_amount: bidAmount
+    };
+
+    //begin building request to send to place bid endpoint
+    const request = new XMLHttpRequest();
+    request.open('POST','/placebid', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.send(JSON.stringify(request_data))
+    redirectHome()
 }
 
 function clearAuctions() {

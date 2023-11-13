@@ -44,7 +44,7 @@ def new_auction():
     auction_end = datetime.strptime(auction_end_str, '%Y-%m-%dT%H:%M')
     image_name = AUCTION.add_new_auction(title, description, starting_price, auction_end)
     authtoken = request.cookies.get("auth_token")
-    print(authtoken)
+    print(authtoken, sys.stderr)
     if(authtoken is None):
         return make_response("Please Login", 403)
     user = getUserByAuthToken(authtoken)
@@ -199,6 +199,31 @@ def socket_reponse(ws):
             })
         ws.send(json.dumps(
             {"messageType": 'timerUpdate', 'updatedTimes': updatedTimes}))
+
+@socket.route('/placebid')
+def place_bid():
+    #get correct auction, update current bid and send the data 
+    #javascript to create http request with needed data then send that the endpoint
+    bid_data = request.json
+    auction_id = bid_data.get('auction_id')
+    bid_amount = bid_data.get('bid_amount')
+    highest_bid = bid_data.get('highest_bid')
+    auctionHistory = []
+    if bid_amount > highest_bid:
+        #only want to acutally update bid when bid > current bid, from the doc
+        #get all auctions, get correct auction by auction id, update bid, send along web socket
+        auctions = AuctionPosts()
+        current_auctions = auctions.getAllAuctionsAsList()
+        for auction in current_auctions:
+            if auction['_id'] == auction_id:
+                #found current auction assosiated with the bid
+                new_auction = auction
+                new_auction['highest_bid'] = bid_amount
+                auctionHistory.append(new_auction)
+    resp = make_response(jsonify(auctionHistory))
+    resp.mimetype = 'application/json'
+    resp.headers['X-Content-Type-Options'] = 'nosniff'
+    return resp
     
 
 if __name__ == "__main__":
