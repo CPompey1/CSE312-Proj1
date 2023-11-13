@@ -50,7 +50,7 @@ def index():
 
 @app.route("/post_auction", methods=['POST'])
 def new_auction():
-    resp = make_response(send_from_directory('public/html', 'index.html'))
+    resp = make_response(send_from_directory('public/html', 'post_successful.html'))
     # add headers
     resp.headers['X-Content-Type-Options'] = 'nosniff'
     title = request.form.get('title')
@@ -75,7 +75,7 @@ def handleProfile():
     resp.headers['X-Content-Type-Options'] = 'nosniff'
     return resp
 
-@app.route("/post-history")
+@app.route("/post-history", methods=['POST'])
 def allHistory():
     auctions = AUCTION.get_all_auctions()
     auctionHistory = []

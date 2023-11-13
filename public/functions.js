@@ -41,9 +41,10 @@ function chatAuctionHTML(auctionJSON) {
     const highestBid = auctionJSON.highest_bid;
     const auctionEnd = auctionJSON.auction_end;
     const auction_id = String(auctionJSON._id);
+    const image_name = auction_id + ".jpg"
 
     let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
-    "<div><img src='public/image/auction_images/" + auction_id + ".jpg' alt='item image' class='my_image'/></div>" +
+    "<div><img src='public/image/auction_images/" + image_name + "' alt='item image' class='my_image'/></div>" +
     "<div class='post-header'>" +
         "<b class='item-name'>" + itemTitle + "</b>" +
     "</div>" +
