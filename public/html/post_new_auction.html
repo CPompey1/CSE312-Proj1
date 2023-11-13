@@ -6,16 +6,20 @@
     </head>
 
     <body onload="welcome_to_profile();">
-    <button id="homeButton" onclick="redirectHome();">
-        <img src="public/image/home_button.png">
+    <button id="toggleButton" onclick="toggleSidebar();">
+    <img src="public/image/dropdown_button.png" alt="Toggle Sidebar">
     </button>
-
+    <div id="sidebar">
+        <p onclick="redirectCreateAuction()">Post an Auction</p>
+        <p onclick="redirectHome()">Shop</p>
+        <p onclick="redirectAuctionsWon()">My Auctions</p>
+    </div>
     <div class="title">
         <h2>Auction House</h2>
     </div>
 
      <div class="user-list">
-        <form id="new_auction" action="/post_auction" method="post" enctype="multipart/form-data">
+        <form id="new_auction" action="/post_auction" method="post" enctype="multipart/form-data" onsubmit="redirectHome()">
             <label>Title:
             <input type="text" id="auction_title" name="title">
         </label>
@@ -32,7 +36,7 @@
         </label>
         <br>
         <label>Auction End:
-            <input type="text" id="auction_end" name="auction_end">
+        <input type="datetime-local" id="auction_end" name="auction_end">
         </label>
         <br>
         <input type="submit" value="Post">

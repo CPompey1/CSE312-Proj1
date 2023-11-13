@@ -15,7 +15,7 @@ def login(account: Account, token: Token, username: str, password: str):
         return htmlResponse(HTML_DIRECTORY, 'account_not_found.html', 200)
 
     check_password = bcrypt.checkpw(password.encode(), userDocument['password'])
-    print("checking password")
+    # print("checking password")
     if check_password:
         resp = htmlResponse(HTML_DIRECTORY, 'login.html', 200)
         resp.set_cookie('auth_token', createAuthToken(token, username), httponly=True, max_age=3600)
