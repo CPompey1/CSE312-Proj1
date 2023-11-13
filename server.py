@@ -59,17 +59,16 @@ def new_auction():
     starting_price = request.form.get('starting_price')
     auction_end = request.form.get('auction_end')
     image_name = AUCTION.add_new_auction(title, description, starting_price, auction_end)
-    file_path = "/root/auction_images/" + str(image_name)
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    if upload:
+        # Read the byte data from the file
+        file_data = upload.read()
 
-    upload.save(file_path)
+        # Save the file
+        file_path = "/root/auction_images/" + str(image_name) + ".jpg"
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
-    # Print or do something with the form data
-    print('Title:', title)
-    print('Description:', description)
-    print('Upload:', upload)  # This would be the filename or file data if enctype is multipart/form-data
-    print('Starting Price:', starting_price)
-    print('Auction End:', auction_end)
+        with open(file_path, 'wb') as file:
+            file.write(file_data)
     return resp
 
 @app.route("/profile")
