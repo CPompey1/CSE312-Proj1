@@ -25,7 +25,7 @@ function updateAuctions(category) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            clearAuctions();
+            // clearAuctions();
             const auctions = JSON.parse(this.response);
             console.log(this.response)
             for (const auction of auctions) {

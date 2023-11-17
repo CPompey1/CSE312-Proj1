@@ -201,19 +201,19 @@ def getAllAuctions(sock):
 
 
 
-@socket.route('/ws')
-def socket_reponse(ws):
-    while True:
-        sleep(1)
-        auctions = AuctionPosts().getAllAuctionsAsList()
-        updatedTimes = []
-        for auction in auctions:
-            updatedTimes.append({
-                "auctionId": auction["_id"],
-                "timeLeft": timeLeft(auction['endTime'])
-            })
-        ws.send(json.dumps(
-            {"messageType": 'timerUpdate', 'updatedTimes': updatedTimes}))
+# @socket.route('/ws')
+# def socket_reponse(ws):
+#     while True:
+#         sleep(1)
+#         auctions = AuctionPosts().getAllAuctionsAsList()
+#         updatedTimes = []
+#         for auction in auctions:
+#             updatedTimes.append({
+#                 "auctionId": auction["_id"],
+#                 "timeLeft": timeLeft(auction['endTime'])
+#             })
+#         ws.send(json.dumps(
+#             {"messageType": 'timerUpdate', 'updatedTimes': updatedTimes}))
 
 @socket.route('/placebid')
 def place_bid():
