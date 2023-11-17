@@ -147,12 +147,55 @@ def getPage(path):
 
 @socket.route('/userAuctions')
 def userAuctions(sock):
+    # auctions = AuctionPosts()
+    # startSig =  sock.receive()
+    # while True:
+    #     sleep(1)
+    #     data = auctions.getUserAuctions('cris')
+    #     sock.send(json.dumps(data))
     auctions = AuctionPosts()
-    startSig =  sock.receive()
+    startSig = sock.receive()
+    user = json.loads(startSig)
+    print(startSig)
     while True:
         sleep(1)
-        data = auctions.getUserAuctions('cris')
-        sock.send(json.dumps(data))
+        data = auctions.getUserAuctions(user['user'])
+        print(data,file=sys.stderr)
+        createdAuctions = []
+        wonAuctions = []
+        for i in data.get('Created Auctions'):
+           createdAuctions.append({
+               "_id": i['_id'],
+               "username": i['username'],
+               "title": i['title'],
+               "description": i['description'],
+               "imageUrl": str(i['imageUrl'])+'.jpg',
+               "startingPrice": i['startingPrice'],
+               "category": i['category'],
+               #"highestBid": i['highestBid'],
+               "bids": i['bids'],
+               "active": i['active'],
+               "timeLeft": timeLeft(i['endTime'])
+           }) 
+        
+        for i in data.get('Won Auctions'):
+           wonAuctions.append({
+               "_id": i['_id'],
+               "username": i['username'],
+               "title": i['title'],
+               "description": i['description'],
+               "imageUrl": str(i['imageUrl'])+'.jpg',
+               "startingPrice": i['startingPrice'],
+               "category": i['category'],
+               #"highestBid": i['highestBid'],
+               "bids": i['bids'],
+               "active": i['active'],
+               "timeLeft": timeLeft(i['endDate'])
+           }) 
+        payload = {"Created Auctions": createdAuctions,
+                   "Won Auctions": wonAuctions}
+        
+        sock.send(json.dumps(payload))
 
 @socket.route('/getAllAuctions')
 def getAllAuctions(sock):

@@ -180,11 +180,12 @@ function toggleSidebar() {
 
   function authenticate(){  
     const request = new XMLHttpRequest();
+    var data;
     console.log('Entering authenicate')
-    request.open('GET', '/authenticate');
+    request.open('GET', '/authenticate',false);
     request.onload = () => {
     if (request.status === 200) {
-        const data = JSON.parse(request.responseText);
+        data = JSON.parse(request.responseText);
         console.log(data);
         return data;
     } else {
@@ -192,6 +193,5 @@ function toggleSidebar() {
     }
     };
     request.send();
-    
-    
+    return JSON.stringify(data);
     }
