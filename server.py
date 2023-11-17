@@ -42,7 +42,6 @@ def new_auction():
     starting_price = request.form.get('starting_price')
     auction_end_str = request.form.get('auction_end')
     auction_end = datetime.strptime(auction_end_str, '%Y-%m-%dT%H:%M')
-    image_name = AUCTION.add_new_auction(title, description, starting_price, auction_end)
     authtoken = request.cookies.get("auth_token")
     print(authtoken, sys.stderr)
     if(authtoken is None):
@@ -50,13 +49,14 @@ def new_auction():
     user = getUserByAuthToken(authtoken)
     if(user is None):
         return make_response("Please Login", 403)
+    image_name = AUCTION.add_new_auction(title, description, starting_price, auction_end)
     print(user,sys.stderr)
     AuctionPosts().insertAuction(user['_id'],title,description,image_name,float(starting_price),auction_end,'none')
 
     if upload:
         file_data = upload.read()
 
-        file_path = "/root/auction_images/" + str(image_name) + ".jpg"
+        file_path = f"{os.getcwd()}/public/image/auction_images/" + str(image_name) + ".jpg"
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
         with open(file_path, 'wb') as file:
@@ -119,6 +119,21 @@ def authenticate():
     else:
         user = user['_id']
     return make_response(jsonify({'user':user,'token':token}))
+
+def authenticateLoc():
+    accounts = AuctionUsers()
+    token = request.cookies.get('auth_token') 
+    if token != None:   
+        hashedToken = hashAuthToken(token)
+    else:    
+        hashedToken = None
+        token = ''
+    user = accounts.findUserByToken(hashedToken)
+    if user == None:
+        user = ''
+    else:
+        user = user['_id']
+    return {'user':user,'token':token}
 
 @app.route("/<path:path>")
 def getPage(path):

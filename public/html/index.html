@@ -17,7 +17,7 @@
 <div id="sidebar">
     <p onclick="redirectCreateAuction()">Post an Auction</p>
     <p onclick="redirectHome()">Shop</p>
-    <p onclick="redirectAuctionsWon()">My Auctions</p>
+    <p onclick="window.location.href='/public/html/userAuctions.html';">My Auctions</p>
 </div>
 <div class="title">
     <h2>Auction House</h2>
@@ -25,12 +25,19 @@
 </div>
 
 <div class="contents">
-        <div class="post">
+    <div class="post">
         <div class="post-form">
             <hr>
-            <div id="post-auctions">
-
-        </div>
+            <div id = 'created_auctions' class="auction-container"> 
+            
+    
+            </div>
+        
+            <div id = 'won_auctions' class="auction-container">
+        
+        
+            </div>
+        
         </div>
     </div>
 
@@ -58,16 +65,6 @@
             </label>
             <input type="submit" value="Post">
         </form>
-    </div>
-
-    <div id = 'created_auctions' class="auction-container"> 
-            
-    
-    </div>
-
-    <div id = 'won_auctions' class="auction-container">
-
-
     </div>
 
 </div>
