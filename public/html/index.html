@@ -65,6 +65,22 @@
             </label>
             <input type="submit" value="Post">
         </form>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+        Place Bid:
+        <form action="/post-bid" method="post" enctype="application/x-www-form-urlencoded">
+            <label>Auction ID:
+                <input id="auction-form-id" type="text" pattern="[0-9]*" name="auction_id" title="Numerical Values Only"/>
+            </label>
+            <br/>
+            <label>Bid:&nbsp;
+                <input id="user-posted-bid" type="text" pattern="[0-9]*" name="posted-bid" title="You can't pay in letters">
+            </label>
+            <input type="submit" value="Post">
+        </form>
     </div>
 
 </div>

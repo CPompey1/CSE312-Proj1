@@ -20,15 +20,15 @@ class AuctionPosts:
                   "startingPrice":float(startingPrice),
                   "endTime":endTime,
                   "category": html.escape(category),
-                  "highestBid":startingPrice,
-                  "bids": [],
+                  "highestBidder": '',
+                  "highestBid": 0.0,
                   "active": True
                   }
         
         self.collection.insert_record(record)
         return
     
-    def getAuctionByValue(self, field:str, value):
+    def getAuctionByValue(self, field: str, value):
         record = {field: value}
         return self.collection.find_one_record(record)
     
@@ -86,11 +86,13 @@ class AuctionPosts:
         for ele in cursor:
             out["Won Auctions"].append(ele)
         return out
+
     def updateBids(self, auctionId: int, username:str, userBid: float):
-       auctionBids = self.getAuctionByValue("_id",auctionId)
-       if(auctionBids is not None):
-           bids = auctionBids["bids"]
-           bids[username] = userBid
-           self.collection.update_record({"_id": auctionId},{"bids": bids})
+       print("here")
+
+       auction = self.getAuctionByValue("_id",auctionId)
+       print(auction["title"])
+       if(auction is not None):
+           self.collection.update_record({"_id": auctionId}, {"highestBidder": username})
+           self.collection.update_record({"_id": auctionId}, {"highestBid": userBid})
            return
-       
