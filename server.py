@@ -172,8 +172,8 @@ def getAllAuctions(sock):
                "imageUrl": str(i['imageUrl'])+'.jpg',
                "startingPrice": i['startingPrice'],
                "category": i['category'],
-               #"highestBid": i['highestBid'],
-               "bids": i['bids'],
+               "highestBid": i['highestBid'],
+            #    "bids": i['bids'],
                "active": i['active'],
                "timeLeft": timeLeft(i['endTime'])
            }) 
@@ -187,8 +187,8 @@ def getAllAuctions(sock):
                "imageUrl": str(i['imageUrl'])+'.jpg',
                "startingPrice": i['startingPrice'],
                "category": i['category'],
-               #"highestBid": i['highestBid'],
-               "bids": i['bids'],
+               "highestBid": i['highestBid'],
+            #    "bids": i['bids'],
                "active": i['active'],
                "timeLeft": timeLeft(i['endDate'])
            }) 
@@ -204,21 +204,26 @@ def place_bid():
     auction_id = request.form.get('auction_id')
     posted_bid = request.form.get('posted-bid')
     find_auction = AUCTIONPOSTS.getAuctionByValue('_id', int(auction_id))
-    print(find_auction)
-    print(float(posted_bid))
-    print(float(find_auction['highestBid']))
-    print(float(find_auction['startingPrice']))
-    if float(posted_bid) > float(find_auction['highestBid']) and float(posted_bid) >= float(find_auction['startingPrice']):
+    
+    if find_auction != None:
+        print(find_auction)
+        print(float(posted_bid))
+        # print(float(find_auction['highestBid']))
+        print(float(find_auction['startingPrice'])) 
+        
+        if float(posted_bid) > float(find_auction['highestBid']) and float(posted_bid) >= float(find_auction['startingPrice']):
 
-        token = request.cookies.get('auth_token')
-        hashed_token = hashAuthToken(token)
-        username = USERS.findUserByToken(hashed_token)
+            token = request.cookies.get('auth_token')
+            hashed_token = hashAuthToken(token)
+            username = USERS.findUserByToken(hashed_token)
 
-        # replaces highest bid on auction with the user and their bid
-        AUCTIONPOSTS.updateBids(int(auction_id), username['_id'], float(posted_bid))
+            # replaces highest bid on auction with the user and their bid
+            AUCTIONPOSTS.updateBids(int(auction_id), username['_id'], float(posted_bid))
 
-        # adds the bid to the user's dictionary of bids
-        USERS.postUsersBid(username['_id'], int(auction_id), float(posted_bid))
+            # adds the bid to the user's dictionary of bids
+            # USERS.postUsersBid(username['_id'], int(auction_id), float(posted_bid))
+    else:
+        print("Auction does not exist")
 
     resp = make_response(send_from_directory('public/html', 'index.html'))
     # add headers
