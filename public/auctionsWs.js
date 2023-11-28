@@ -42,7 +42,7 @@ function chat2AuctionHTML(auctionJSON) {
     const username = auctionJSON.username;
     let auctionHTML = 
     "<div class='auction' id='auction_" + auction_id + "'>" +
-        "<img src='../image/auction_images/" + imageName + "' alt='item image'>" +
+        "<img class='image' src='../image/auction_images/" + imageName + "' alt='item image'>" +
         "<h2>" + itemName + "</h2>" +
         "<p>Highest Bid: " + highestBid + "</p>" +
         "<p>Auction id: " + auction_id + "</p>" +

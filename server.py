@@ -171,8 +171,8 @@ def userAuctions(sock):
                "imageUrl": str(i['imageUrl'])+'.jpg',
                "startingPrice": i['startingPrice'],
                "category": i['category'],
-               #"highestBid": i['highestBid'],
-               "bids": i['bids'],
+               "highestBid": i['highestBid'],
+            #    "bids": i['bids'],
                "active": i['active'],
                "timeLeft": timeLeft(i['endTime'])
            }) 
@@ -186,8 +186,8 @@ def userAuctions(sock):
                "imageUrl": str(i['imageUrl'])+'.jpg',
                "startingPrice": i['startingPrice'],
                "category": i['category'],
-               #"highestBid": i['highestBid'],
-               "bids": i['bids'],
+               "highestBid": i['highestBid'],
+            #    "bids": i['bids'],
                "active": i['active'],
                "timeLeft": timeLeft(i['endDate'])
            }) 
@@ -207,7 +207,8 @@ def getAllAuctions(sock):
         createdAuctions = []
         wonAuctions = []
         for i in data.get('Created Auctions'):
-           createdAuctions.append({
+           if isAuctionOver(i['endTime']):
+               wonAuctions.append({
                "_id": i['_id'],
                "username": i['username'],
                "title": i['title'],
@@ -218,23 +219,24 @@ def getAllAuctions(sock):
                "highestBid": i['highestBid'],
             #    "bids": i['bids'],
                "active": i['active'],
-               "timeLeft": timeLeft(i['endTime'])
            }) 
-        
-        for i in data.get('Won Auctions'):
-           wonAuctions.append({
-               "_id": i['_id'],
-               "username": i['username'],
-               "title": i['title'],
-               "description": i['description'],
-               "imageUrl": str(i['imageUrl'])+'.jpg',
-               "startingPrice": i['startingPrice'],
-               "category": i['category'],
-               "highestBid": i['highestBid'],
-            #    "bids": i['bids'],
-               "active": i['active'],
-               "timeLeft": timeLeft(i['endDate'])
-           }) 
+               
+           else:
+                createdAuctions.append({
+                    "_id": i['_id'],
+                    "username": i['username'],
+                    "title": i['title'],
+                    "description": i['description'],
+                    "imageUrl": str(i['imageUrl'])+'.jpg',
+                    "startingPrice": i['startingPrice'],
+                    "category": i['category'],
+                    "highestBid": i['highestBid'],
+                    #    "bids": i['bids'],
+                    "active": i['active'],
+                    "timeLeft": timeLeft(i['endTime'])
+                }) 
+           
+           
         payload = {"Created Auctions": createdAuctions,
                    "Won Auctions": wonAuctions}
         
