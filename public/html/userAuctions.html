@@ -2,13 +2,20 @@
     <head>
         <title>Packet Sniffers Auction House</title>
         <link rel="stylesheet" type="text/css" href="../style.css"/>
-        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <link rel="icon" type="image/x-icon" href="../image/favicon.ico">
         <script type="text/javascript" src="../functions.js"></script>
         <script type="text/javascript" src="../userWs.js"></script>
     </head>
 
     <body onload="welcome_user();">
-
+        <button id="toggleButton" onclick="toggleSidebar();">
+            <img src="../image/dropdown_button.png" alt="Toggle Sidebar">
+        </button>
+        <div id="sidebar">
+            <p onclick="redirectCreateAuction()">Post an Auction</p>
+            <p onclick="redirectHome()">Shop</p>
+            <p onclick="window.location.href='/public/html/userAuctions.html';">My Auctions</p>
+        </div>
 
     <div class="title">
         <h2>Auction House</h2>
@@ -18,19 +25,6 @@
         
         <div class="post-form">
             <hr>
-            <div class="category-buttons">
-                <button class="category-button" >Car Parts</button>
-                <button class="category-button" >Clothing</button>
-                <button class="category-button" >Electronics</button>
-                <button class="category-button" >Toys</button>
-                <button class="category-button" >Sports</button>
-                <button class="category-button" >Jewerly</button>
-                <button class="category-button" >Collectibles</button>
-                <button class="category-button" >Garden</button>
-                <button class="category-button" >Business/Industrial</button>
-                <button class="category-button" >Other</button>
-                <button class="category-button" >Most Popular</button>
-            </div>
         </div>
         <div id = 'created_auctions' class="auction-container"> 
             

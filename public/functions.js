@@ -25,7 +25,7 @@ function updateAuctions(category) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            clearAuctions();
+            // clearAuctions();
             const auctions = JSON.parse(this.response);
             console.log(this.response)
             for (const auction of auctions) {
@@ -52,23 +52,6 @@ function chatAuctionHTML(auctionJSON) {
     const isOver = auctionJSON.isOver;
     const winner = auctionJSON.winner;
 
-//     let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
-//     "<div><img src='public/image/auction_images/" + image_name + "' alt='item image' class='my_image'/></div>" +
-//     "<div class='post-header'>" +
-//         "<b class='item-name'>" + itemTitle + "</b>" +
-//     "</div>" +
-// //need image
-//     "<div class='post-content'>" +
-//          "<div class='post-category'><b>Description: " + itemDescription + "</b></div>" +
-//         "<div class='post-cur-bid'><b>Highest Bid: " + highestBid + "</b></div>" +
-//          "<div class='post-end-time'><b>Auction End: " + auctionEnd + "</b></div>" +
-
-//     "</div>" +
-//     "<div class='post-actions'>" +
-//         "<button class='place-bid' id ='place_bid_" + auction_id + "'>Place Bid</button>" +
-//         "</div>" +
-//     "</div>";
-
     let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
         "<div><img src='public/image/auction_images/" + image_name + "' alt='item image' class='my_image'/></div>" +
         "<div class='post-header'>" +
@@ -79,30 +62,9 @@ function chatAuctionHTML(auctionJSON) {
         "<b><div class='post-cur-bid'> " + highestBid + "</div></b>" +
         "</div>" +
         "<div class='countdown' id='countdown_" + auction_id + "'>Time left: <span id='timer_" + auction_id + "'>" + timeLeft + "</span></div>" +
-        "<div class='post-actions'>" +
-            "<button class='place-bid' id ='place_bid_" + auction_id + "'>Place Bid</button>" +
-            "</div>" +
+
         "</div>";
 
-    // let auctionHTMLOver = "<div class='auction' id='auction_" + auction_id + "'>" +
-    //     "<div><img src='public/image/auction_images/" + imageName + "' alt='item image' class='my_image'/></div>" +
-    //     "<div class='post-header'>" +
-    //     "<b class='item-name'>Item: " + itemName + "</b>" +
-    //     "</div>" +
-    //     "<div class='post-content'>" +
-    //     "<b><div class='post-category'>Description: " + description + "</div></b>" +
-    //     "</div>" +
-    //     "<div class='winner-info'>" +
-    //     "<b>Winner: " + winner[0] + "</b><br>" +
-    //     "<span>Winning Bid: " + winner[1] + "</span>" +
-    //     "</div>" +
-    //     "</div>";
-
-    // if (isOver === true) {
-    //     return auctionHTMLOver;
-    // } else {
-    //     return auctionHTML;
-    // }
     return auctionHTML;
 }
 
@@ -119,25 +81,25 @@ function addAuctiontoPage(auctionJSON) {
 }
 
 //call this method when the user presses place bid
-function createBidRequest(jsonauction){
-    const bidAmount = document.getElementById('bidAmount_'+jsonauction.auction_id);
-    console.log("BID AMOUNT: ", bidAmount)
-    const current_id = jsonauction.auction_id;
-    const current_high_bid = jsonauction.highest_bid;
-
-    const request_data ={
-        auction_id : current_id,
-        highest_bid : current_high_bid,
-        bid_amount: bidAmount
-    };
-
-    //begin building request to send to place bid endpoint
-    const request = new XMLHttpRequest();
-    request.open('POST','/placebid', true);
-    request.setRequestHeader('Content-Type', 'application/json');
-    request.send(JSON.stringify(request_data))
-    redirectHome()
-}
+// function createBidRequest(jsonauction){
+//     const bidAmount = document.getElementById('bidAmount_'+jsonauction.auction_id);
+//     console.log("BID AMOUNT: ", bidAmount)
+//     const current_id = jsonauction.auction_id;
+//     const current_high_bid = jsonauction.highest_bid;
+//
+//     const request_data ={
+//         auction_id : current_id,
+//         highest_bid : current_high_bid,
+//         bid_amount: bidAmount
+//     };
+//
+//     //begin building request to send to place bid endpoint
+//     const request = new XMLHttpRequest();
+//     request.open('POST','/placebid', true);
+//     request.setRequestHeader('Content-Type', 'application/json');
+//     request.send(JSON.stringify(request_data))
+//     redirectHome()
+// }
 
 function clearAuctions() {
     const chatMessages = document.getElementById("post-auctions");
@@ -180,11 +142,12 @@ function toggleSidebar() {
 
   function authenticate(){  
     const request = new XMLHttpRequest();
+    var data;
     console.log('Entering authenicate')
-    request.open('GET', '/authenticate');
+    request.open('GET', '/authenticate',false);
     request.onload = () => {
     if (request.status === 200) {
-        const data = JSON.parse(request.responseText);
+        data = JSON.parse(request.responseText);
         console.log(data);
         return data;
     } else {
@@ -192,6 +155,5 @@ function toggleSidebar() {
     }
     };
     request.send();
-    
-    
+    return JSON.stringify(data);
     }

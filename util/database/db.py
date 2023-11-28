@@ -10,7 +10,9 @@ DATABASE = 'auctionDb'
 
 class AuctionDb:
     def __init__(self, collectionName):
-        self.client = MongoClient('mongo')
+        # self.client = MongoClient('mongo')
+        # self.client = MongoClient('localhost:27017')
+        self.client = MongoClient("mongodb://localhost:27017")
         self.db = self.client[DATABASE]
         self.collection = self.db[collectionName]
         self.counter_id = collectionName+"CounterId"
@@ -70,6 +72,8 @@ class AuctionDb:
     def findDocument(self, collection, key: str, value):
         return collection.find_one({key: value})
 
+    def update_one_record(self, collection, record_to_update, update):
+        return collection.update_one(record_to_update, update)
 
 
 class Auction(AuctionDb):

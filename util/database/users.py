@@ -13,7 +13,8 @@ class AuctionUsers:
             'password': passwordHash,
             'token': b"",
             'auctionsWon': [],
-            'auctionPosts': []
+            'auctionPosts': [],
+            'bids': {},
         }
         try:
             self.collection.insert_record(record)
@@ -47,3 +48,14 @@ class AuctionUsers:
     
     def findUserByToken(self, tokenHash:bytes):
         return self.collection.find_one_record({"token": tokenHash})
+
+    def postUsersBid(self, username, auction_id: int, bid: float):
+        user = self.collection.find_one_record({'_id': username})
+        bids = user.get("bids", {})
+        bids[auction_id] = bid
+        self.collection.update_one_record(self.collection,{'_id': username},{'bids': bids})
+        return
+        # auctionBids = self.getAuctionByValue("_id", auctionId)
+        # if (auctionBids is not None):
+        #     bids = auctionBids["bids"]
+        #     bids[username] = userBid

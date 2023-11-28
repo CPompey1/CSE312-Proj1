@@ -7,9 +7,8 @@
     <script type="text/javascript" src="functions.js"></script>
     <script type="text/javascript" src="auctionsWs.js"></script>
 </head>
-
-<body onload="welcome_user();
-              authenticate();"></body>
+<!-- welcome_user(); -->
+<body onload="authenticate();"></body>
 <!-- <body onload="authenticate();"></body> -->
 <button id="toggleButton" onclick="toggleSidebar();">
     <img src="public/image/dropdown_button.png" alt="Toggle Sidebar">
@@ -17,7 +16,7 @@
 <div id="sidebar">
     <p onclick="redirectCreateAuction()">Post an Auction</p>
     <p onclick="redirectHome()">Shop</p>
-    <p onclick="redirectAuctionsWon()">My Auctions</p>
+    <p onclick="window.location.href='/public/html/userAuctions.html';">My Auctions</p>
 </div>
 <div class="title">
     <h2>Auction House</h2>
@@ -25,12 +24,19 @@
 </div>
 
 <div class="contents">
-        <div class="post">
+    <div class="post">
         <div class="post-form">
             <hr>
-            <div id="post-auctions">
-
-        </div>
+            <div id = 'created_auctions' class="auction-container"> 
+            
+    
+            </div>
+        
+            <div id = 'won_auctions' class="auction-container">
+        
+        
+            </div>
+        
         </div>
     </div>
 
@@ -58,16 +64,22 @@
             </label>
             <input type="submit" value="Post">
         </form>
-    </div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
 
-    <div id = 'created_auctions' class="auction-container"> 
-            
-    
-    </div>
-
-    <div id = 'won_auctions' class="auction-container">
-
-
+        Place Bid:
+        <form action="/post-bid" method="post" enctype="application/x-www-form-urlencoded">
+            <label>Auction ID:
+                <input id="auction-form-id" type="text" pattern="[0-9]*" name="auction_id" title="Numerical Values Only"/>
+            </label>
+            <br/>
+            <label>Bid:&nbsp;
+                <input id="user-posted-bid" type="text" pattern="[0-9]*" name="posted-bid" title="You can't pay in letters">
+            </label>
+            <input type="submit" value="Post">
+        </form>
     </div>
 
 </div>

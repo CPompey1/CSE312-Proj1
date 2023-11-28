@@ -5,8 +5,8 @@ body {
 }
 
 .image {
-    width: 48px;
-    height: 48px;
+    width: 100px;
+    height: 100px;
     display: block;
     margin: 0 auto;
 }
@@ -111,8 +111,11 @@ img.post {
     padding: 10px;
     margin: 10px;
     display: inline-block;
+    /* height: 60px; */
     width: 300px;
     vertical-align: top;
+    /* display: block; */
+
 }
 .auction-image {
     max-width: 100%;

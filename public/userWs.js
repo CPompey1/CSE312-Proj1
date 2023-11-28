@@ -1,9 +1,9 @@
 // var ws = new WebSocket("ws://" + location.host + "/getAllAuctions");
 var userWs = new WebSocket("ws://" + location.host + "/userAuctions");
-var socket = new WebSocket('ws://' + window.location.host + '/ws');
+// var socket = new WebSocket('ws://' + window.location.host + '/ws');
 
 
-socket.onmessage = function (message) {
+userWs.onmessage = function (message) {
     const data = JSON.parse(message.data);
     if (data.messageType === 'timerUpdate') {
         data.updatedTimes.forEach(element => {
@@ -60,7 +60,7 @@ userWs.onmessage = function (evt) {
 function chat2AuctionHTML(auctionJSON) {
     const itemName = auctionJSON.title
     const category = auctionJSON.category;
-    const highestBid = auctionJSON.highest_bid;
+    const highestBid = auctionJSON.highestBid;
     const imageName = auctionJSON.imageUrl
     const auction_id = String(auctionJSON._id);
     const hoursRemaing = auctionJSON.timeLeft;
@@ -68,17 +68,12 @@ function chat2AuctionHTML(auctionJSON) {
     const username = auctionJSON.username;
     let auctionHTML = 
     "<div class='auction' id='auction_" + auction_id + "'>" +
-        "<img src='public/image/auction_images/" + imageName + "' alt='item image'>" +
+        "<img class='image' src='../image/auction_images/" + imageName + "' alt='item image'>" +
         "<h2>" + itemName + "</h2>" +
         "<p>Highest Bid: " + highestBid + "</p>" +
+        "<p>Auction id: " + auction_id + "</p>" +
         "<p>Time Remaining:" + hoursRemaing+ "</p>" +
         "<p>" + description + "</p>" +
-        "<form action='/place_bid' method='post' enctype='application/x-www-form-urlencoded'>" +
-            "<label>Place Bid:" +
-            "<input id='bid' type='text' name='bid'/>"+
-            "<input type='submit' value='Place Bid'>" +
-            "</label>" +
-        "</form>" +
     "</div>";
 
     // <div class="auction">
