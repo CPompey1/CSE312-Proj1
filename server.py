@@ -17,11 +17,13 @@ import json
 from util.app.timeString import timeLeft, isAuctionOver
 from util.forms import auction_login,auction_register
 
+def getClientAddress():
+    return request.headers['X-Forwarded-For'] 
+
 app = Flask(__name__)
 socket = Sock(app)
 
 @app.route("/")
-
 def index():
     resp = make_response(send_from_directory('public/html', 'index.html'))
     # add headers
