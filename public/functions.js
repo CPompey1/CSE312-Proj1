@@ -9,10 +9,6 @@ function welcome_user() {
     }, 2000);
 }
 
-function welcome_to_profile(){
-
-}
-
 function stopGetHistoryInterval() {
     clearInterval(welcomeUserInterval);
 }
@@ -53,7 +49,7 @@ function chatAuctionHTML(auctionJSON) {
     const winner = auctionJSON.winner;
 
     let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
-        "<div><img src='public/image/auction_images/" + image_name + "' alt='item image' class='my_image'/></div>" +
+        "<div><img src='public/image/auction_images/" + image_name + "' alt='item image' class='image'/></div>" +
         "<div class='post-header'>" +
         "<b class='item-name'>Item: " + itemTitle + "</b>" +
         "</div>" +

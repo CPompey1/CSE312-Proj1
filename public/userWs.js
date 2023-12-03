@@ -24,11 +24,11 @@ function updateTimer(auctionId, timeLeft) {
 
 
 userWs.onopen = function(){
-    
+
     userJson = authenticate();
     userWs.send(userJson);
     //Call get user auctions endpoint (gets created and won auctionn)
-    
+
 }
 userWs.onmessage = function (evt) {
     var received_msg = evt.data;
@@ -38,16 +38,16 @@ userWs.onmessage = function (evt) {
     var html2Add = '';
     //Update Created Auctions
     var doc = document.getElementById('created_auctions');
-    doc.innerHTML = "<h1>Created Auctions</h1>";
+    doc.innerHTML = "<h1>Live Auctions</h1>";
     for (const auction of json_obj["Created Auctions"])
         html2Add += chat2AuctionHTML(auction);
         doc.innerHTML += html2Add;
-    
+
 
     //add to won auctions and created auctions
     var doc = document.getElementById('won_auctions');
     var html2Add = '';
-    doc.innerHTML = "<h1>Won Auctions</h1>";
+    doc.innerHTML = "<h1>Closed Auctions</h1>";
     for (const auction of json_obj["Won Auctions"])
         html2Add += chat2AuctionHTML(auction);
         doc.innerHTML += html2Add;
@@ -66,28 +66,15 @@ function chat2AuctionHTML(auctionJSON) {
     const hoursRemaing = auctionJSON.timeLeft;
     const description = auctionJSON.description;
     const username = auctionJSON.username;
-    let auctionHTML = 
+    let auctionHTML =
     "<div class='auction' id='auction_" + auction_id + "'>" +
         "<img class='image' src='../image/auction_images/" + imageName + "' alt='item image'>" +
         "<h2>" + itemName + "</h2>" +
+        "<p>" + description + "</p>" +
         "<p>Highest Bid: " + highestBid + "</p>" +
         "<p>Auction id: " + auction_id + "</p>" +
-        "<p>Time Remaining:" + hoursRemaing+ "</p>" +
-        "<p>" + description + "</p>" +
+        "<p>Time Left:" + hoursRemaing+ "</p>" +
     "</div>";
-
-    // <div class="auction">
-    //             <img class="auction-image" src="auction_image1.jpg" alt="Auction Image 1">
-    //             <h2>Auction Item Name 1</h2>
-    //             <p>Highest Bid: $100</p>
-    //             <p>Time Left: 2 days 12 hours</p>
-    //             <form action="/place_bid" method="post" enctype="application/x-www-form-urlencoded">
-    //                 <label>Place Bid:
-    //                     <input id="bid" type="text" name="bid"/>
-    //                     <input type="submit" value="Place Bid">
-    //                 </label>
-    //             </form>
-    //         </div>
 
     return auctionHTML;
 }
