@@ -2,3 +2,4 @@ pymongo
 flask
 bcrypt
 flask_sock
+flask_limiter
