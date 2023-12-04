@@ -19,9 +19,19 @@ from util.forms import auction_login,auction_register
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import time
+from google_auth_oauthlib.flow import InstalledAppFlow
+from email.mime.text import MIMEText
+import base64
+from util.email import create_message, send_message, get_gmail_service 
+import secrets
+
+SCOPES = ['https://www.googleapis.com/auth/gmail.send']
 
 def getClientAddress():
-    return request.headers['X-Forwarded-For'] 
+    try:
+        return request.headers['X-Forwarded-For'] 
+    except:
+        return None
 
 app = Flask(__name__)
 socket = Sock(app)
@@ -37,12 +47,16 @@ limiter = Limiter(
 @app.errorhandler(429)
 def ratelimit_handler(error):
     ip = getClientAddress()
+    if ip is None:
+        return
     blockedIPs[ip] = time.time() 
     return "Too Many Requests", 429
 
 @app.before_request
 def checkBlocked():
     ip = getClientAddress()
+    if ip is None:
+        return
     if blockedIPs.get(ip) is not None:
         timeLeft = time.time() - blockedIPs[ip]
         if timeLeft > 30:
@@ -58,6 +72,39 @@ def index():
 
     return resp
 
+
+@app.route("/verification_status")
+def checkUserIsVerified():
+    authtoken = request.cookies.get("auth_token")
+    if(authtoken == None):
+        return make_response(jsonify({"verified": False}),200)
+     
+    user = USERS.findUserByToken(authtoken)
+
+    if user == None:
+        return make_response(jsonify({"verified": False}),200)
+    
+    return make_response(jsonify({"verified": user['verified']}),200)
+
+@app.route("/send_verification_email")
+def send_email():
+    #get email based on auth token
+    authtoken = request.cookies.get("auth_token")
+    user = USERS.findUserByToken(authtoken)
+    email = user['email']
+    sender = 'packetsniffers312@gmail.com'
+    subject = 'Please Verify Your Email'
+    verification_code = secrets.token_hex(10)
+    body = render_template('public/html/email.html', verification_code=verification_code)
+    
+    # Send the email
+    service = get_gmail_service()
+    send_message(service, sender_email, recipient_email, subject, body)
+
+    return 0
+
+
+    
 @app.route("/post_auction", methods=['POST'])
 def new_auction():
     resp = make_response(send_from_directory('public/html', 'post_successful.html'))
@@ -94,6 +141,7 @@ def new_auction():
 
 @app.route("/profile")
 def handleProfile():
+    
     resp = make_response(send_from_directory('public/html', 'post_new_auction.html'))
     resp.headers['X-Content-Type-Options'] = 'nosniff'
     return resp
@@ -132,36 +180,36 @@ def handleLogin():
     password = request.form.get('password_login')
     return auction_login(username, password)
 
-# @app.route('/authenticate',methods=['GET'])
-# def authenticate():
-#     accounts = AuctionUsers()
-#     token = request.cookies.get('auth_token') 
-#     if token != None:   
-#         hashedToken = hashAuthToken(token)
-#     else:    
-#         hashedToken = None
-#         token = ''
-#     user = accounts.findUserByToken(hashedToken)
-#     if user == None:
-#         user = ''
-#     else:
-#         user = user['_id']
-#     return make_response(jsonify({'user':user,'token':token}))
+@app.route('/authenticate',methods=['GET'])
+def authenticate():
+    accounts = AuctionUsers()
+    token = request.cookies.get('auth_token') 
+    if token != None:   
+        hashedToken = hashAuthToken(token)
+    else:    
+        hashedToken = None
+        token = ''
+    user = accounts.findUserByToken(hashedToken)
+    if user == None:
+        user = ''
+    else:
+        user = user['_id']
+    return make_response(jsonify({'user':user,'token':token}))
 
-# def authenticateLoc():
-#     accounts = AuctionUsers()
-#     token = request.cookies.get('auth_token') 
-#     if token != None:   
-#         hashedToken = hashAuthToken(token)
-#     else:    
-#         hashedToken = None
-#         token = ''
-#     user = accounts.findUserByToken(hashedToken)
-#     if user == None:
-#         user = ''
-#     else:
-#         user = user['_id']
-#     return {'user':user,'token':token}
+def authenticateLoc():
+    accounts = AuctionUsers()
+    token = request.cookies.get('auth_token') 
+    if token != None:   
+        hashedToken = hashAuthToken(token)
+    else:    
+        hashedToken = None
+        token = ''
+    user = accounts.findUserByToken(hashedToken)
+    if user == None:
+        user = ''
+    else:
+        user = user['_id']
+    return {'user':user,'token':token}
 
 @app.route("/<path:path>")
 def getPage(path):
