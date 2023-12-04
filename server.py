@@ -58,6 +58,20 @@ def index():
 
     return resp
 
+@app.route("/verification_status")
+def checkUserIsVerified():
+    authtoken = request.cookies.get("auth_token")
+    if(authtoken == None):
+        return make_response(jsonify({"verified": False}),200)
+     
+    user = USERS.findUserByToken(authtoken)
+
+    if user == None:
+        return make_response(jsonify({"verified": False}),200)
+    
+    return make_response(jsonify({"verified": user['verified']}),200)
+
+
 @app.route("/post_auction", methods=['POST'])
 def new_auction():
     resp = make_response(send_from_directory('public/html', 'post_successful.html'))
@@ -90,6 +104,7 @@ def new_auction():
             file.write(file_data)
             file.close()
     return resp
+
 
 
 @app.route("/profile")
@@ -133,36 +148,36 @@ def handleLogin():
     password = request.form.get('password_login')
     return auction_login(username, password)
 
-# @app.route('/authenticate',methods=['GET'])
-# def authenticate():
-#     accounts = AuctionUsers()
-#     token = request.cookies.get('auth_token') 
-#     if token != None:   
-#         hashedToken = hashAuthToken(token)
-#     else:    
-#         hashedToken = None
-#         token = ''
-#     user = accounts.findUserByToken(hashedToken)
-#     if user == None:
-#         user = ''
-#     else:
-#         user = user['_id']
-#     return make_response(jsonify({'user':user,'token':token}))
+@app.route('/authenticate',methods=['GET'])
+def authenticate():
+    accounts = AuctionUsers()
+    token = request.cookies.get('auth_token') 
+    if token != None:   
+        hashedToken = hashAuthToken(token)
+    else:    
+        hashedToken = None
+        token = ''
+    user = accounts.findUserByToken(hashedToken)
+    if user == None:
+        user = ''
+    else:
+        user = user['_id']
+    return make_response(jsonify({'user':user,'token':token}))
 
-# def authenticateLoc():
-#     accounts = AuctionUsers()
-#     token = request.cookies.get('auth_token') 
-#     if token != None:   
-#         hashedToken = hashAuthToken(token)
-#     else:    
-#         hashedToken = None
-#         token = ''
-#     user = accounts.findUserByToken(hashedToken)
-#     if user == None:
-#         user = ''
-#     else:
-#         user = user['_id']
-#     return {'user':user,'token':token}
+def authenticateLoc():
+    accounts = AuctionUsers()
+    token = request.cookies.get('auth_token') 
+    if token != None:   
+        hashedToken = hashAuthToken(token)
+    else:    
+        hashedToken = None
+        token = ''
+    user = accounts.findUserByToken(hashedToken)
+    if user == None:
+        user = ''
+    else:
+        user = user['_id']
+    return {'user':user,'token':token}
 
 @app.route("/<path:path>")
 def getPage(path):

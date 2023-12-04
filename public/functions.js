@@ -105,11 +105,11 @@ function clearAuctions() {
     chatMessages.innerHTML = "";
 }
 function redirectProfile() {
-stopGetHistoryInterval(); // Stop the interval before navigating
-window.location.href = 'http://localhost:8080/profile';
+    stopGetHistoryInterval(); // Stop the interval before navigating
+    window.location.href = 'http://sniffandbid.me/profile';
 }
 function redirectHome() {
-window.location.href = 'http://localhost:8080/';
+    window.location.href = 'http://sniffandbid.me/';
 }
 
 function toggleSidebar() {
@@ -125,21 +125,22 @@ function toggleSidebar() {
     }
   }
 
-  function redirectClosedAuctions() {
-    window.location.href = 'http://localhost:8080/closed_auctions';
-  }
-  function redirectAuctionsWon() {
-    window.location.href = 'http://localhost:8080/';
-  }
-  function redirectCreateAuction() {
-    window.location.href = 'http://localhost:8080/profile';
-  }
+function redirectClosedAuctions() {
+    window.location.href = 'http://sniffandbid.me/closed_auctions';
+}
+function redirectAuctionsWon() {
+    window.location.href = 'http://sniffandbid.me/';
+}
+function redirectCreateAuction() {
+    window.location.href = 'http://sniffandbid.me/profile';
+}
 
-    function redirectHome() {
-    window.location.href = 'http://localhost:8080/';
-    }
+function redirectHome() {
+    window.location.href = 'http://sniffandbid.me/';
+}
 
-  function authenticate(){  
+
+function authenticate(){  
     const request = new XMLHttpRequest();
     var data;
     // console.log('Entering authenicate')
@@ -147,7 +148,7 @@ function toggleSidebar() {
     request.onload = () => {
     if (request.status === 200) {
         data = JSON.parse(request.responseText);
-        // console.log(data);
+        console.log(data);
         return data;
     } else {
         console.error('Request failed.  Returned status of ' + request.status);

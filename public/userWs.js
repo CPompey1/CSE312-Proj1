@@ -1,5 +1,5 @@
 // var ws = new WebSocket("ws://" + location.host + "/getAllAuctions");
-var userWs = new WebSocket("ws://" + location.host + "/userAuctions");
+var userWs = new WebSocket("wss://" + location.host + "/userAuctions");
 // var socket = new WebSocket('ws://' + window.location.host + '/ws');
 
 

@@ -1,5 +1,5 @@
 
-var auctionWs = new WebSocket("ws://" + location.host + "/getAllAuctions");
+var auctionWs = new WebSocket("wss://" + location.host + "/getAllAuctions");
 
 auctionWs.onopen = function(){
     auctionWs.send("None");
