@@ -6,8 +6,8 @@ from util.database.users import AuctionUsers
 
 USERS2 = AuctionUsers()
 
-def auction_register(username:str, password:str):
-    if USERS2.insertUsers(username,bcrypt.hashpw(password.encode(),bcrypt.gensalt())) == True:
+def auction_register(username:str, password:str, email:str):
+    if USERS2.insertUsers(username,bcrypt.hashpw(password.encode(),bcrypt.gensalt()), email) == True:
         return htmlResponse(HTML_DIRECTORY,'register.html',200)
     else:
         return htmlResponse(HTML_DIRECTORY, 'account_already_exists.html', 200)

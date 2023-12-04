@@ -92,9 +92,10 @@ def allHistory():
 @app.route("/register", methods=['POST'])
 def handleRegister():
     # print(request.form, file=sys.stderr)
+    email = request.form.get('email_reg')
     username = request.form.get('username_reg')
     password = request.form.get('password_reg')
-    return auction_register(username, password)
+    return auction_register(username, password, email)
 
 
 @app.route("/login", methods=['POST'])
