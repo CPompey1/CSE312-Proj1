@@ -19,10 +19,6 @@ function updateTimer(auctionId, timeLeft) {
     }
 }
 
-
-
-
-
 userWs.onopen = function(){
 
     userJson = authenticate();

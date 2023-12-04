@@ -62,7 +62,6 @@ html, body {
 }
 
 .login_form {
-
     font-size: 14px;
     align-content: center;
     display: flex;
@@ -103,6 +102,12 @@ html, body {
     border-color: #f2e6ff;
     color: white;
     font-size: 13px;
+}
+
+.email-form {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
 }
 
 .shop-button {
