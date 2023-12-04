@@ -1,55 +1,41 @@
-<html>
-    <head>
-        <title>Packet Sniffers Auction House</title>
-        <link rel="stylesheet" type="text/css" href="../style.css"/>
-        <link rel="icon" type="image/x-icon" href="../image/favicon.ico">
-        <script type="text/javascript" src="../functions.js"></script>
-        <script type="text/javascript" src="../userWs.js"></script>
-    </head>
+<head>
+    <title>Packet Sniffers</title>
+    <link rel="stylesheet" type="text/css" href="../style.css"/>
+    <link rel="icon" type="image/x-icon" href="../image/favicon.ico">
+    <script type="text/javascript" src="../functions.js"></script>
+    <script type="text/javascript" src="../userWs.js"></script>
+</head>
 
-    <body onload="welcome_user();">
-        <button id="toggleButton" onclick="toggleSidebar();">
-            <img src="../image/dropdown_button.png" alt="Toggle Sidebar">
-        </button>
-        <div id="sidebar">
-            <p onclick="redirectCreateAuction()">Post an Auction</p>
-            <p onclick="redirectHome()">Shop</p>
-            <p onclick="window.location.href='/public/html/userAuctions.html';">My Auctions</p>
-        </div>
+<body onload="verified();"></body>
 
-    <div class="title">
-        <h2>Auction House</h2>
-    </div>
+<div id="sidebar">
+    <p onclick="redirectCreateAuction()">Post an Auction</p>
+    <p onclick="redirectHome()">Shop</p>
+    <p onclick="window.location.href='/public/html/userAuctions.html';">My Auctions</p>
+</div>
 
+<button id="toggleButton" onclick="toggleSidebar();">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+<div class="title">My Bid Listing</div>
+<div class="post">
     <div class="contents1">
-        
-        <div class="post-form">
-            <hr>
-        </div>
-        <div id = 'created_auctions' class="auction-container"> 
-            
-    
-        </div>
-    
-        <div id = 'won_auctions' class="auction-container">
-    
-    
-        </div>
-    
-        
-        
-        
-        
+        <div id = 'created_auctions' class="auction-container"></div>
+
+        <div id = 'won_auctions' class="auction-container"></div>
+
     </div>
-    
+</div>
 
-        
+<div class="user-list">
+    <div class="email-form" id="email_form">
+
     </div>
+</div>
 
+<script src="public/functions.js"></script>
 
-    <script src="public/functions.js"></script>
-    <script src="public/category.js"></script>
-    
-    </body>
 </html>
 

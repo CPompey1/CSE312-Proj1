@@ -1,32 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Birdie</title>
-    <style>
-        body {
-            background-color: #f0f0f0;
-            text-align: center;
-            font-family: Arial, sans-serif;
-        }
-
-        .success-message {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            font-size: 24px;
-        }
-    </style>
-    <link rel="icon" type="image/x-icon" href="/image/favicon.ico">
+    <title>Packet Sniffers</title>
+    <link rel="stylesheet" type="text/css" href="public/style.css"/>
+    <link rel="icon" type="image/x-icon" href="public/image/favicon.ico"/>
+    <script type="text/javascript" src="functions.js"></script>
+    <script type="text/javascript" src="auctionsWs.js"></script>
 </head>
-<body>
-    <div class="success-message">
-        Post successful and active!
-    </div>
-    <button id="profileButton" onclick="redirectHome();">Let's Shop</button>
 
-<script src="public/functions.js"></script>
+<div class="title">Post Successful and Active!</div>
+
+<body>
+<div class="button-container"><button class="shop-button" onclick="redirectHome()">Start Shopping</button></div>
+    <script>
+        function redirect() {
+        // Replace 'https://example.com' with the actual URL of the destination page
+        window.location.href = 'http://localhost:8080/';
+    }
+    </script>
 </body>
+
 </html>

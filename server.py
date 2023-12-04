@@ -86,6 +86,7 @@ def checkUserIsVerified():
     
     return make_response(jsonify({"verified": user['verified']}),200)
 
+
 @app.route("/send_verification_email")
 def send_email():
     #get email based on auth token
@@ -139,6 +140,7 @@ def new_auction():
     return resp
 
 
+
 @app.route("/profile")
 def handleProfile():
     
@@ -169,9 +171,10 @@ def allHistory():
 @app.route("/register", methods=['POST'])
 def handleRegister():
     # print(request.form, file=sys.stderr)
+    email = request.form.get('email_reg')
     username = request.form.get('username_reg')
     password = request.form.get('password_reg')
-    return auction_register(username, password)
+    return auction_register(username, password, email)
 
 
 @app.route("/login", methods=['POST'])
