@@ -9,13 +9,11 @@ function welcome_user() {
     }, 2000);
 }
 
-function welcome_to_profile(){
-
-}
 
 function stopGetHistoryInterval() {
     clearInterval(welcomeUserInterval);
 }
+
 
 function stopGetHistoryInterval() {
     clearInterval(welcomeUserInterval);
@@ -41,6 +39,29 @@ function updateAuctions(category) {
     request.send();
 }
 
+function verified() {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            const verified = JSON.parse(this.response);
+            const emailVerification = document.getElementById("email_form");
+            let verified_message = ""
+            if(verified === true){
+                verified_message = "Email Verified"
+            }
+            else{
+                verified_message = "Email Not Verified" +
+                "<div class='login_button'><input type='submit' value='Verify Email'></div>"
+            }
+            emailVerification.innerHTML += verified_message
+        }
+    };
+
+    request.open("GET", "/verification_status");
+
+    request.send();
+}
+
 function chatAuctionHTML(auctionJSON) {
     const itemTitle = auctionJSON.item_title
     const itemDescription = auctionJSON.item_description;
@@ -53,7 +74,7 @@ function chatAuctionHTML(auctionJSON) {
     const winner = auctionJSON.winner;
 
     let auctionHTML = "<div class='auction' id='auction_" + auction_id + "'>" +
-        "<div><img src='public/image/auction_images/" + image_name + "' alt='item image' class='my_image'/></div>" +
+        "<div><img src='public/image/auction_images/" + image_name + "' alt='item image' class='image'/></div>" +
         "<div class='post-header'>" +
         "<b class='item-name'>Item: " + itemTitle + "</b>" +
         "</div>" +
@@ -74,43 +95,21 @@ function showBidDropdown(auctionid) {
     bidDropdown.style.display = 'block';
 }
 
-
 function addAuctiontoPage(auctionJSON) {
     const chatMessages = document.getElementById("post-auctions");
     chatMessages.innerHTML += chatAuctionHTML(auctionJSON);
 }
-
-//call this method when the user presses place bid
-// function createBidRequest(jsonauction){
-//     const bidAmount = document.getElementById('bidAmount_'+jsonauction.auction_id);
-//     console.log("BID AMOUNT: ", bidAmount)
-//     const current_id = jsonauction.auction_id;
-//     const current_high_bid = jsonauction.highest_bid;
-//
-//     const request_data ={
-//         auction_id : current_id,
-//         highest_bid : current_high_bid,
-//         bid_amount: bidAmount
-//     };
-//
-//     //begin building request to send to place bid endpoint
-//     const request = new XMLHttpRequest();
-//     request.open('POST','/placebid', true);
-//     request.setRequestHeader('Content-Type', 'application/json');
-//     request.send(JSON.stringify(request_data))
-//     redirectHome()
-// }
 
 function clearAuctions() {
     const chatMessages = document.getElementById("post-auctions");
     chatMessages.innerHTML = "";
 }
 function redirectProfile() {
-stopGetHistoryInterval(); // Stop the interval before navigating
-window.location.href = 'http://localhost:8080/profile';
+    stopGetHistoryInterval(); // Stop the interval before navigating
+    window.location.href = 'http://sniffandbid.me/profile';
 }
 function redirectHome() {
-window.location.href = 'http://localhost:8080/';
+    window.location.href = 'http://sniffandbid.me/';
 }
 
 function toggleSidebar() {
@@ -126,24 +125,25 @@ function toggleSidebar() {
     }
   }
 
-  function redirectClosedAuctions() {
-    window.location.href = 'http://localhost:8080/closed_auctions';
-  }
-  function redirectAuctionsWon() {
-    window.location.href = 'http://localhost:8080/';
-  }
-  function redirectCreateAuction() {
-    window.location.href = 'http://localhost:8080/profile';
-  }
+function redirectClosedAuctions() {
+    window.location.href = 'http://sniffandbid.me/closed_auctions';
+}
+function redirectAuctionsWon() {
+    window.location.href = 'http://sniffandbid.me/';
+}
+function redirectCreateAuction() {
+    window.location.href = 'http://sniffandbid.me/profile';
+}
 
-    function redirectHome() {
-    window.location.href = 'http://localhost:8080/';
-    }
+function redirectHome() {
+    window.location.href = 'http://sniffandbid.me/';
+}
 
-  function authenticate(){  
+
+function authenticate(){  
     const request = new XMLHttpRequest();
     var data;
-    console.log('Entering authenicate')
+    // console.log('Entering authenicate')
     request.open('GET', '/authenticate',false);
     request.onload = () => {
     if (request.status === 200) {

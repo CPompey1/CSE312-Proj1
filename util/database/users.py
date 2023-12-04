@@ -7,10 +7,11 @@ class AuctionUsers:
     def __init__(self):
         self.collection = AuctionDb(USERS)
 
-    def insertUsers(self, username: str, passwordHash: bytes):
+    def insertUsers(self, username: str, passwordHash: bytes, email: str):
         record = {
             '_id': html.escape(username),
             'password': passwordHash,
+            'email' : email,
             'token': b"",
             'auctionsWon': [],
             'auctionPosts': [],

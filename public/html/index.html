@@ -1,90 +1,91 @@
 <html>
 <head>
-    <title>Packet Sniffers Auction House</title>
+    <title>Packet Sniffers</title>
     <link rel="stylesheet" type="text/css" href="public/style.css"/>
-    <link rel="icon" type="image/x-icon" href="/image/favicon.ico"/>
-    <script src="public/functions.js"></script>
+    <link rel="icon" type="image/x-icon" href="public/image/favicon.ico"/>
     <script type="text/javascript" src="functions.js"></script>
     <script type="text/javascript" src="auctionsWs.js"></script>
 </head>
-<!-- welcome_user(); -->
+
 <body onload="authenticate();"></body>
-<!-- <body onload="authenticate();"></body> -->
-<button id="toggleButton" onclick="toggleSidebar();">
-    <img src="public/image/dropdown_button.png" alt="Toggle Sidebar">
-</button>
+
 <div id="sidebar">
     <p onclick="redirectCreateAuction()">Post an Auction</p>
     <p onclick="redirectHome()">Shop</p>
     <p onclick="window.location.href='/public/html/userAuctions.html';">My Auctions</p>
 </div>
-<div class="title">
-    <h2>Auction House</h2>
-    <h3>Home Page</h3>
-</div>
+
+<div class="title">Sniff & Bid</div>
 
 <div class="contents">
     <div class="post">
-        <div class="post-form">
-            <hr>
-            <div id = 'created_auctions' class="auction-container"> 
-            
-    
-            </div>
-        
-            <div id = 'won_auctions' class="auction-container">
-        
-        
-            </div>
-        
-        </div>
+        <div class="auction-container" id = 'created_auctions'></div>
+        <div class="auction-container" id = 'won_auctions'></div>
     </div>
 
     <div class="user-list">
-        Register:
-        <form action="/register" method="post" enctype="application/x-www-form-urlencoded">
-            <label>Username:
-                <input id="reg-form-username" type="text" name="username_reg"/>
-            </label>
-            <br/>
-            <label>Password:&nbsp;
-                <input id="reg-form-pass" type="password" name="password_reg">
-            </label>
-            <input type="submit" value="Post">
-        </form>
+        <button id="toggleButton" onclick="toggleSidebar();">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
 
-        Login:
-        <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
-            <label>Username:
-                <input id="login-form-username" type="text" name="username_login"/>
-            </label>
+        <div class="login_form">
+            <div class="login_message">Welcome Back!</div>
             <br/>
-            <label>Password:&nbsp;
-                <input id="login-form-pass" type="password" name="password_login">
-            </label>
-            <input type="submit" value="Post">
-        </form>
+            <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
+                <label>Username
+                    <input id="login-form-username" type="text" name="username_login"/>
+                </label>
+                <br/>
+                <label>Password&nbsp;
+                    <input id="login-form-pass" type="password" name="password_login">
+                </label>
+                <br/>
+                <br/>
+                <div class="login_button"><input type="submit" value="Login"></div>
+            </form>
+        </div>
+        <br/><hr><br/>
+        <div class="login_form">
+            <div class="login_message">Want to Bid?</div>
+            <form action="/post-bid" method="post" enctype="application/x-www-form-urlencoded">
+                <label>Auction ID
+                    <input id="auction-form-id" type="text" pattern="[0-9]*" name="auction_id" title="Numerical Values Only"/>
+                </label>
+                <br/>
+                <label>Amount&nbsp;
+                    <input id="user-posted-bid" type="text" pattern="[0-9]*" name="posted-bid" title="Numerical Values Only">
+                </label>
+                <br/>
+                <br/>
+                <div class="login_button"><input type="submit" value="Bid"></div>
+            </form>
+        </div>
+        <br/><hr><br/>
+        <div class="register_form">
+            <div class="register_message">New Here?</div>
             <br/>
-            <br/>
-            <br/>
-            <br/>
+            <form action="/register" method="post" enctype="application/x-www-form-urlencoded">
+                <label>Email:     
+                    <input id="reg-form-email" type="text" name="email_reg"/>
+                </label>
+                <br/>
+                <label>Username:
+                    <input id="reg-form-username" type="text" name="username_reg"/>
+                </label>
+                <br/>
+                <label>Password:&nbsp;
+                    <input id="reg-form-pass" type="password" name="password_reg">
+                </label>
+                <br/><br/>
+                <div class="register_button"><input type="submit" value="Sign Up"></div>
+            </form>
+        </div>
 
-        Place Bid:
-        <form action="/post-bid" method="post" enctype="application/x-www-form-urlencoded">
-            <label>Auction ID:
-                <input id="auction-form-id" type="text" pattern="[0-9]*" name="auction_id" title="Numerical Values Only"/>
-            </label>
-            <br/>
-            <label>Bid:&nbsp;
-                <input id="user-posted-bid" type="text" pattern="[0-9]*" name="posted-bid" title="You can't pay in letters">
-            </label>
-            <input type="submit" value="Post">
-        </form>
     </div>
 
 </div>
 
 <script src="public/functions.js"></script>
-<script src="public/category.js"></script>
-</body>
 </html>

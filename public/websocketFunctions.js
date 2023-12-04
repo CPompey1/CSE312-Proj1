@@ -1,6 +1,6 @@
 // var ws = new WebSocket("ws://" + location.host + "/getAllAuctions");
 function getAllAuctions(){
-    var ws = new WebSocket("ws://" + location.host + "/getAllAuctions/");
+    var ws = new WebSocket("wss://" + location.host + "/getAllAuctions/");
 }
 
 // function getCatAuctions(category){

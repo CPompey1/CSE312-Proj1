@@ -16,18 +16,61 @@ from threading import *
 import json
 from util.app.timeString import timeLeft, isAuctionOver
 from util.forms import auction_login,auction_register
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+import time
+
+def getClientAddress():
+    return request.headers['X-Forwarded-For'] 
 
 app = Flask(__name__)
 socket = Sock(app)
+blockedIPs = {}
+
+limiter = Limiter(
+    getClientAddress,
+    app=app,
+    default_limits=["50 per 10 seconds"]
+)
+
+#block requests and adds ip to blocked ip list
+@app.errorhandler(429)
+def ratelimit_handler(error):
+    ip = getClientAddress()
+    blockedIPs[ip] = time.time() 
+    return "Too Many Requests", 429
+
+@app.before_request
+def checkBlocked():
+    ip = getClientAddress()
+    if blockedIPs.get(ip) is not None:
+        timeLeft = time.time() - blockedIPs[ip]
+        if timeLeft > 30:
+            del blockedIPs[ip]
+        else:
+            return "Too Many Requests", 429
 
 @app.route("/")
-
 def index():
     resp = make_response(send_from_directory('public/html', 'index.html'))
     # add headers
     resp.headers['X-Content-Type-Options'] = 'nosniff'
 
     return resp
+
+@app.route("/verification_status")
+def checkUserIsVerified():
+    authtoken = request.cookies.get("auth_token")
+    if(authtoken == None):
+        return make_response(jsonify({"verified": False}),200)
+     
+    user = USERS.findUserByToken(authtoken)
+
+    if user == None:
+        return make_response(jsonify({"verified": False}),200)
+    
+    return make_response(jsonify({"verified": user['verified']}),200)
+
 
 @app.route("/post_auction", methods=['POST'])
 def new_auction():
@@ -63,6 +106,7 @@ def new_auction():
     return resp
 
 
+
 @app.route("/profile")
 def handleProfile():
     resp = make_response(send_from_directory('public/html', 'post_new_auction.html'))
@@ -92,9 +136,10 @@ def allHistory():
 @app.route("/register", methods=['POST'])
 def handleRegister():
     # print(request.form, file=sys.stderr)
+    email = request.form.get('email_reg')
     username = request.form.get('username_reg')
     password = request.form.get('password_reg')
-    return auction_register(username, password)
+    return auction_register(username, password, email)
 
 
 @app.route("/login", methods=['POST'])
