@@ -14,55 +14,46 @@ auctionWs.onmessage = function (evt) {
     var html2Add = '';
     //Update Created Auctions
     var doc = document.getElementById('created_auctions');
-    doc.innerHTML = "<h1>Created Auctions</h1>";
+    doc.innerHTML = "<h1>Live Auctions</h1>";
     for (const auction of json_obj["Created Auctions"])
-        html2Add += chat2AuctionHTML(auction);
+        html2Add += chat2AuctionHTML(auction, "created");
         doc.innerHTML += html2Add;
     
 
     //add to won auctions and created auctions
     var doc = document.getElementById('won_auctions');
     var html2Add = '';
-    doc.innerHTML = "<h1>Won Auctions</h1>";
+    doc.innerHTML = "<h1>Closed Auctions</h1>";
     for (const auction of json_obj["Won Auctions"])
-        html2Add += chat2AuctionHTML(auction);
+        html2Add += chat2AuctionHTML(auction, "won");
         doc.innerHTML += html2Add;
     
     
 };
 
-function chat2AuctionHTML(auctionJSON) {
+function chat2AuctionHTML(auctionJSON, calling_funct) {
     const itemName = auctionJSON.title
     const category = auctionJSON.category;
     const highestBid = auctionJSON.highestBid;
     const imageName = auctionJSON.imageUrl;
     const auction_id = String(auctionJSON._id);
-    const hoursRemaing = auctionJSON.timeLeft;
+    let hoursRemaing = auctionJSON.timeLeft;
+    const startingPrice = auctionJSON.startingPrice;
+    if(calling_funct === "won") {
+        hoursRemaing = "  Auction Ended";
+    }
     const description = auctionJSON.description;
     const username = auctionJSON.username;
-    let auctionHTML = 
+    let auctionHTML =
     "<div class='auction' id='auction_" + auction_id + "'>" +
-        "<img class='image' src='../image/auction_images/" + imageName + "' alt='item image'>" +
-        "<h2>" + itemName + "</h2>" +
-        "<p>Highest Bid: " + highestBid + "</p>" +
-        "<p>Auction id: " + auction_id + "</p>" +
-        "<p>Time Remaining:" + hoursRemaing+ "</p>" +
-        "<p>" + description + "</p>" +
+    "<p class='auction-id'>id: <span>" + auction_id + "</span></p>" +
+    "<img class='image' src='../image/auction_images/" + imageName + "' alt='item image'>" +
+    "<h2>" + itemName + "</h2>" +
+    "<p>" + description + "</p>" +
+    "<p>Starting Price: $" + startingPrice + "</p>" +
+    "<p>Highest Bid: $" + highestBid + "</p>" +
+    "<p>Time Left: " + hoursRemaing + "</p>" +
     "</div>";
-
-
-    // <div class="auction">
-    //             <img class="auction-image" src="auction_image1.jpg" alt="Auction Image 1">
-    //             <h2>Auction Item Name 1</h2>
-    //             <p>Highest Bid: $100</p>
-    //             <p>Time Left: 2 days 12 hours</p>
-    //             <form action="/place_bid" method="post" enctype="application/x-www-form-urlencoded">
-    //                 <label>Place Bid:
-    //                     <input id="bid" type="text" name="bid"/>
-    //                     <input type="submit" value="Place Bid">
-    //                 </label>
-    //             </form>
-    //         </div>
 
     return auctionHTML;
 }
