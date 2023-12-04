@@ -16,12 +16,41 @@ from threading import *
 import json
 from util.app.timeString import timeLeft, isAuctionOver
 from util.forms import auction_login,auction_register
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+import time
+
+def getClientAddress():
+    return request.headers['X-Forwarded-For'] 
 
 app = Flask(__name__)
 socket = Sock(app)
+blockedIPs = {}
+
+limiter = Limiter(
+    getClientAddress,
+    app=app,
+    default_limits=["50 per 10 seconds"]
+)
+
+#block requests and adds ip to blocked ip list
+@app.errorhandler(429)
+def ratelimit_handler(error):
+    ip = getClientAddress()
+    blockedIPs[ip] = time.time() 
+    return "Too Many Requests", 429
+
+@app.before_request
+def checkBlocked():
+    ip = getClientAddress()
+    if blockedIPs.get(ip) is not None:
+        timeLeft = time.time() - blockedIPs[ip]
+        if timeLeft > 30:
+            del blockedIPs[ip]
+        else:
+            return "Too Many Requests", 429
 
 @app.route("/")
-
 def index():
     resp = make_response(send_from_directory('public/html', 'index.html'))
     # add headers
@@ -104,36 +133,36 @@ def handleLogin():
     password = request.form.get('password_login')
     return auction_login(username, password)
 
-@app.route('/authenticate',methods=['GET'])
-def authenticate():
-    accounts = AuctionUsers()
-    token = request.cookies.get('auth_token') 
-    if token != None:   
-        hashedToken = hashAuthToken(token)
-    else:    
-        hashedToken = None
-        token = ''
-    user = accounts.findUserByToken(hashedToken)
-    if user == None:
-        user = ''
-    else:
-        user = user['_id']
-    return make_response(jsonify({'user':user,'token':token}))
+# @app.route('/authenticate',methods=['GET'])
+# def authenticate():
+#     accounts = AuctionUsers()
+#     token = request.cookies.get('auth_token') 
+#     if token != None:   
+#         hashedToken = hashAuthToken(token)
+#     else:    
+#         hashedToken = None
+#         token = ''
+#     user = accounts.findUserByToken(hashedToken)
+#     if user == None:
+#         user = ''
+#     else:
+#         user = user['_id']
+#     return make_response(jsonify({'user':user,'token':token}))
 
-def authenticateLoc():
-    accounts = AuctionUsers()
-    token = request.cookies.get('auth_token') 
-    if token != None:   
-        hashedToken = hashAuthToken(token)
-    else:    
-        hashedToken = None
-        token = ''
-    user = accounts.findUserByToken(hashedToken)
-    if user == None:
-        user = ''
-    else:
-        user = user['_id']
-    return {'user':user,'token':token}
+# def authenticateLoc():
+#     accounts = AuctionUsers()
+#     token = request.cookies.get('auth_token') 
+#     if token != None:   
+#         hashedToken = hashAuthToken(token)
+#     else:    
+#         hashedToken = None
+#         token = ''
+#     user = accounts.findUserByToken(hashedToken)
+#     if user == None:
+#         user = ''
+#     else:
+#         user = user['_id']
+#     return {'user':user,'token':token}
 
 @app.route("/<path:path>")
 def getPage(path):
